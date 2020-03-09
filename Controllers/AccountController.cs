@@ -82,8 +82,9 @@ namespace AuthApp.Controllers
                 if (teacher == null)
                 {
                     db.Teachers.Add(new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
+                    db.Teachers.Add(new Teacher { Email = "nadiapadalka", Password = "hello", Initials = "initials", Grade = "grade", Kafedra ="kafedra" });
                     await db.SaveChangesAsync();
-
+                    //db.SaveChanges();
                     await Authenticate(model.Email);
 
                     return RedirectToAction("Index", "Home");
