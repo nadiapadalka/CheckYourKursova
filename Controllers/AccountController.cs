@@ -9,7 +9,8 @@ using Kursova.ViewModels;
 using Kursova.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using System.Linq;
+using System.Data;
 namespace AuthApp.Controllers
 {
     public class AccountController : Controller
@@ -30,10 +31,34 @@ namespace AuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var result = db.Students.Join(db.Teachers, x => new { x.Email, x.Password },
+                //     y => new { y.Email, y.Password }, (x, y) => x);
                 Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
                     await Authenticate(model.Email); 
+
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Некорректний логін і(або) пароль");
+            }
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult LoginTeacher()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginTeacher(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Teacher user = await db.Teachers.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                if (user != null)
+                {
+                    await Authenticate(model.Email);
 
                     return RedirectToAction("Index", "Home");
                 }
