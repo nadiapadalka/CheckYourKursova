@@ -291,3 +291,4 @@ C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\win\li
 C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\LoginTeacher.cshtml.g.cs
