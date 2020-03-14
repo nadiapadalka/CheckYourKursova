@@ -256,7 +256,6 @@ C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\win\li
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.csprojAssemblyReference.cache
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\staticwebassets\Kursova.StaticWebAssets.Manifest.cache
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\staticwebassets\Kursova.StaticWebAssets.xml
-C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.RazorAssemblyInfo.cache
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.RazorAssemblyInfo.cs
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.AssemblyInfoInputs.cache
@@ -280,3 +279,15 @@ C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.Views.p
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.csproj.CopyComplete
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.dll
 C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.pdb
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\EntityFramework.SqlServer.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\EntityFramework.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\System.CodeDom.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\System.Data.SqlClient.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\1\source\repos\CheckYourKursova\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\1\source\repos\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.MvcApplicationPartsAssemblyInfo.cache
