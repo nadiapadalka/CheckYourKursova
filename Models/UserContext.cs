@@ -15,7 +15,7 @@ namespace Kursova.Models
         public UserContext(DbContextOptions<UserContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
 
         }
 

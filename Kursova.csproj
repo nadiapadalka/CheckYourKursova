@@ -11,6 +11,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Kursova.BLL\Kursova.BLL.csproj" />
+  </ItemGroup>
+
 
 
 </Project>
