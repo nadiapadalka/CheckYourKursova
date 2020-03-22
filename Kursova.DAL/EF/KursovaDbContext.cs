@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Kursova.DAL.Entities;
+﻿using Kursova.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kursova.DAL.EF
 {
     public class KursovaDbContext : DbContext
     {
-        public DbSet<StudentEntity> Students { get; set; }
-        public DbSet<TeacherEntity> Teachers { get; set; }
-        public DbSet<TaskItemEntity> TaskItems { get; set; }
-        public DbSet<CommentEntity> Comments { get; set; }
-        public DbSet<DocumentationEntity> Documentations { get; set; }
-        public DbSet<TaskChangesEntity> TaskChanges { get; set; }
-        public DbSet<AdminEntity> Admins { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<TaskItem> TaskItems { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Documentation> Documentations { get; set; }
+        public DbSet<TaskChanges> TaskChanges { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public KursovaDbContext(DbContextOptions<KursovaDbContext> options)
+            : base(options)
+        {
+            Database.EnsureCreated();
 
+
+        }
 
     }
 }
