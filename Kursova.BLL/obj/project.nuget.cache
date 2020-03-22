@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "e+VYvezIz9oo9HncYPJzBdYNHZcZ6oqNPw9uJVH0moBOf84V/DmowtHLjSMCGoHPwhFbLRxEzEqyPL7Fvr62mg==",
+  "dgSpecHash": "yXAzB+/si1PDLxke4W07HZ7A8BGyjXPb0Ofm4E1FWo8WDROvuBMoUrW4sDSoJWetDKoeFItwyOJF679b1ByYfQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\1\\.nuget\\packages\\automapper\\9.0.0\\automapper.9.0.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.0\\microsoft.bcl.asyncinterfaces.1.1.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.bcl.hashcode\\1.1.0\\microsoft.bcl.hashcode.1.1.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
@@ -43,6 +44,7 @@
     "C:\\Users\\1\\.nuget\\packages\\system.componentmodel.primitives\\4.3.0\\system.componentmodel.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.componentmodel.typeconverter\\4.3.0\\system.componentmodel.typeconverter.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.configuration.configurationmanager\\4.5.0\\system.configuration.configurationmanager.4.5.0.nupkg.sha512",
+    "C:\\Users\\1\\.nuget\\packages\\system.data.common\\4.3.0\\system.data.common.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.0\\system.diagnostics.diagnosticsource.4.7.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",

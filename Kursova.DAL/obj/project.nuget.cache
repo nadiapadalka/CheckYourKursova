@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TK3E7oWBijFGi/eJ7nw0XeUnbVFK7gmAgeeENuiKiMFbMgizqE0R4uEwmM/M+5UKnJGqvuVJJa0iJcViinRuPA==",
+  "dgSpecHash": "LaKCvhLEg7SsG+2lKtdO07hYmyeYMaEGMH3UzllNisghi31BQXTKyxLHrP8oC3Zj5QvJLY+Rn4F2txP0AFuFQg==",
   "success": true,
   "projectFilePath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
   "expectedPackageFiles": [
@@ -43,6 +43,7 @@
     "C:\\Users\\1\\.nuget\\packages\\system.componentmodel.primitives\\4.3.0\\system.componentmodel.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.componentmodel.typeconverter\\4.3.0\\system.componentmodel.typeconverter.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.configuration.configurationmanager\\4.5.0\\system.configuration.configurationmanager.4.5.0.nupkg.sha512",
+    "C:\\Users\\1\\.nuget\\packages\\system.data.common\\4.3.0\\system.data.common.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.0\\system.diagnostics.diagnosticsource.4.7.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.diagnostics.tools\\4.3.0\\system.diagnostics.tools.4.3.0.nupkg.sha512",

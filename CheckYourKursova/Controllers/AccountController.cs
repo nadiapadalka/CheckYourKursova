@@ -1,22 +1,20 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Kursova.ViewModels; 
-using Kursova.Models;
+using Kursova.DAL.Entities;
+using Kursova.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Linq;
-using System.Data;
+using Kursova.DAL.EF;
+
 namespace AuthApp.Controllers
 {
     public class AccountController : Controller
     {
-        private UserContext db;
-        public AccountController(UserContext context)
+        private KursovaDbContext db;
+        public AccountController(KursovaDbContext context)
         {
             db = context;
         }
@@ -107,9 +105,7 @@ namespace AuthApp.Controllers
                 if (teacher == null)
                 {
                     db.Teachers.Add(new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
-                    db.Teachers.Add(new Teacher { Email = "nadiapadalka", Password = "hello", Initials = "initials", Grade = "grade", Kafedra ="kafedra" });
                     await db.SaveChangesAsync();
-                    //db.SaveChanges();
                     await Authenticate(model.Email);
 
                     return RedirectToAction("Index", "Home");
