@@ -115,7 +115,32 @@ namespace AuthApp.Controllers
             }
             return View(model);
         }
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email);
+                if (user == null)
+                {
+                    db.Students.Add(new Student { Email = model.Email, Password = model.Password, Surname = model.Surname, Name = model.Name});
+                    await db.SaveChangesAsync();
 
+                    await Authenticate(model.Email);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                    ModelState.AddModelError("", "Некоректний логін і(чи) пароль");
+            }
+            return View(model);
+        }
         private async Task Authenticate(string userName)
         {
             var claims = new List<Claim>

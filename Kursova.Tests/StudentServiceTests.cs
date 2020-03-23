@@ -6,6 +6,7 @@ using Kursova.BLL.DTO;
 using System.Linq;
 using Kursova.BLL.Services;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace UnitTestProject1
 {
@@ -112,15 +113,40 @@ namespace UnitTestProject1
         public void TestGetByID()
         {
 
-
             var StudentService = CreateTestStudents();
 
             var Student = StudentService.GetAll().FirstOrDefault();
+
             Assert.NotNull(StudentService.GetById(Student.Id));
 
+        }
 
+        [Fact]
+        public void TestGetByID_StudentIdEqualNull_Exeption()
+        {
+
+            var StudentService = CreateTestStudents();
+
+            Exception ex = Assert.Throws<ValidationException>(() => StudentService.GetById(null));
+           
+            Assert.Equal("ID not set.", ex.Message);
 
         }
+
+        [Fact]
+        public void TestGetByID_StudentEqualNull_Exeption()
+        {
+            var StudentService = CreateTestStudents();
+            var Student = StudentService.GetAll().FirstOrDefault();
+            StudentService.Dispose(132);
+            StudentService.Dispose(122);
+
+            Exception ex = Assert.Throws<ValidationException>(() => StudentService.GetById(Student.Id));
+
+            Assert.Equal("Student with this ID was not found", ex.Message);
+
+        }
+
         [Fact]
         public void TestGetStudent()
         {

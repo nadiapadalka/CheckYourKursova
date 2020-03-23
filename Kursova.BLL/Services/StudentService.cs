@@ -154,8 +154,7 @@ namespace Kursova.BLL.Services
             return strValue;
         }
 
-
-
+     
 
         public StudentDTO GetByStudentnamePassword(string Studentname, string password)
         {

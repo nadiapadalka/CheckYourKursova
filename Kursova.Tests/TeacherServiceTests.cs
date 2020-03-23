@@ -6,6 +6,8 @@ using Kursova.BLL.DTO;
 using System.Linq;
 using Kursova.BLL.Services;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
 namespace Kursova.Tests
 {
     public class StudentServiceTest : IDisposable
@@ -60,7 +62,9 @@ namespace Kursova.Tests
         public void TestCreateTeacherMethod()
         {
             var TeacherService = CreateTestTeachers();
+
             int res = TeacherService.GetAll().Count();
+
             Assert.Equal(2, res);
 
         }
@@ -70,7 +74,9 @@ namespace Kursova.Tests
         public void GetTeacherByID()
         {
             var TeacherService = CreateTestTeachers();
+
             var Teacher = TeacherService.GetAll().FirstOrDefault();
+
             Assert.NotNull(TeacherService.GetById(Teacher.Id));
         }
         [Fact]
@@ -81,11 +87,39 @@ namespace Kursova.Tests
             var TeacherService = CreateTestTeachers();
 
             var Teacher = TeacherService.GetAll().FirstOrDefault();
+
             Assert.Equal("oleksii@com" ,TeacherService.GetById(Teacher.Id).Email);
 
 
 
         }
+
+        [Fact]
+        public void TestGetByID_TeachersIdEqualNull_Exeption()
+        {
+
+            var TeachersService = CreateTestTeachers();
+
+            Exception ex = Assert.Throws<ValidationException>(() => TeachersService.GetById(null));
+
+            Assert.Equal("ID not set.", ex.Message);
+
+        }
+
+        [Fact]
+        public void TestGetByID_TeachersEqualNull_Exeption()
+        {
+            var TeachersService = CreateTestTeachers();
+            var Teachers = TeachersService.GetAll().FirstOrDefault();
+            TeachersService.Dispose(132);
+            TeachersService.Dispose(122);
+
+            Exception ex = Assert.Throws<ValidationException>(() => TeachersService.GetById(Teachers.Id));
+
+            Assert.Equal("Teacher with this ID was not found", ex.Message);
+
+        }
+
         [Fact]
         public void TestGetTeacher()
         {
@@ -93,6 +127,7 @@ namespace Kursova.Tests
 
             var TeacherService = CreateTestTeachers();
             TeacherService.Dispose(132);
+
             var Student = TeacherService.GetAll().FirstOrDefault();
 
             Assert.Equal("dean", TeacherService.Get(Student.Id).Grade);
@@ -108,6 +143,7 @@ namespace Kursova.Tests
             var teacherService = CreateTestTeachers();
 
             var Student = teacherService.GetAll().FirstOrDefault();
+
             Assert.Equal("Oleksii Nyzhyuk", teacherService.GetInitials(Student.Id));
 
 
