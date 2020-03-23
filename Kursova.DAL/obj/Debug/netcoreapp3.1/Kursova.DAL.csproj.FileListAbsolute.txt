@@ -15,3 +15,11 @@ C:\Users\1\source\repos\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kur
 C:\Users\1\source\repos\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.dll
 C:\Users\1\source\repos\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.pdb
 C:\Users\1\source\repos\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.csproj.CoreCompileInputs.cache
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\bin\Debug\netcoreapp3.1\Kursova.DAL.deps.json
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\bin\Debug\netcoreapp3.1\Kursova.DAL.dll
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\bin\Debug\netcoreapp3.1\Kursova.DAL.pdb
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.csprojAssemblyReference.cache
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.AssemblyInfoInputs.cache
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.AssemblyInfo.cs
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.dll
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.pdb
