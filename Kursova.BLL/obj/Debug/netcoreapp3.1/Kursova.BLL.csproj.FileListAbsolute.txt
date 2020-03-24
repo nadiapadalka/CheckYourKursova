@@ -20,7 +20,6 @@ C:\Users\1\source\repos\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kur
 C:\Users\1\source\repos\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.csproj.CopyComplete
 C:\Users\1\source\repos\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.dll
 C:\Users\1\source\repos\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.pdb
-C:\Users\1\source\repos\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.csproj.CoreCompileInputs.cache
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.dll
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.pdb
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.BLL\bin\Debug\netcoreapp3.1\Kursova.BLL.deps.json
@@ -32,3 +31,4 @@ C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.BLL\obj\Debug\n
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.AssemblyInfoInputs.cache
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.AssemblyInfo.cs
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.csproj.CopyComplete
+C:\Users\1\source\repos\CheckYourKursova\Kursova.BLL\obj\Debug\netcoreapp3.1\Kursova.BLL.csproj.CoreCompileInputs.cache

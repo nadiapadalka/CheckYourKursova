@@ -133,7 +133,6 @@ C:\Users\1\source\repos\CheckYourKursova\Kursova.Tests\bin\Debug\netcoreapp3.1\C
 C:\Users\1\source\repos\CheckYourKursova\Kursova.Tests\bin\Debug\netcoreapp3.1\Moq.dll
 C:\Users\1\source\repos\CheckYourKursova\Kursova.Tests\bin\Debug\netcoreapp3.1\Effort.dll
 C:\Users\1\source\repos\CheckYourKursova\Kursova.Tests\bin\Debug\netcoreapp3.1\NMemory.dll
-C:\Users\1\source\repos\CheckYourKursova\Kursova.Tests\obj\Debug\netcoreapp3.1\Kursova.Tests.csproj.CoreCompileInputs.cache
 C:\Users\1\source\repos\CheckYourKursova\Kursova.Tests\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\1\source\repos\CheckYourKursova\Kursova.Tests\bin\Debug\netcoreapp3.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 C:\Users\1\source\repos\CheckYourKursova\Kursova.Tests\bin\Debug\netcoreapp3.1\xunit.runner.reporters.netcoreapp10.dll
