@@ -7,11 +7,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Kursova.ViewModels
 {
-    public class ForgotPasswordModel
+    public class ChangeTeacherPasswordModel
     {
-        public string Surname { get; set; }
+        public string Initials { get; set; }
 
-        public string Name { get; set; }
 
         [Required(ErrorMessage = "Не вказаний Email")]
         public string Email { get; set; }

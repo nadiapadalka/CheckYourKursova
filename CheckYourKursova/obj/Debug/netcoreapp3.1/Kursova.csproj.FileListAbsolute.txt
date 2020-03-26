@@ -760,6 +760,8 @@ C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.
 C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.genruntimeconfig.cache
 C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\bin\Debug\netcoreapp3.1\AutoMapper.dll
 C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.InMemory.dll
+C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.csproj.CoreCompileInputs.cache
+C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.dll
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.pdb
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\bin\Debug\netcoreapp3.1\appsettings.Development.json
@@ -919,7 +921,5 @@ C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\De
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.RazorTargetAssemblyInfo.cs
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.Views.pdb
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.csproj.CopyComplete
-C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ForgotPassword.cshtml.g.cs
-C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ForgotPassword.cshtml.g.cs
-C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.csproj.CoreCompileInputs.cache
-C:\Users\1\source\repos\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\LNU9\source\repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangePassword.cshtml.g.cs
+C:\Users\LNU9\source\repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangeTeacherPassword.cshtml.g.cs
