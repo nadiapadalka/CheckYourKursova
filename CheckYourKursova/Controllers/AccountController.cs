@@ -116,31 +116,58 @@ namespace AuthApp.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult ForgotPassword()
+        public IActionResult ChangePassword()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
             if (ModelState.IsValid)
             {
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email);
-                if (user == null)
-                {
-                    db.Students.Add(new Student { Email = model.Email, Password = model.Password, Surname = model.Surname, Name = model.Name});
-                    await db.SaveChangesAsync();
+                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.Name == model.Name);
+           
+                 user.Password = model.Password;
+                 db.Students.Update( user);
 
-                    await Authenticate(model.Email);
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                    ModelState.AddModelError("", "Некоректний логін і(чи) пароль");
+                 await db.SaveChangesAsync();
+
+                 await Authenticate(model.Email);
+
+                 return RedirectToAction("Index", "Home");
+             
+             
             }
             return View(model);
         }
+        [HttpGet]
+        public IActionResult ChangeTeacherPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeTeacherPassword(ChangeTeacherPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Teacher user = await db.Teachers.FirstOrDefaultAsync(u => u.Email == model.Email && u.Initials == model.Initials);
+                user.Password = model.Password;
+                db.Teachers.Update(user);
+
+                await db.SaveChangesAsync();
+
+                await Authenticate(model.Email);
+
+                return RedirectToAction("Index", "Home");
+             
+            }
+            return View(model);
+        }
+
+
         private async Task Authenticate(string userName)
         {
             var claims = new List<Claim>

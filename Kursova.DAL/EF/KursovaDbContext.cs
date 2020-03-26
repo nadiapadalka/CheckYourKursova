@@ -1,5 +1,6 @@
 ﻿using Kursova.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Kursova.DAL.EF
 {
@@ -20,5 +21,9 @@ namespace Kursova.DAL.EF
 
         }
 
+        public void changeUserPasssword(object p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
