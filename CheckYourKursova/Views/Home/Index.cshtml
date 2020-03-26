@@ -1,13 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Перевір свою курсову!";
+﻿
+@{
+    ViewData["Title"] = "Захист вже близько";
 }
-<h1>@ViewData["Title"]</h1>
-
+<!--
 <div class="text-center">
-    <br />
-    <br />
-    <div class="form-group">
-        <a href="/Account/Login" class="btn btn-outline-dark">Студент</a>
-        <a href="/Account/LoginTeacher" class="btn btn-outline-dark">Викладач</a>
+</div>-->
+<header class="masthead">
+    <div class="container">
+        <div class="intro-text">
+            <div class="intro-heading text-uppercase">@ViewData["Title"]</div>
+            <div class="intro-lead-in">Не відкладай на завтра те, що можна зробити сьогодні!</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="/Home/MainPage">Вперед</a>
+        </div>
     </div>
-</div>
+</header>
+
