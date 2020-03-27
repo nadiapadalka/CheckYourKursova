@@ -921,5 +921,5 @@ C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\De
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.RazorTargetAssemblyInfo.cs
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.Views.pdb
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.csproj.CopyComplete
-C:\Users\LNU9\source\repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangePassword.cshtml.g.cs
 C:\Users\LNU9\source\repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangeTeacherPassword.cshtml.g.cs
+C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ForgotPassword.cshtml.g.cs

@@ -10178,19 +10178,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\1\\.nuget\\packages\\": {}
+    "C:\\Users\\LNU9\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.Tests\\Kursova.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.Tests\\Kursova.Tests.csproj",
       "projectName": "Kursova.Tests",
-      "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.Tests\\Kursova.Tests.csproj",
-      "packagesPath": "C:\\Users\\1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.Tests\\obj\\",
+      "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.Tests\\Kursova.Tests.csproj",
+      "packagesPath": "C:\\Users\\LNU9\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\LNU9\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10203,14 +10203,14 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\1\\source\\repos\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {
-              "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj"
+            "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {
+              "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj"
             },
-            "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
-              "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj"
+            "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
+              "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj"
             },
-            "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
-              "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj"
+            "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
+              "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj"
             }
           }
         }
@@ -10269,7 +10269,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
