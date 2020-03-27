@@ -116,13 +116,13 @@ namespace AuthApp.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult ChangePassword()
+        public IActionResult ForgotPassword()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
+        public async Task<IActionResult> ForgotPassword(ChangePasswordModel model)
         {
             if (ModelState.IsValid)
             {
