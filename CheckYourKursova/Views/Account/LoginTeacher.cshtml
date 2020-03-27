@@ -1,29 +1,11 @@
 ﻿@model Kursova.ViewModels.LoginModel
 <!--
-<h2>Вхід</h2>
 
 
 <form asp-action="LoginTeacher" asp-controller="Account" asp-anti-forgery="true">
-    <div>
-        <div class="form-group">
-            <input type="text" asp-for="Email" placeholder="Логін" />
-            <span asp-validation-for="Email" />
-        </div>
-        <div class="form-group">
-            <input asp-for="Password" placeholder="Пароль" />
-            <span asp-validation-for="Password" />
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Увійти" class="btn btn-outline-dark" />
-        </div>
-    </div>
+    
 </form>
-<div class="form-group">
 
-    <a asp-action="RegisterTeacher" asp-controller="Account" class="btn btn-outline-dark">Зареєструватися</a>
-    <a asp-action="RegisterTeacher" asp-controller="Account" class="btn btn-outline-dark">Забули пароль?</a>
-
-</div>
 -->
 
 <header class="masthead">
@@ -56,7 +38,7 @@
                                 <a class="dropdown-item" asp-action="RegisterTeacher" asp-controller="Account">&emsp; &emsp;&emsp;Зареєструватися</a>
                             </div>
                             <div class="col-md-4">
-                                <a class="dropdown-item" asp-action="RegisterTeacher" asp-controller="Account"> &nbsp;&emsp;Забули пароль?</a>
+                                <a class="dropdown-item" asp-action="ChangeTeacherPassword" asp-controller="Account"> &nbsp;&emsp;Забули пароль?</a>
                             </div>
                         </div>
                     </form>
