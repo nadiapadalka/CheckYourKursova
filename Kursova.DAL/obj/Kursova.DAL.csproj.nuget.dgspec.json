@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {}
+    "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {}
   },
   "projects": {
-    "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
+    "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
         "projectName": "Kursova.DAL",
-        "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
-        "packagesPath": "C:\\Users\\1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\obj\\",
+        "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
+        "packagesPath": "C:\\Users\\LNU9\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LNU9\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -70,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
