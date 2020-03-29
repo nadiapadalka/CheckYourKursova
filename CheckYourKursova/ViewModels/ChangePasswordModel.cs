@@ -9,10 +9,9 @@ namespace Kursova.ViewModels
 {
     public class ChangePasswordModel
     {
-       
-        public string Surname { get; set; }
 
-        public string Name { get; set; }
+        public string FullName { get; set; }
+
 
         [Required(ErrorMessage = "Не вказаний Email")]
         public string Email { get; set; }

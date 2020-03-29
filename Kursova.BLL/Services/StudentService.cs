@@ -27,8 +27,7 @@ namespace Kursova.BLL.Services
             Student Student = new Student
             {
                 Id = StudentDto.Id,
-                Name = StudentDto.Name,
-                Surname = StudentDto.Surname,
+                FullName = StudentDto.FullName,
                 Group = StudentDto.Group,
                 Kafedra = StudentDto.Kafedra,
                 Email = StudentDto.Email,
@@ -37,7 +36,7 @@ namespace Kursova.BLL.Services
             };
             try
             {
-                this.Database.Students.GetAll().Where(e => e.Name == Student.Name).First();
+                this.Database.Students.GetAll().Where(e => e.FullName== Student.FullName).First();
                 throw new ArgumentNullException();
             }
             catch (System.InvalidOperationException)
@@ -52,7 +51,7 @@ namespace Kursova.BLL.Services
         {
             var result = this.GetAll()
                 .Where(x => x.Id == StudentAccountId)
-                .Select(x => x.Name)
+                .Select(x => x.FullName)
                 .FirstOrDefault();
 
             return result;
@@ -83,8 +82,7 @@ namespace Kursova.BLL.Services
             return new StudentDTO
             {
                 Id = Student.Id,
-                Name = Student.Name,
-                Surname = Student.Surname,
+                FullName = Student.FullName,
                 Group = Student.Group,
                 Kafedra = Student.Kafedra,
                 Email = Student.Email,
@@ -164,8 +162,7 @@ namespace Kursova.BLL.Services
                 return new StudentDTO
                 {
                     Id = Student.Id,
-                    Name = Student.Name,
-                    Surname = Student.Surname,
+                    FullName = Student.FullName,
                     Group = Student.Group,
                     Kafedra = Student.Kafedra,
                     Email = Student.Email,

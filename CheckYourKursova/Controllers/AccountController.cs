@@ -78,7 +78,7 @@ namespace AuthApp.Controllers
                 Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    db.Students.Add(new Student { Email = model.Email, Password = model.Password, Surname = model.Surname, Name = model.Name, Group = model.Group, Kafedra = model.Kafedra });
+                    db.Students.Add(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName,  Group = model.Group, Kafedra = model.Kafedra });
                     await db.SaveChangesAsync();
 
                     await Authenticate(model.Email); 
@@ -116,29 +116,28 @@ namespace AuthApp.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult ForgotPassword()
+        public IActionResult ChangePassword()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ChangePasswordModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {
             if (ModelState.IsValid)
             {
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.Name == model.Name);
-           
-                 user.Password = model.Password;
-                 db.Students.Update( user);
+                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.FullName == model.FullName);
+                
+                    user.Password = model.Password;
+                    db.Students.Update(user);
 
 
-                 await db.SaveChangesAsync();
+                    await db.SaveChangesAsync();
 
-                 await Authenticate(model.Email);
+                    await Authenticate(model.Email);
 
-                 return RedirectToAction("Index", "Home");
-             
-             
+                    return RedirectToAction("Index", "Home");
+
             }
             return View(model);
         }
