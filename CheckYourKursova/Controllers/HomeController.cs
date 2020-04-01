@@ -23,6 +23,10 @@ namespace Kursova.Controllers
         {
             return View();
         }
+        public IActionResult Teacher_home()
+        {
+            return View();
+        }
 
         public IActionResult MainPage()
         {
