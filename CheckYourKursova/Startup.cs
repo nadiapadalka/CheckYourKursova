@@ -34,6 +34,12 @@ namespace Kursova
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
             services.AddControllersWithViews();
+           
+                services.AddDistributedMemoryCache();
+                services.AddSession();
+            services.AddMvc();
+
+
         }
 
         public void Configure(IApplicationBuilder app)

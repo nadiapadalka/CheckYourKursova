@@ -2,6 +2,7 @@
 {
     public class Teacher
     {
+        public Teacher() { }
         public int Id { get; set; }
         public string Initials { get; set; }
         public string Grade { get; set; }

@@ -36,7 +36,7 @@ namespace AuthApp.Controllers
                 {
                     await Authenticate(model.Email); 
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Student_home", "Account");
                 }
                 ModelState.AddModelError("", "Некорректний логін і(або) пароль");
             }
@@ -58,7 +58,7 @@ namespace AuthApp.Controllers
                 {
                     await Authenticate(model.Email);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Teacher_home", "Account");
                 }
                 ModelState.AddModelError("", "Некорректний логін і(або) пароль");
             }
@@ -104,7 +104,8 @@ namespace AuthApp.Controllers
                 Teacher teacher = await db.Teachers.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (teacher == null)
                 {
-                    db.Teachers.Add(new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
+                    db.Teachers.Add(
+                    new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
                     await db.SaveChangesAsync();
                     await Authenticate(model.Email);
 
@@ -114,6 +115,19 @@ namespace AuthApp.Controllers
                     ModelState.AddModelError("", "Некоректний логін і(чи) пароль");
             }
             return View(model);
+        }
+        [HttpGet]
+
+        public async Task<IActionResult> Teacher_home()
+        {
+            return View(await db.Teachers.ToListAsync());
+        }
+        
+        [HttpGet]
+
+        public async Task<IActionResult> Student_home()
+        {
+            return View(await db.Students.ToListAsync());
         }
         [HttpGet]
         public IActionResult ChangePassword()
@@ -134,7 +148,7 @@ namespace AuthApp.Controllers
 
                     await db.SaveChangesAsync();
 
-                    await Authenticate(model.Email);
+                   await Authenticate(model.Email);
 
                     return RedirectToAction("Index", "Home");
 
