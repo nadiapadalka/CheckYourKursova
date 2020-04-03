@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {}
+    "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {
+    "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
+        "projectUniqueName": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
         "projectName": "Kursova",
-        "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
-        "packagesPath": "C:\\Users\\LNU9\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\CheckYourKursova\\obj\\",
+        "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LNU9\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -27,8 +27,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
-                "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj"
+              "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
+                "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj"
               }
             }
           }
@@ -89,17 +89,17 @@
         }
       }
     },
-    "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
+    "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
+        "projectUniqueName": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
         "projectName": "Kursova.BLL",
-        "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
-        "packagesPath": "C:\\Users\\LNU9\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.BLL\\obj\\",
+        "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LNU9\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -112,8 +112,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
-                "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj"
+              "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
+                "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj"
               }
             }
           }
@@ -159,17 +159,17 @@
         }
       }
     },
-    "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
+    "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
+        "projectUniqueName": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
         "projectName": "Kursova.DAL",
-        "projectPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
-        "packagesPath": "C:\\Users\\LNU9\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LNU9\\Source\\Repos\\nadiapadalka\\CheckYourKursova\\Kursova.DAL\\obj\\",
+        "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\LNU9\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

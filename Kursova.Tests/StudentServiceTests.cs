@@ -36,8 +36,7 @@ namespace UnitTestProject1
             StudentService.CreateStudent(new StudentDTO
             {
                 Id = 132,
-                Name = "Yaroslav",
-                Surname = "Nolkuchak",
+                FullName = "Yaroslav Nolkuchak",
                 Group = "Pmi31",
                 Kafedra = "Programming",
                 Email = "simonnolkuchak@com",
@@ -47,8 +46,7 @@ namespace UnitTestProject1
             StudentService.CreateStudent(new StudentDTO
             {
                 Id = 122,
-                Name = "Nadiia",
-                Surname = "Padalka",
+                FullName = "Nadiia Padalka",
                 Group = "Pmi33",
                 Kafedra = "Programming",
                 Email = "nadiiapadalka@com",
@@ -83,8 +81,7 @@ namespace UnitTestProject1
             StudentService.CreateStudent(new StudentDTO
             {
                 Id = 132,
-                Name = "Yaroslav",
-                Surname = "Nolkuchak",
+                FullName = "Yaroslav Nolkuchak",
                 Group = "Pmi31",
                 Kafedra = "Programming",
                 Email = "simonnolkuchak@com",
@@ -94,8 +91,7 @@ namespace UnitTestProject1
             StudentService.CreateStudent(new StudentDTO
             {
                 Id = 122,
-                Name = "Nadiia",
-                Surname = "Padalka",
+                FullName = "Nadiia Padalka",
                 Group = "Pmi33",
                 Kafedra = "Programming",
                 Email = "nadiiapadalka@com",
@@ -168,7 +164,7 @@ namespace UnitTestProject1
             var StudentService = CreateTestStudents();
 
             var Student = StudentService.GetAll().FirstOrDefault();
-            Assert.Equal(Student.Name, StudentService.GetFirstName(Student.Id));
+            Assert.Equal(Student.FullName, StudentService.GetFirstName(Student.Id));
 
 
 

@@ -923,3 +923,9 @@ C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\De
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Kursova.csproj.CopyComplete
 C:\Users\LNU9\source\repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangeTeacherPassword.cshtml.g.cs
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ForgotPassword.cshtml.g.cs
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\CheckYourKursova\bin\Debug\netcoreapp3.1\AutoMapper.dll
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\CheckYourKursova\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.InMemory.dll
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangePassword.cshtml.g.cs
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\ChangeTeacherPassword.cshtml.g.cs
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Admin\Index.cshtml.g.cs
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\CheckYourKursova\obj\Debug\netcoreapp3.1\Razor\Views\Account\LoginAdmin.cshtml.g.cs
