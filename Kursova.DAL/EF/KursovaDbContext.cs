@@ -17,8 +17,6 @@ namespace Kursova.DAL.EF
             : base(options)
         {
             Database.EnsureCreated();
-
-
         }
 
         public void changeUserPasssword(object p)

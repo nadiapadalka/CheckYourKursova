@@ -14,7 +14,7 @@ namespace Kursova.DAL.Interfaces
 
         IRepository<Teacher> Teachers { get; }
 
-        //IRepository<Admin> Admins { get; }
+        IRepository<Admin> Admins { get; }
 
         //IRepository<TaskItem> TaskItems { get; }
 

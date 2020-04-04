@@ -64,6 +64,32 @@ namespace AuthApp.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        public IActionResult LoginAdmin()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LoginAdmin(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //var result = db.Students.Join(db.Teachers, x => new { x.Email, x.Password },
+                //     y => new { y.Email, y.Password }, (x, y) => x);
+                Admin user = await db.Admins.FirstOrDefaultAsync(u => u.Name == model.Email && u.Password == model.Password);
+                if (user != null)
+                {
+                    await Authenticate(model.Email);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Некорректний логін і(або) пароль");
+            }
+            return View(model);
+        }
+
         [HttpGet]
         public IActionResult Register()
         {

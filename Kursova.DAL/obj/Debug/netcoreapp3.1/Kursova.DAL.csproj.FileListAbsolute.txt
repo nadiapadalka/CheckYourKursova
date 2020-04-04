@@ -23,3 +23,11 @@ C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\obj\Debug\n
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.dll
 C:\Users\LNU9\Source\Repos\nadiapadalka\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.pdb
 C:\Users\1\source\repos\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.csproj.CoreCompileInputs.cache
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.dll
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.pdb
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\Kursova.DAL\bin\Debug\netcoreapp3.1\Kursova.DAL.deps.json
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\Kursova.DAL\bin\Debug\netcoreapp3.1\Kursova.DAL.dll
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\Kursova.DAL\bin\Debug\netcoreapp3.1\Kursova.DAL.pdb
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.csprojAssemblyReference.cache
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.AssemblyInfoInputs.cache
+D:\Documents\Nazar\University\2020\Software egineering\Project repository\CheckYourKursova\Kursova.DAL\obj\Debug\netcoreapp3.1\Kursova.DAL.AssemblyInfo.cs
