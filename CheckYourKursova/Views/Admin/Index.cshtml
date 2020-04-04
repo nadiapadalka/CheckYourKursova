@@ -1,88 +1,74 @@
 ﻿@model Kursova.ViewModels.UsersInfoModel
-@{
-    ViewData["Title"] = "Index";
-}
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+<!--
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+<form asp-action="ForgotPassword" asp-controller="Account" asp-anti-forgery="true">
+</form>
+    -->
+<header class="masthead">
+    <div class="container">
+        <div class="intro-text">
+            <div class="card card-2">
+                <div class="card-body">
+                    <h2>Admin Page</h2>
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
-</head>
-<body>
+                    <a class="btn btn-outline-dark" asp-action="Register" asp-controller="Account">Додати студента</a>
+                    <a class="btn btn-outline-dark" asp-action="RegisterTeacher" asp-controller="Account">Додати викладача</a>
 
-    <h2>Admin Page</h2>
+                    <div class="text-center">
+                        <br />
+                        <h2>All Teachers</h2>
+                        <table style="width:100%">
+                            <tr>
+                                <th>Initials</th>
+                                <th>Grade</th>
+                                <th>Kafedra</th>
+                                <th>Email</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            @{
+                                foreach (var item in Model.Teachers)
+                                {
+                                    <tr>
+                                        <td>@item.Initials</td>
+                                        <td>@item.Grade</td>
+                                        <td>@item.Kafedra</td>
+                                        <td>@item.Email</td>
+                                        <td><a class="btn btn-outline-dark" href="/Admin/Index">Документи</a></td>
+                                        <td><a class="btn btn-outline-dark" href="/Admin/Index">Видалити</a></td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                        <br />
+                        <h2>All Students</h2>
+                        <table style="width:100%">
+                            <tr>
+                                <th>FullName</th>
+                                <th>Group</th>
+                                <th>Kafedra</th>
+                                <th>Email</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            @{
+                                foreach (var item in Model.Students)
+                                {
+                                    <tr>
+                                        <td>@item.FullName</td>
+                                        <td>@item.Group</td>
+                                        <td>@item.Kafedra</td>
+                                        <td>@item.Email</td>
+                                        <td><a class="btn btn-outline-dark" href="/Admin/Index">Документи</a></td>
+                                        <td><a class="btn btn-outline-dark" href="Admin/Index">Видалити</a></td>
+                                    </tr>
+                                }
+                            }
+                        </table>
 
-    <a class="btn btn-outline-dark" href=/Admin/Index>Додати студента</a>
-    <a class="btn btn-outline-dark" href=/Admin/Index>Додати викладача</a>
-
-    <div class="text-center">
-        <br />
-        <h2>All Teachers</h2>
-        <table style="width:100%">
-            <tr>
-                <th>Initials</th>
-                <th>Grade</th>
-                <th>Kafedra</th>
-                <th>Email</th>
-                <th></th>
-                <th></th>
-            </tr>
-            @{
-                foreach (var item in Model.Teachers)
-                {
-                <tr>
-                    <td>@item.Initials</td>
-                    <td>@item.Grade</td>
-                    <td>@item.Kafedra</td>
-                    <td>@item.Email</td>
-                    <td><a class="btn btn-outline-dark" href="/Admin/Index">Документи</a></td>
-                    <td><a class="btn btn-outline-dark" href="/Admin/Index">Видалити</a></td>
-                </tr>
-                }
-            }
-        </table>
-        <br />
-        <h2>All Students</h2>
-        <table style="width:100%">
-            <tr>
-                <th>FullName</th>
-                <th>Group</th>
-                <th>Kafedra</th>
-                <th>Email</th>
-                <th></th>
-                <th></th>
-            </tr>
-            @{
-                foreach (var item in Model.Students)
-                {
-                <tr>
-                    <td>@item.FullName</td>
-                    <td>@item.Group</td>
-                    <td>@item.Kafedra</td>
-                    <td>@item.Email</td>
-                    <td><a class="btn btn-outline-dark" href="/Admin/Index">Документи</a></td>
-                    <td><a class="btn btn-outline-dark" href="Admin/Index">Видалити</a></td>
-                </tr>
-                }
-            }
-        </table>
-
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-</body>
-</html>
+</header>

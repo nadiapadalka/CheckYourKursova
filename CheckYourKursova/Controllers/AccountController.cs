@@ -83,7 +83,7 @@ namespace AuthApp.Controllers
                 {
                     await Authenticate(model.Email);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Admin");
                 }
                 ModelState.AddModelError("", "Некорректний логін і(або) пароль");
             }
