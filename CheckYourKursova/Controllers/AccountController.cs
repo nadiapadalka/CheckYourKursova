@@ -205,7 +205,27 @@ namespace AuthApp.Controllers
             }
             return View(model);
         }
+        [HttpGet]
+        public IActionResult CreateTask()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateTask(CreateTaskModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                    db.TaskItems.Add(
+                    new TaskItem {Title = model.Title, Description = model.Description, Grade = model.Grade,
+                        StartDate = model.StartDate, DeadLine = model.DeadLine, EstimatedTime = model.EstimatedTime, IsDone = model.IsDone });
+                    await db.SaveChangesAsync();
 
+                    return RedirectToAction("Account");
+             
+            }
+            return View(model);
+        }
 
         private async Task Authenticate(string userName)
         {
