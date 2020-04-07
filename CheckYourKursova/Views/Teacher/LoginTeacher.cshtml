@@ -3,7 +3,7 @@
 
 
 <form asp-action="LoginTeacher" asp-controller="Account" asp-anti-forgery="true">
-
+    
 </form>
 
 -->
@@ -15,7 +15,7 @@
                 <div class="card-body">
 
                     <h2 class="text-dark">Увійдіть, будь ласка</h2>
-                    <form asp-action="LoginAdmin" asp-controller="Account" asp-anti-forgery="true">
+                    <form asp-action="LoginTeacher" asp-controller="Teacher" asp-anti-forgery="true">
                         <div class="input-group">
                             <input type="text" id="inputEmail" class="form-control" placeholder="Логін" asp-for="Email" required autofocus>
                             <span asp-validation-for="Email" />
@@ -35,10 +35,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                <a class="dropdown-item" asp-action="RegisterTeacher" asp-controller="Account">&emsp; &emsp;&emsp;Зареєструватися</a>
+                                <a class="dropdown-item" asp-action="RegisterTeacher" asp-controller="Teacher">&emsp; &emsp;&emsp;Зареєструватися</a>
                             </div>
                             <div class="col-md-4">
-                                <a class="dropdown-item" asp-action="ChangeTeacherPassword" asp-controller="Account"> &nbsp;&emsp;Забули пароль?</a>
+                                <a class="dropdown-item" asp-action="ChangeTeacherPassword" asp-controller="Teacher"> &nbsp;&emsp;Забули пароль?</a>
                             </div>
                         </div>
                     </form>

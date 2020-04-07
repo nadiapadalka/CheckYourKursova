@@ -12,7 +12,7 @@
                 <div class="card-body">
 
                     <h2 class="text-dark">Зареєстуйтеся, будь ласка</h2><br>
-                    <form asp-action="RegisterTeacher" asp-controller="Account" asp-anti-forgery="true">
+                    <form asp-action="RegisterTeacher" asp-controller="Teacher" asp-anti-forgery="true">
                         <div class="validation" asp-validation-summary="ModelOnly" />
                         <div class="input-group">
                             <input type="text" id="inputName" class="form-control" placeholder="Прізвище та ініціали" asp-for="Initials" required autofocus>

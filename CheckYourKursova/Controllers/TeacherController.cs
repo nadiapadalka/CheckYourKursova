@@ -11,37 +11,37 @@ using Kursova.DAL.EF;
 
 namespace AuthApp.Controllers
 {
-    public class AccountController : Controller
+    public class TeacherController : Controller
     {
         private KursovaDbContext db;
-        public AccountController(KursovaDbContext context)
+        public TeacherController(KursovaDbContext context)
         {
             db = context;
         }
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                //var result = db.Students.Join(db.Teachers, x => new { x.Email, x.Password },
-                //     y => new { y.Email, y.Password }, (x, y) => x);
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
-                {
-                    await Authenticate(model.Email); 
+        //[HttpGet]
+        //public IActionResult Login()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Login(LoginModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //var result = db.Students.Join(db.Teachers, x => new { x.Email, x.Password },
+        //        //     y => new { y.Email, y.Password }, (x, y) => x);
+        //        Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+        //        if (user != null)
+        //        {
+        //            await Authenticate(model.Email); 
 
-                    return RedirectToAction("Student_home", "Account");
-                }
-                ModelState.AddModelError("", "Некорректний логін і(або) пароль");
-            }
-            return View(model);
-        }
+        //            return RedirectToAction("Student_home", "Student");
+        //        }
+        //        ModelState.AddModelError("", "Некорректний логін і(або) пароль");
+        //    }
+        //    return View(model);
+        //}
         [HttpGet]
         public IActionResult LoginTeacher()
         {
@@ -58,64 +58,15 @@ namespace AuthApp.Controllers
                 {
                     await Authenticate(model.Email);
 
-                    return RedirectToAction("Teacher_home", "Account");
+                    return RedirectToAction("Teacher_home", "Teacher");
                 }
                 ModelState.AddModelError("", "Некорректний логін і(або) пароль");
             }
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult LoginAdmin()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAdmin(LoginModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                //var result = db.Students.Join(db.Teachers, x => new { x.Email, x.Password },
-                //     y => new { y.Email, y.Password }, (x, y) => x);
-                Admin user = await db.Admins.FirstOrDefaultAsync(u => u.Name == model.Email && u.Password == model.Password);
-                if (user != null)
-                {
-                    await Authenticate(model.Email);
 
-                    return RedirectToAction("Index", "Admin");
-                }
-                ModelState.AddModelError("", "Некорректний логін і(або) пароль");
-            }
-            return View(model);
-        }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email);
-                if (user == null)
-                {
-                    db.Students.Add(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName,  Group = model.Group, Kafedra = model.Kafedra });
-                    await db.SaveChangesAsync();
-
-                    await Authenticate(model.Email); 
-
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                    ModelState.AddModelError("", "Некоректний логін і(чи) пароль");
-            }
-            return View(model);
-        }
         [HttpGet]
         public IActionResult RegisterTeacher()
         {
@@ -148,44 +99,12 @@ namespace AuthApp.Controllers
         {
             return View(await db.Teachers.ToListAsync());
         }
-        
-        [HttpGet]
-
-        public async Task<IActionResult> Student_home()
-        {
-            return View(await db.Students.ToListAsync());
-        }
-        [HttpGet]
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.FullName == model.FullName);
-                
-                    user.Password = model.Password;
-                    db.Students.Update(user);
-
-
-                    await db.SaveChangesAsync();
-
-                   await Authenticate(model.Email);
-
-                    return RedirectToAction("Index", "Home");
-
-            }
-            return View(model);
-        }
         [HttpGet]
         public IActionResult ChangeTeacherPassword()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeTeacherPassword(ChangeTeacherPasswordModel model)
