@@ -18,30 +18,6 @@ namespace AuthApp.Controllers
         {
             db = context;
         }
-        //[HttpGet]
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Login(LoginModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        //var result = db.Students.Join(db.Teachers, x => new { x.Email, x.Password },
-        //        //     y => new { y.Email, y.Password }, (x, y) => x);
-        //        Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-        //        if (user != null)
-        //        {
-        //            await Authenticate(model.Email); 
-
-        //            return RedirectToAction("Student_home", "Student");
-        //        }
-        //        ModelState.AddModelError("", "Некорректний логін і(або) пароль");
-        //    }
-        //    return View(model);
-        //}
         [HttpGet]
         public IActionResult LoginTeacher()
         {
@@ -65,7 +41,13 @@ namespace AuthApp.Controllers
             return View(model);
         }
 
+        
+        [HttpGet]
 
+        public async Task<IActionResult> Teacher_Kursova()
+        {
+            return View(await db.Teachers.ToListAsync());
+        }
 
         [HttpGet]
         public IActionResult RegisterTeacher()
