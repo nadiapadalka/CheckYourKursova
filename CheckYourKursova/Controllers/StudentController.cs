@@ -86,6 +86,12 @@ namespace Kursova.Controllers
             return View(await db.Students.ToListAsync());
         }
         [HttpGet]
+
+        public  IActionResult Student_Kursova()
+        {
+            return View();
+        }
+        [HttpGet]
         public IActionResult ChangePassword()
         {
             return View();
