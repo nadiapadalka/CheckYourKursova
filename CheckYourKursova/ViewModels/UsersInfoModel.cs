@@ -12,5 +12,9 @@ namespace Kursova.ViewModels
         public string AdminName { get; set; } = "Admin's name";
         public IEnumerable<Student> Students { get; set; }
         public IEnumerable<Teacher> Teachers { get; set; }
+        public IEnumerable<Documentation> Documentations { get; set; }
+        
+
+
     }
 }

@@ -1,0 +1,46 @@
+﻿@model Kursova.ViewModels.RegisterTeacherModel
+@{
+    Layout = null;
+}
+<header class="masthead">
+    <div class="container">
+        <div class="intro-text">
+            <div class="card card-2">
+                <div class="card-body">
+
+                    <h2 class="text-dark">Реєстрація викладача</h2><br>
+                    <form asp-action="RegisterTeacher" asp-controller="Admin" method="post" asp-anti-forgery="true">
+                        <div class="validation" asp-validation-summary="ModelOnly" />
+                        <div class="input-group">
+                            <input type="text" id="inputName" class="form-control" placeholder="Прізвище та ініціали" asp-for="Initials" required autofocus>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="inputGroup" class="form-control" placeholder="Вчене звання" asp-for="Grade" required autofocus>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="inputKafedra" class="form-control" placeholder="Кафедра" asp-for="Kafedra" required autofocus>
+                        </div><br><br>
+                        <div class="input-group">
+                            <input type="text" id="inputEmail" class="form-control" placeholder="Електронна пошта" asp-for="Email" required autofocus>
+                            <span asp-validation-for="Email" />
+                        </div>
+                        <div class="input-group">
+                            <input id="inputPassword" class="form-control" placeholder="Пароль" asp-for="Password" required autofocus>
+                            <span asp-validation-for="Password" />
+                        </div>
+                        <div class="input-group">
+                            <input id="inputPassword" class="form-control" placeholder="Підтвердити пароль" asp-for="ConfirmPassword" required autofocus>
+                            <span asp-validation-for="ConfirmPassword" />
+                        </div>
+
+                        <div class="checkbox mb-3">
+
+                            <input class="btn btn-outline-success btn-m text-uppercase js-scroll-trigger" type="submit" value="Зареєструвати">
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

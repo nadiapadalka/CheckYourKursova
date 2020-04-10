@@ -1,0 +1,51 @@
+﻿@model List<Kursova.DAL.Entities.Documentation>
+@{
+    ViewData["Title"] = "StudentsDocuments";
+    Layout = null;
+}
+
+<header class="masthead">
+    <div class="container">
+        <div class="intro-text">
+            <div class="card card-2">
+                <div class="card-body">
+                    <h1>Students Documents</h1>
+
+                    <div class="text-center">
+                        <br />
+                        <h2 style="color:black">Всі документи</h2>
+                        <table style="width:100%">
+                            <tr>
+                                <th>Назва</th>
+                                <th>Опис</th>
+                                <th>Прикріплені матеріали</th>
+                                <th></th>
+                            </tr>
+                            @{
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Title</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.AttachedMaterials</td>
+                                        <td>
+                                            <form asp-action="DeleteStudentDocument" method="post">
+                                                <input type="hidden" value="@item.Id" name="id" />
+                                                <button type="submit" class="btn btn-outline-dark">
+                                                    Видалити
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
