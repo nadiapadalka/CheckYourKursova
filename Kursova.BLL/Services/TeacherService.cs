@@ -10,9 +10,12 @@ using Kursova.BLL.Interfaces;
 using Kursova.DAL.Entities;
 using Kursova.DAL.Interfaces;
 using System.ComponentModel.DataAnnotations;
+
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 namespace Kursova.BLL.Services
 {
-
 
     public class TeacherService : ITeacherService
     {
@@ -22,86 +25,27 @@ namespace Kursova.BLL.Services
         }
 
         public IUnitOfWork Database { get; set; }
-
-
-        public void CreateTeacher(TeacherDTO TeacherDto)
+        public void CreateTeacher(Teacher TeacherDto)
         {
-            Teacher Teacher = new Teacher
-            {
-                Id = TeacherDto.Id,
-                Initials = TeacherDto.Initials,
-                Grade = TeacherDto.Grade,
-                Kafedra = TeacherDto.Kafedra,
-                Email = TeacherDto.Email,
-                Password = TeacherDto.Password,
-
-            };
-            try
-            {
-                this.Database.Teachers.GetAll().Where(e => e.Email == Teacher.Email).First();
-                throw new ArgumentNullException();
-            }
-            catch (System.InvalidOperationException)
-            {
-                this.Database.Teachers.Create(Teacher);
-                this.Database.Save();
-            }
+          this.Database.Teachers.Create(TeacherDto);
         }
+        public async Task<Teacher> Get(string username, string fullname)
+        =>
+            await this.Database.Teachers.GetbyEmailandInitials(username, fullname);
+
+        public void Update(Teacher user) => Database.Teachers.Update(user);
 
 
-        public string GetInitials(int TeacherAccountId)
-        {
-            var result = this.GetAll()
-                .Where(x => x.Id == TeacherAccountId)
-                .Select(x => x.Initials)
-                .FirstOrDefault();
-
-            return result;
-        }
-
-        public TeacherDTO Get(int TeacherAccountId)
-        {
-            var result = this.GetAll()
-                .FirstOrDefault(x => x.Id == TeacherAccountId);
-
-            return result;
-        }
+        public async Task<IEnumerable<Teacher>> GetAll()
 
 
-        public TeacherDTO GetById(int? id)
-        {
-            if (id == null)
-            {
-                throw new ValidationException("ID not set.");
-            }
+        => await Database.Teachers.GetAll();
 
-            var Teacher = this.Database.Teachers.Get(id.Value);
-            if (Teacher == null)
-            {
-                throw new ValidationException("Teacher with this ID was not found");
-            }
 
-            return new TeacherDTO
-            {
-                Id = Teacher.Id,
-                Initials = Teacher.Initials,
-                Grade = Teacher.Grade,
-                Kafedra = Teacher.Kafedra,
-                Email = Teacher.Email,
-                Password = Teacher.Password
-            };
-        }
 
-        public IEnumerable<TeacherDTO> GetAll()
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Teacher, TeacherDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Teacher>, List<TeacherDTO>>(this.Database.Teachers.GetAll());
-        }
-
-        
         public void Dispose(int id)
         {
-            var Teacher = this.Database.Teachers.Get(id);
+            var Teacher = this.Database.Teachers.GetbyID(id);
             if (Teacher != null)
             {
                 this.Database.Teachers.Delete(id);
@@ -156,26 +100,6 @@ namespace Kursova.BLL.Services
 
 
 
-        public TeacherDTO GetByTeacherInitialsPassword(string Teachername, string password)
-        {
-            try
-            {
-                var Teacher = this.Database.Teachers.GetbyPass(Teachername, Encrypt(password));
-                return new TeacherDTO
-                {
-                    Id = Teacher.Id,
-                    Initials = Teacher.Initials,
-                    Grade = Teacher.Grade,
-                    Kafedra = Teacher.Kafedra,
-                    Email = Teacher.Email,
-                    Password = Teacher.Password
-                };
-            }
-            catch (System.NullReferenceException)
-            {
-                return null;
-            }
-        }
 
 
     }

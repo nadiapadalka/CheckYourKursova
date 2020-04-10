@@ -10,103 +10,77 @@ using Kursova.BLL.Interfaces;
 using Kursova.DAL.Entities;
 using Kursova.DAL.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+
 namespace Kursova.BLL.Services
 {
 
 
     public class StudentService : IStudentService
     {
+        private readonly ILogger<StudentService> _logger;
+        private readonly IMapper _mapper;
+
         public StudentService(IUnitOfWork uow)
         {
             this.Database = uow;
         }
 
         public IUnitOfWork Database { get; set; }
-        public void CreateStudent(StudentDTO StudentDto)
-        {
-            Student Student = new Student
-            {
-                Id = StudentDto.Id,
-                FullName = StudentDto.FullName,
-                Group = StudentDto.Group,
-                Kafedra = StudentDto.Kafedra,
-                Email = StudentDto.Email,
-                Password = StudentDto.Password,
+        //public async Task<StudentDTO> CreateUserAsync(StudentDTO user, string password)
+        //{
+        //    var applicationUser = _mapper.Map<Student>(user);
 
-            };
-            try
+        //    var existingUser = await Database.Students.GetbyEmailAsync(user.Email);
+            
+
+        //    var result = await Database.Students.Create(applicationUser);
+
+        //    if (result.Succeeded)
+        //    {
+        //        await AddUserToRoleAsync(applicationUser, "User");
+        //        _logger.LogInformation("User created a new account with password.");
+        //    }
+        //    return result;
+        //}
+        public void CreateStudent(Student StudentDto)
+        {
+            
+                this.Database.Students.Create(StudentDto);
+        }
+        public async Task<Student> Get(string username, string fullname)
+       =>
+           await this.Database.Students.GetbyEmailandInitials(username, fullname);
+
+        public async Task<Student> GetbyEmail(string email)
+        {
+            var appLicationUser = await Database.Students.GetbyEmailAsync(email);
+
+            if (appLicationUser != null)
             {
-                this.Database.Students.GetAll().Where(e => e.FullName== Student.FullName).First();
-                throw new ArgumentNullException();
+              //  _logger.LogInformation("Got student by email.");
+                return _mapper.Map<Student>(appLicationUser);
             }
-            catch (System.InvalidOperationException)
+            else
             {
-                this.Database.Students.Create(Student);
-                this.Database.Save();
+                //_logger.LogWarning($"User with email {email} couldn`t be found.");
+                return null;
             }
         }
-        
 
-        public string GetFirstName(int StudentAccountId)
-        {
-            var result = this.GetAll()
-                .Where(x => x.Id == StudentAccountId)
-                .Select(x => x.FullName)
-                .FirstOrDefault();
 
-            return result;
-        }
 
-        public StudentDTO Get(int StudentAccountId)
-        {
-            var StudentAccount = this.GetAll()
-                .FirstOrDefault(x => x.Id == StudentAccountId);
+        public async Task<IEnumerable<Student>> GetAll()
+   
 
-            return StudentAccount;
-        }
-        
+        =>  await this.Database.Students.GetAll();
 
-        public StudentDTO GetById(int? id)
-        {
-            if (id == null)
-            {
-                throw new ValidationException("ID not set.");
-            }
-
-            var Student = this.Database.Students.Get(id.Value);
-            if (Student == null)
-            {
-                throw new ValidationException("Student with this ID was not found");
-            }
-
-            return new StudentDTO
-            {
-                Id = Student.Id,
-                FullName = Student.FullName,
-                Group = Student.Group,
-                Kafedra = Student.Kafedra,
-                Email = Student.Email,
-                Password = Student.Password,
-            };
-        }
-
-        public IEnumerable<StudentDTO> GetAll()
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Student, StudentDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Student>, List<StudentDTO>>(this.Database.Students.GetAll());
-        }
+        public void Update(Student user) => Database.Students.Update(user);
 
         
-
-        public void Dispose(int id)
-        {
-            var Student = this.Database.Students.Get(id);
-            if (Student != null)
-            {
-                this.Database.Students.Delete(id);
-                this.Database.Save();
-            }
-        }
        
 
         public static string strKey = "U2A9/R*41FD412+4-123";
@@ -154,26 +128,7 @@ namespace Kursova.BLL.Services
 
      
 
-        public StudentDTO GetByStudentnamePassword(string Studentname, string password)
-        {
-            try
-            {
-                var Student = this.Database.Students.GetbyPass(Studentname, Encrypt(password));
-                return new StudentDTO
-                {
-                    Id = Student.Id,
-                    FullName = Student.FullName,
-                    Group = Student.Group,
-                    Kafedra = Student.Kafedra,
-                    Email = Student.Email,
-                    Password = Student.Password,
-                };
-            }
-            catch (System.NullReferenceException)
-            {
-                return null;
-            }
-        }
+       
 
         
     }

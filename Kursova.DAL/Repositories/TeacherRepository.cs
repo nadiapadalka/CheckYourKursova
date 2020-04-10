@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kursova.DAL.EF;
 using Kursova.DAL.Entities;
 using Kursova.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 namespace Kursova.DAL.Repositories
 {
 
@@ -20,30 +21,35 @@ namespace Kursova.DAL.Repositories
             this.db = context;
         }
 
-        public IEnumerable<Teacher> GetAll()
+        public  async Task<IEnumerable<Teacher>> GetAll()
         {
-            return this.db.Teachers;
-        }
+            return await this.db.Teachers.ToListAsync();
 
-        public Teacher Get(int id)
+        }
+        public void Update(Teacher user)
         {
-            return this.db.Teachers.Find(id);
+            this.db.Teachers.Update(user);
+            this.db.SaveChangesAsync();
         }
+        public async Task<Teacher> GetbyEmailandInitials(string email, string fullname)
+        {
+            return await this.db.Teachers.FirstOrDefaultAsync(u => u.Email == email && u.Initials == fullname);
+        }
+        public async Task<Teacher> GetbyID(int id)
+        {
+            return await this.db.Teachers.FirstOrDefaultAsync(u => u.Id == id);
 
+        }
+        public async Task<Teacher> GetbyEmailAsync(string email)
+        {
+            return await this.db.Teachers.FirstOrDefaultAsync(u => u.Email == email);
+        }
         public void Create(Teacher user)
         {
             this.db.Teachers.Add(user);
         }
 
-        //public void Update(Teacher user)
-        //{
-        //    this.db.Entry(user).State = EntityState.Modified;
-        //}
 
-        public IEnumerable<Teacher> Find(Func<Teacher, bool> predicate)
-        {
-            return this.db.Teachers.Where(predicate).ToList();
-        }
 
         public void Delete(int id)
         {

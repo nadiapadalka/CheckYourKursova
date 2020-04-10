@@ -5,19 +5,22 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Kursova.DAL.Entities;
 using Kursova.ViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Kursova.DAL.EF;
+using Kursova.BLL.Services;
+using Kursova.BLL.Interfaces;
 
 
 namespace Kursova.Controllers
 {
     public class StudentController : Controller
     {
-        private KursovaDbContext db;
-        public StudentController(KursovaDbContext context)
+        private readonly IStudentService _studentService;
+        public StudentController(IStudentService studentService)
         {
-            db = context;
+            _studentService = studentService;
         }
         [HttpGet]
         public IActionResult Login()
@@ -30,10 +33,9 @@ namespace Kursova.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var result = db.Students.Join(db.Teachers, x => new { x.Email, x.Password },
-                //     y => new { y.Email, y.Password }, (x, y) => x);
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
+              
+                var result =  _studentService.Get(model.Email, model.Password);
+                if (result != null)
                 {
                     await Authenticate(model.Email);
 
@@ -62,13 +64,24 @@ namespace Kursova.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
+            Student Student = new Student
             {
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email);
+                
+                FullName = model.FullName,
+                Group = model.Group,
+                Kafedra = model.Kafedra,
+                Email = model.Email,
+                Password = model.Password,
+
+            };
+            if (ModelState.IsValid)
+
+            {
+                Student user = await _studentService.GetbyEmail(model.Email);
                 if (user == null)
                 {
-                    db.Students.Add(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
-                    await db.SaveChangesAsync();
+
+                    _studentService.CreateStudent(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
 
                     await Authenticate(model.Email);
 
@@ -81,9 +94,9 @@ namespace Kursova.Controllers
         }
         [HttpGet]
 
-        public async Task<IActionResult> Student_home()
+        public  async Task<IActionResult> Student_home()
         {
-            return View(await db.Students.ToListAsync());
+            return View(await _studentService.GetAll());
         }
         [HttpGet]
         public IActionResult ChangePassword()
@@ -96,17 +109,16 @@ namespace Kursova.Controllers
         {
             if (ModelState.IsValid)
             {
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.FullName == model.FullName);
+                Student user = await _studentService.Get(model.Email, model.FullName);
+                if (user != null)
+                {
+                    user.Password = model.Password;
+                    _studentService.Update(user);
+                    await Authenticate(model.Email);
+                    return RedirectToAction("Index", "Home");
+                }
 
-                user.Password = model.Password;
-                db.Students.Update(user);
-
-
-                await db.SaveChangesAsync();
-
-                await Authenticate(model.Email);
-
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Login", "Student");
 
             }
             return View(model);

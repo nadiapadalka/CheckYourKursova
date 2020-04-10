@@ -8,13 +8,13 @@ using Kursova.DAL.Entities;
 namespace Kursova.DAL.Interfaces
 {
     
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork 
     {
         IRepository<Student> Students { get; }
 
         IRepository<Teacher> Teachers { get; }
 
-        IRepository<Admin> Admins { get; }
+       // IRepository<Admin> Admins { get; }
 
         //IRepository<TaskItem> TaskItems { get; }
 
