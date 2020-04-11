@@ -11,18 +11,18 @@
                 <div class="card-body">
                     <h2>Admin Page</h2>
 
-                    <a class="btn btn-outline-dark" asp-action="Register" asp-controller="Account">Додати студента</a>
-                    <a class="btn btn-outline-dark" asp-action="RegisterTeacher" asp-controller="Account">Додати викладача</a>
+                    <a class="btn btn-outline-dark" asp-action="RegisterStudent" asp-controller="Admin">Додати студента</a>
+                    <a class="btn btn-outline-dark" asp-action="RegisterTeacher" asp-controller="Admin">Додати викладача</a>
 
                     <div class="text-center">
                         <br />
-                        <h2>All Teachers</h2>
+                        <h2 style="color:black">Всі викладачі</h2>
                         <table style="width:100%">
                             <tr>
-                                <th>Initials</th>
-                                <th>Grade</th>
-                                <th>Kafedra</th>
-                                <th>Email</th>
+                                <th>Прізвище та ініціали</th>
+                                <th>Вчене звання</th>
+                                <th>Кафедра</th>
+                                <th>Електронна пошта</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -34,20 +34,34 @@
                                         <td>@item.Grade</td>
                                         <td>@item.Kafedra</td>
                                         <td>@item.Email</td>
-                                        <td><a class="btn btn-outline-dark" href="/Admin/Index">Документи</a></td>
-                                        <td><a class="btn btn-outline-dark" href="/Admin/Index">Видалити</a></td>
+                                        <td>
+                                            <form asp-action="TeacherDocuments" method="get">
+                                                <input type="hidden" value="@item.Email" name="email" />
+                                                <button type="submit" class="btn btn-outline-dark">
+                                                    Документи
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form asp-action="DeleteTeacher" method="post">
+                                                <input type="hidden" value="@item.Email" name="email" />
+                                                <button type="submit" class="btn btn-outline-dark">
+                                                    Видалити
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 }
                             }
                         </table>
                         <br />
-                        <h2>All Students</h2>
+                        <h2 style="color: black;">Всі студенти</h2>
                         <table style="width:100%">
                             <tr>
-                                <th>FullName</th>
-                                <th>Group</th>
-                                <th>Kafedra</th>
-                                <th>Email</th>
+                                <th>Прізвище та ім'я</th>
+                                <th>Група</th>
+                                <th>Кафедра</th>
+                                <th>Електронна пошта</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -59,8 +73,22 @@
                                         <td>@item.Group</td>
                                         <td>@item.Kafedra</td>
                                         <td>@item.Email</td>
-                                        <td><a class="btn btn-outline-dark" href="/Admin/Index">Документи</a></td>
-                                        <td><a class="btn btn-outline-dark" href="Admin/Index">Видалити</a></td>
+                                        <td>
+                                            <form asp-action="StudentDocuments" method="get">
+                                                <input type="hidden" value="@item.Email" name="email" />
+                                                <button type="submit" class="btn btn-outline-dark">
+                                                    Документи
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form asp-action="DeleteStudent" method="post">
+                                                <input type="hidden" value="@item.Email" name="email" />
+                                                <button type="submit" class="btn btn-outline-dark">
+                                                    Видалити
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 }
                             }

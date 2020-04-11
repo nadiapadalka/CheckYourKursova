@@ -60,7 +60,8 @@ namespace Kursova.DAL.Repositories
             Student user = this.db.Students.Find(id);
             if (user != null)
             {
-                this.db.Students.Remove(user);
+                //this.db.Students.Remove(user);
+                db.Set<Student>().Remove(user);
             }
         }
 
