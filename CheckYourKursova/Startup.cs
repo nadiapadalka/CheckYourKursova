@@ -52,30 +52,39 @@ namespace Kursova
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => 
                 {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Login");
                 });
             services.AddControllersWithViews();
-           
-                services.AddDistributedMemoryCache();
-                services.AddSession();
+            //services.AddSession();
             services.AddMvc();
             services.AddTransient<IUnitOfWork, EFUnitOfWork>();
             services.AddTransient<IStudentService,StudentService>();
-            services.AddScoped<IStudentService, StudentService>();
+        //    services.AddScoped<IAdminService, AdminService>();
 
-
-            // services.AddTransient<IStudentService, StudentService>;
             services.AddTransient<ITeacherService, TeacherService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
+
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
-
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
             app.UseStaticFiles();
 
             app.UseRouting();

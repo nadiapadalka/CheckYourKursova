@@ -24,36 +24,35 @@ namespace Kursova.BLL.Services
         private readonly ILogger<StudentService> _logger;
         private readonly IMapper _mapper;
 
-        public StudentService(IUnitOfWork uow)
+        public StudentService(IUnitOfWork uow, ILogger<StudentService> logger)
         {
+
             this.Database = uow;
+            this._logger = logger;
         }
 
         public IUnitOfWork Database { get; set; }
-        //public async Task<StudentDTO> CreateUserAsync(StudentDTO user, string password)
-        //{
-        //    var applicationUser = _mapper.Map<Student>(user);
-
-        //    var existingUser = await Database.Students.GetbyEmailAsync(user.Email);
-            
-
-        //    var result = await Database.Students.Create(applicationUser);
-
-        //    if (result.Succeeded)
-        //    {
-        //        await AddUserToRoleAsync(applicationUser, "User");
-        //        _logger.LogInformation("User created a new account with password.");
-        //    }
-        //    return result;
-        //}
+        
         public void CreateStudent(Student StudentDto)
         {
             
                 this.Database.Students.Create(StudentDto);
         }
         public async Task<Student> Get(string username, string fullname)
-       =>
-           await this.Database.Students.GetbyEmailandInitials(username, fullname);
+        {
+            _logger.LogInformation($"Getting student by {username} and {fullname}");
+
+           var result =  await this.Database.Students.GetbyEmailandInitials(username, fullname);
+            if(result != null)
+            {
+                _logger.LogInformation($"Getting student by {username} and {fullname}");
+            }
+            else
+            {
+                _logger.LogInformation($"Couldn't find a student by {username} and {fullname}");
+            }
+            return result;
+        }
 
         public async Task<Student> GetbyEmail(string email)
         {
@@ -61,12 +60,12 @@ namespace Kursova.BLL.Services
 
             if (appLicationUser != null)
             {
-              //  _logger.LogInformation("Got student by email.");
+                _logger.LogInformation("Got student by email.");
                 return _mapper.Map<Student>(appLicationUser);
             }
             else
             {
-                //_logger.LogWarning($"User with email {email} couldn`t be found.");
+                _logger.LogWarning($"User with email {email} couldn`t be found.");
                 return null;
             }
         }
@@ -74,11 +73,20 @@ namespace Kursova.BLL.Services
 
 
         public async Task<IEnumerable<Student>> GetAll()
-   
 
-        =>  await this.Database.Students.GetAll();
 
-        public void Update(Student user) => Database.Students.Update(user);
+        {
+            _logger.LogInformation($"Getting all students.");
+
+           return  await this.Database.Students.GetAll();
+        }
+
+        public void Update(Student user)
+        {
+            _logger.LogInformation($"Updating student data. Changing password to {user.Password}");
+
+            Database.Students.Update(user);
+        }
 
         
        

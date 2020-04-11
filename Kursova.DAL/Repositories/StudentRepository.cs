@@ -45,7 +45,7 @@ namespace Kursova.DAL.Repositories
 
         public void Create(Student user)
         {
-            this.db.Students.Add(user);
+            this.db.Students.Update(user);
             this.db.SaveChangesAsync();
         }
 

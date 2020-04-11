@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Kursova.DAL.EF;
 using Kursova.BLL.Interfaces;
+using Microsoft.Extensions.Logging;
 
 
 namespace AuthApp.Controllers
@@ -16,9 +17,12 @@ namespace AuthApp.Controllers
     public class TeacherController : Controller
     {
         private readonly ITeacherService teacherService;
-        public TeacherController(ITeacherService _teacherservice)
+        private readonly ILogger<TeacherController> _logger;
+
+        public TeacherController(ITeacherService _teacherservice, ILogger<TeacherController> logger)
         {
             teacherService = _teacherservice;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult Login()
@@ -42,8 +46,10 @@ namespace AuthApp.Controllers
                 if (result != null)
                 {
                     await Authenticate(model.Email);
+                    
+                        _logger.LogInformation($"Teacher Loginned successfully ");
 
-                    return RedirectToAction("Teacher_home", "Teacher");
+                        return RedirectToAction("Teacher_home", "Teacher");
                 }
                 ModelState.AddModelError("", "Некорректний логін і(або) пароль");
             }
@@ -66,9 +72,10 @@ namespace AuthApp.Controllers
                 var result = teacherService.Get(model.Email, model.Password);
                 if (result == null)
                 {
-                    teacherService.CreateTeacher(
-                    new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
-                    await Authenticate(model.Email);
+                  //  teacherService.CreateTeacher(
+                //    new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
+                //    await Authenticate(model.Email);
+                    _logger.LogInformation($"Teacher Loginned successfully ");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -81,6 +88,8 @@ namespace AuthApp.Controllers
 
         public async Task<IActionResult> Teacher_home()
         {
+            _logger.LogInformation($"Teacher Info page ");
+
             return View(await teacherService.GetAll());
         }
         [HttpGet]
@@ -101,7 +110,10 @@ namespace AuthApp.Controllers
                     user.Password = model.Password;
                     teacherService.Update(user);
                     await Authenticate(model.Email);
+                    _logger.LogInformation($"Teacher password changed ");
+
                     return RedirectToAction("Index", "Home");
+
                 }
             }
             return View(model);

@@ -3,7 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="Views\Teacher\Teacher_home.cshtml" />
   </ItemGroup>
@@ -22,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Kursova.BLL\Kursova.BLL.csproj" />
+    <ProjectReference Include="..\Kursova.DAL\Kursova.DAL.csproj" />
   </ItemGroup>
 
 

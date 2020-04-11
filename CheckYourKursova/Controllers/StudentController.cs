@@ -11,16 +11,19 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Kursova.DAL.EF;
 using Kursova.BLL.Services;
 using Kursova.BLL.Interfaces;
+using Microsoft.Extensions.Logging;
 
 
 namespace Kursova.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly ILogger<StudentController> _logger;
         private readonly IStudentService _studentService;
-        public StudentController(IStudentService studentService)
+        public StudentController(IStudentService studentService, ILogger<StudentController> logger)
         {
             _studentService = studentService;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult Login()
@@ -38,6 +41,7 @@ namespace Kursova.Controllers
                 if (result != null)
                 {
                     await Authenticate(model.Email);
+                    _logger.LogInformation($"Student loginned successfully ");
 
                     return RedirectToAction("Student_home", "Student");
                 }
@@ -64,16 +68,7 @@ namespace Kursova.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            Student Student = new Student
-            {
-                
-                FullName = model.FullName,
-                Group = model.Group,
-                Kafedra = model.Kafedra,
-                Email = model.Email,
-                Password = model.Password,
-
-            };
+            
             if (ModelState.IsValid)
 
             {
@@ -81,9 +76,10 @@ namespace Kursova.Controllers
                 if (user == null)
                 {
 
-                    _studentService.CreateStudent(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
+                    // _studentService.CreateStudent(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
 
-                    await Authenticate(model.Email);
+                    // await Authenticate(model.Email);
+                    _logger.LogInformation("Student registered successfully ");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -96,6 +92,7 @@ namespace Kursova.Controllers
 
         public  async Task<IActionResult> Student_home()
         {
+            _logger.LogInformation("Getting info about student");
             return View(await _studentService.GetAll());
         }
         [HttpGet]
@@ -117,7 +114,7 @@ namespace Kursova.Controllers
                     await Authenticate(model.Email);
                     return RedirectToAction("Index", "Home");
                 }
-
+                _logger.LogInformation("Student password changed");
                 return RedirectToAction("Login", "Student");
 
             }

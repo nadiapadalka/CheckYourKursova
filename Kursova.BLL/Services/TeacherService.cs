@@ -14,15 +14,19 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+
 namespace Kursova.BLL.Services
 {
 
     public class TeacherService : ITeacherService
     {
-        public TeacherService(IUnitOfWork uow)
+        public TeacherService(IUnitOfWork uow , ILogger<StudentService> logger)
         {
             this.Database = uow;
+            this._logger = logger;
         }
+        private readonly ILogger<StudentService> _logger;
 
         public IUnitOfWork Database { get; set; }
         public void CreateTeacher(Teacher TeacherDto)
@@ -30,16 +34,24 @@ namespace Kursova.BLL.Services
           this.Database.Teachers.Create(TeacherDto);
         }
         public async Task<Teacher> Get(string username, string fullname)
-        =>
-            await this.Database.Teachers.GetbyEmailandInitials(username, fullname);
+        
+          { _logger.LogInformation($"Getting teacher by {username} and {fullname}");
 
-        public void Update(Teacher user) => Database.Teachers.Update(user);
+        return await this.Database.Teachers.GetbyEmailandInitials(username, fullname);}
+
+        public void Update(Teacher user) {
+            
+                _logger.LogInformation($"Update teacher password  for {user.Initials}");
+                Database.Teachers.Update(user); }
 
 
         public async Task<IEnumerable<Teacher>> GetAll()
+        {
+            _logger.LogInformation($"Getting all teachers");
 
 
-        => await Database.Teachers.GetAll();
+            return await Database.Teachers.GetAll();
+        }
 
 
 
