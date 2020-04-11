@@ -61,7 +61,7 @@ namespace AuthApp.Controllers
 
         public async Task<IActionResult> Teacher_Kursova()
         {
-            return View(await db.Teachers.ToListAsync());
+            return View(await teacherService.GetAll());
         }
 
         [HttpGet]
