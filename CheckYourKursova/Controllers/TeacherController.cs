@@ -29,7 +29,7 @@ namespace AuthApp.Controllers
         {
             return View();
         }
-        
+
         [HttpGet]
         public IActionResult LoginTeacher()
         {
@@ -56,7 +56,13 @@ namespace AuthApp.Controllers
             return View(model);
         }
 
+        
+        [HttpGet]
 
+        public async Task<IActionResult> Teacher_Kursova()
+        {
+            return View(await db.Teachers.ToListAsync());
+        }
 
         [HttpGet]
         public IActionResult RegisterTeacher()

@@ -96,6 +96,12 @@ namespace Kursova.Controllers
             return View(await _studentService.GetAll());
         }
         [HttpGet]
+
+        public  IActionResult Student_Kursova()
+        {
+            return View();
+        }
+        [HttpGet]
         public IActionResult ChangePassword()
         {
             return View();
