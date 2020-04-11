@@ -8,18 +8,13 @@ namespace Kursova.DAL.Interfaces
     public interface IRepository<T>
         where T : class
     {
-        IEnumerable<T> GetAll();
-
-        T Get(int id);
-
-        T GetbyPass(string username, string password);
-
-        IEnumerable<T> Find(Func<T, bool> predicate);
+        Task<IEnumerable<T>> GetAll();
+        Task<T> GetbyEmailandInitials(string email,string initials);
+        Task<T> GetbyEmailAsync(string email);
 
         void Create(T item);
-
-        //void Update(T item);
-
+        Task<T> GetbyID(int id);
+        void Update(T item);
         void Delete(int id);
     }
 }

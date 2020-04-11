@@ -18,7 +18,6 @@ namespace Kursova.DAL.EF
         {
             Database.EnsureCreated();
         }
-
         public void changeUserPasssword(object p)
         {
             throw new NotImplementedException();

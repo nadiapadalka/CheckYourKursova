@@ -5,19 +5,25 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Kursova.DAL.Entities;
 using Kursova.ViewModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Kursova.DAL.EF;
+using Kursova.BLL.Services;
+using Kursova.BLL.Interfaces;
+using Microsoft.Extensions.Logging;
 
 
 namespace Kursova.Controllers
 {
     public class StudentController : Controller
     {
-        private KursovaDbContext db;
-        public StudentController(KursovaDbContext context)
+        private readonly ILogger<StudentController> _logger;
+        private readonly IStudentService _studentService;
+        public StudentController(IStudentService studentService, ILogger<StudentController> logger)
         {
-            db = context;
+            _studentService = studentService;
+            _logger = logger;
         }
         [HttpGet]
         public IActionResult Login()
@@ -30,12 +36,12 @@ namespace Kursova.Controllers
         {
             if (ModelState.IsValid)
             {
-                //var result = db.Students.Join(db.Teachers, x => new { x.Email, x.Password },
-                //     y => new { y.Email, y.Password }, (x, y) => x);
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
+              
+                var result =  _studentService.Get(model.Email, model.Password);
+                if (result != null)
                 {
                     await Authenticate(model.Email);
+                    _logger.LogInformation($"Student loginned successfully ");
 
                     return RedirectToAction("Student_home", "Student");
                 }
@@ -62,15 +68,18 @@ namespace Kursova.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
+            
             if (ModelState.IsValid)
+
             {
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email);
+                Student user = await _studentService.GetbyEmail(model.Email);
                 if (user == null)
                 {
-                    db.Students.Add(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
-                    await db.SaveChangesAsync();
 
-                    await Authenticate(model.Email);
+                    // _studentService.CreateStudent(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
+
+                    // await Authenticate(model.Email);
+                    _logger.LogInformation("Student registered successfully ");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -81,9 +90,10 @@ namespace Kursova.Controllers
         }
         [HttpGet]
 
-        public async Task<IActionResult> Student_home()
+        public  async Task<IActionResult> Student_home()
         {
-            return View(await db.Students.ToListAsync());
+            _logger.LogInformation("Getting info about student");
+            return View(await _studentService.GetAll());
         }
         [HttpGet]
 
@@ -102,17 +112,16 @@ namespace Kursova.Controllers
         {
             if (ModelState.IsValid)
             {
-                Student user = await db.Students.FirstOrDefaultAsync(u => u.Email == model.Email && u.FullName == model.FullName);
-
-                user.Password = model.Password;
-                db.Students.Update(user);
-
-
-                await db.SaveChangesAsync();
-
-                await Authenticate(model.Email);
-
-                return RedirectToAction("Index", "Home");
+                Student user = await _studentService.Get(model.Email, model.FullName);
+                if (user != null)
+                {
+                    user.Password = model.Password;
+                    _studentService.Update(user);
+                    await Authenticate(model.Email);
+                    return RedirectToAction("Index", "Home");
+                }
+                _logger.LogInformation("Student password changed");
+                return RedirectToAction("Login", "Student");
 
             }
             return View(model);

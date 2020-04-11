@@ -1,18 +1,16 @@
 ﻿using System.Collections.Generic;
 using Kursova.BLL.DTO;
-
+using Kursova.DAL.Entities;
+using System.Threading.Tasks;
 namespace Kursova.BLL.Interfaces
 {
 
     public interface ITeacherService
     {
-        void CreateTeacher(TeacherDTO TeacherDto);
-        TeacherDTO GetById(int? id);
-        TeacherDTO Get(int TeacherAccountId);
-        TeacherDTO GetByTeacherInitialsPassword(string Teachername, string password);
-        string GetInitials(int TeacherAccountId);
-        IEnumerable<TeacherDTO> GetAll();
-        void Dispose(int id);
+        void CreateTeacher(Teacher TeacherDto);
+        Task<Teacher> Get(string username, string fullname);
+        Task<IEnumerable<Teacher>> GetAll();
+        void Update(Teacher teacher);
 
     }
 }

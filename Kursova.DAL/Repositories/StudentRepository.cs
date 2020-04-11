@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kursova.DAL.EF;
 using Kursova.DAL.Entities;
 using Kursova.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+
 namespace Kursova.DAL.Repositories
 {
 
@@ -20,24 +22,37 @@ namespace Kursova.DAL.Repositories
             this.db = context;
         }
 
-        public IEnumerable<Student> GetAll()
+        public async Task<IEnumerable<Student> >GetAll()
         {
-            return this.db.Students;
+          return  await this.db.Students.ToListAsync();
+            
         }
 
-        public Student Get(int id)
+        public async Task<Student> GetbyEmailandInitials(string email,string fullname)
         {
-            return this.db.Students.Find(id);
+            return await this.db.Students.FirstOrDefaultAsync(u => u.Email == email && u.FullName == fullname);
+        }
+        public async Task<Student> GetbyEmailAsync(string email)
+        {
+            return await this.db.Students.FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<Student> GetbyID(int id)
+        {
+            return await this.db.Students.FirstOrDefaultAsync(u => u.Id == id);
+
         }
 
         public void Create(Student user)
         {
-            this.db.Students.Add(user);
+            this.db.Students.Update(user);
+            this.db.SaveChangesAsync();
         }
 
-        public IEnumerable<Student> Find(Func<Student, bool> predicate)
-        {
-            return this.db.Students.Where(predicate).ToList();
+       public void Update(Student user)
+        { 
+            this.db.Students.Update(user);
+            this.db.SaveChangesAsync();
         }
 
         public void Delete(int id)

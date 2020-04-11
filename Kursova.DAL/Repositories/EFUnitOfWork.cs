@@ -17,21 +17,18 @@ namespace Kursova.DAL.Repositories
         private KursovaDbContext db;
         private StudentRepository studentRepository;
         private TeacherRepository teacherRepository;
-        private AdminRepository adminRepository;
+      //  private AdminRepository adminRepository;
 
         private bool disposed = false;
 
-        public EFUnitOfWork(DbContextOptions<KursovaDbContext> connectionString)
-        {
-            this.db = new KursovaDbContext(connectionString);
-        }
+        
 
         public EFUnitOfWork(KursovaDbContext db)
         {
             this.db = db;
             this.studentRepository = new StudentRepository(db);
             this.teacherRepository = new TeacherRepository(db);
-            this.adminRepository = new AdminRepository(db);
+           // this.adminRepository = new AdminRepository(db);
             
         }
 
@@ -61,41 +58,24 @@ namespace Kursova.DAL.Repositories
             }
         }
 
-        public IRepository<Admin> Admins
-        {
-            get
-            {
-                if (this.adminRepository == null)
-                {
-                    this.adminRepository = new AdminRepository(this.db);
-                }
+        //public IRepository<Admin> Admins
+        //{
+        //    get
+        //    {
+        //        if (this.adminRepository == null)
+        //        {
+        //            this.adminRepository = new AdminRepository(this.db);
+        //        }
 
-                return this.adminRepository;
-            }
+        //        return this.adminRepository;
+        //    }
+        //}
+
+        public async void Save()
+        {
+            await db.SaveChangesAsync();
         }
 
-        public void Save()
-        {
-            this.db.SaveChanges();
-        }
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    this.db.Dispose();
-                }
-
-                this.disposed = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        
     }
 }

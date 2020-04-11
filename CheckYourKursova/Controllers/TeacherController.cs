@@ -8,16 +8,28 @@ using Kursova.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Kursova.DAL.EF;
+using Kursova.BLL.Interfaces;
+using Microsoft.Extensions.Logging;
+
 
 namespace AuthApp.Controllers
 {
     public class TeacherController : Controller
     {
-        private KursovaDbContext db;
-        public TeacherController(KursovaDbContext context)
+        private readonly ITeacherService teacherService;
+        private readonly ILogger<TeacherController> _logger;
+
+        public TeacherController(ITeacherService _teacherservice, ILogger<TeacherController> logger)
         {
-            db = context;
+            teacherService = _teacherservice;
+            _logger = logger;
         }
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpGet]
         public IActionResult LoginTeacher()
         {
@@ -29,12 +41,15 @@ namespace AuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Teacher user = await db.Teachers.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
+                var result = teacherService.Get(model.Email, model.Password);
+
+                if (result != null)
                 {
                     await Authenticate(model.Email);
+                    
+                        _logger.LogInformation($"Teacher Loginned successfully ");
 
-                    return RedirectToAction("Teacher_home", "Teacher");
+                        return RedirectToAction("Teacher_home", "Teacher");
                 }
                 ModelState.AddModelError("", "Некорректний логін і(або) пароль");
             }
@@ -60,13 +75,13 @@ namespace AuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Teacher teacher = await db.Teachers.FirstOrDefaultAsync(u => u.Email == model.Email);
-                if (teacher == null)
+                var result = teacherService.Get(model.Email, model.Password);
+                if (result == null)
                 {
-                    db.Teachers.Add(
-                    new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
-                    await db.SaveChangesAsync();
-                    await Authenticate(model.Email);
+                  //  teacherService.CreateTeacher(
+                //    new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
+                //    await Authenticate(model.Email);
+                    _logger.LogInformation($"Teacher Loginned successfully ");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -79,7 +94,9 @@ namespace AuthApp.Controllers
 
         public async Task<IActionResult> Teacher_home()
         {
-            return View(await db.Teachers.ToListAsync());
+            _logger.LogInformation($"Teacher Info page ");
+
+            return View(await teacherService.GetAll());
         }
         [HttpGet]
         public IActionResult ChangeTeacherPassword()
@@ -93,16 +110,17 @@ namespace AuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                Teacher user = await db.Teachers.FirstOrDefaultAsync(u => u.Email == model.Email && u.Initials == model.Initials);
-                user.Password = model.Password;
-                db.Teachers.Update(user);
+                Teacher user = await teacherService.Get(model.Email, model.Initials);
+                if (user != null)
+                {
+                    user.Password = model.Password;
+                    teacherService.Update(user);
+                    await Authenticate(model.Email);
+                    _logger.LogInformation($"Teacher password changed ");
 
-                await db.SaveChangesAsync();
+                    return RedirectToAction("Index", "Home");
 
-                await Authenticate(model.Email);
-
-                return RedirectToAction("Index", "Home");
-             
+                }
             }
             return View(model);
         }
@@ -115,16 +133,16 @@ namespace AuthApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTask(CreateTaskModel model)
         {
-            if (ModelState.IsValid)
-            {
-                    db.TaskItems.Add(
-                    new TaskItem {Title = model.Title, Description = model.Description, Grade = model.Grade,
-                        StartDate = model.StartDate, DeadLine = model.DeadLine, EstimatedTime = model.EstimatedTime, IsDone = model.IsDone });
-                    await db.SaveChangesAsync();
+            //if (ModelState.IsValid)
+            //{
+            //        db.TaskItems.Add(
+            //        new TaskItem {Title = model.Title, Description = model.Description, Grade = model.Grade,
+            //            StartDate = model.StartDate, DeadLine = model.DeadLine, EstimatedTime = model.EstimatedTime, IsDone = model.IsDone });
+            //        await db.SaveChangesAsync();
 
-                    return RedirectToAction("Account");
+            //        return RedirectToAction("Account");
              
-            }
+            //}
             return View(model);
         }
 

@@ -10,98 +10,54 @@ using Kursova.BLL.Interfaces;
 using Kursova.DAL.Entities;
 using Kursova.DAL.Interfaces;
 using System.ComponentModel.DataAnnotations;
+
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
+
 namespace Kursova.BLL.Services
 {
 
-
     public class TeacherService : ITeacherService
     {
-        public TeacherService(IUnitOfWork uow)
+        public TeacherService(IUnitOfWork uow , ILogger<StudentService> logger)
         {
             this.Database = uow;
+            this._logger = logger;
         }
+        private readonly ILogger<StudentService> _logger;
 
         public IUnitOfWork Database { get; set; }
-
-
-        public void CreateTeacher(TeacherDTO TeacherDto)
+        public void CreateTeacher(Teacher TeacherDto)
         {
-            Teacher Teacher = new Teacher
-            {
-                Id = TeacherDto.Id,
-                Initials = TeacherDto.Initials,
-                Grade = TeacherDto.Grade,
-                Kafedra = TeacherDto.Kafedra,
-                Email = TeacherDto.Email,
-                Password = TeacherDto.Password,
-
-            };
-            try
-            {
-                this.Database.Teachers.GetAll().Where(e => e.Email == Teacher.Email).First();
-                throw new ArgumentNullException();
-            }
-            catch (System.InvalidOperationException)
-            {
-                this.Database.Teachers.Create(Teacher);
-                this.Database.Save();
-            }
+          this.Database.Teachers.Create(TeacherDto);
         }
-
-
-        public string GetInitials(int TeacherAccountId)
-        {
-            var result = this.GetAll()
-                .Where(x => x.Id == TeacherAccountId)
-                .Select(x => x.Initials)
-                .FirstOrDefault();
-
-            return result;
-        }
-
-        public TeacherDTO Get(int TeacherAccountId)
-        {
-            var result = this.GetAll()
-                .FirstOrDefault(x => x.Id == TeacherAccountId);
-
-            return result;
-        }
-
-
-        public TeacherDTO GetById(int? id)
-        {
-            if (id == null)
-            {
-                throw new ValidationException("ID not set.");
-            }
-
-            var Teacher = this.Database.Teachers.Get(id.Value);
-            if (Teacher == null)
-            {
-                throw new ValidationException("Teacher with this ID was not found");
-            }
-
-            return new TeacherDTO
-            {
-                Id = Teacher.Id,
-                Initials = Teacher.Initials,
-                Grade = Teacher.Grade,
-                Kafedra = Teacher.Kafedra,
-                Email = Teacher.Email,
-                Password = Teacher.Password
-            };
-        }
-
-        public IEnumerable<TeacherDTO> GetAll()
-        {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Teacher, TeacherDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Teacher>, List<TeacherDTO>>(this.Database.Teachers.GetAll());
-        }
-
+        public async Task<Teacher> Get(string username, string fullname)
         
+          { _logger.LogInformation($"Getting teacher by {username} and {fullname}");
+
+        return await this.Database.Teachers.GetbyEmailandInitials(username, fullname);}
+
+        public void Update(Teacher user) {
+            
+                _logger.LogInformation($"Update teacher password  for {user.Initials}");
+                Database.Teachers.Update(user); }
+
+
+        public async Task<IEnumerable<Teacher>> GetAll()
+        {
+            _logger.LogInformation($"Getting all teachers");
+
+
+            return await Database.Teachers.GetAll();
+        }
+
+
+
         public void Dispose(int id)
         {
-            var Teacher = this.Database.Teachers.Get(id);
+            var Teacher = this.Database.Teachers.GetbyID(id);
             if (Teacher != null)
             {
                 this.Database.Teachers.Delete(id);
@@ -156,26 +112,6 @@ namespace Kursova.BLL.Services
 
 
 
-        public TeacherDTO GetByTeacherInitialsPassword(string Teachername, string password)
-        {
-            try
-            {
-                var Teacher = this.Database.Teachers.GetbyPass(Teachername, Encrypt(password));
-                return new TeacherDTO
-                {
-                    Id = Teacher.Id,
-                    Initials = Teacher.Initials,
-                    Grade = Teacher.Grade,
-                    Kafedra = Teacher.Kafedra,
-                    Email = Teacher.Email,
-                    Password = Teacher.Password
-                };
-            }
-            catch (System.NullReferenceException)
-            {
-                return null;
-            }
-        }
 
 
     }
