@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sCnxHGfAoCuTJocCJkWxqOnFUecAKYBie+eaJrMDsv5iuJShfeb1e1BV2CHTl9v8Ar9IHSKtMeqwF9ss67mZfg==",
+  "dgSpecHash": "OmkGZsvPY/7Uu8Hm7kukt5KwaYqDQLDMndOnNAbelF4Jv9JmOZh2sa+5Vq3uSMwZorrcW9vdJY+rKOeFiWfVUg==",
   "success": true,
   "projectFilePath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
   "expectedPackageFiles": [
@@ -22,7 +22,7 @@
     "C:\\Users\\1\\.nuget\\packages\\microsoft.data.sqlclient\\1.0.19269.1\\microsoft.data.sqlclient.1.0.19269.1.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.entityframeworkcore\\3.1.2\\microsoft.entityframeworkcore.3.1.2.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\3.1.2\\microsoft.entityframeworkcore.abstractions.3.1.2.nupkg.sha512",
-    "C:\\Users\\1\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\3.1.2\\microsoft.entityframeworkcore.analyzers.3.1.2.nupkg.sha512",
+    "C:\\Users\\1\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\3.1.3\\microsoft.entityframeworkcore.analyzers.3.1.3.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\3.1.1\\microsoft.entityframeworkcore.inmemory.3.1.1.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\3.1.2\\microsoft.entityframeworkcore.relational.3.1.2.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\3.1.2\\microsoft.entityframeworkcore.sqlserver.3.1.2.nupkg.sha512",

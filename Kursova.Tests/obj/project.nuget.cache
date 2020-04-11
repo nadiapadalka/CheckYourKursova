@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "j0Fu9UsAAIPHamS6Xt1CxPfH9MkYIkGlsP3RL8DdV6//GKfkLwMeN5o1Hyv65SpyoSJCb/A5LP944w69qn0N5g==",
-  "success": true,
+  "dgSpecHash": "l0+XvJ8TFHB+TxLlp5jqTflNNaiE9StadcUlexj9NHTl71jcGtVxPMG1Dcvx7oFTgxEjjF2Mg1yBe0SOsi185A==",
+  "success": false,
   "projectFilePath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.Tests\\Kursova.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\1\\.nuget\\packages\\automapper\\9.0.0\\automapper.9.0.0.nupkg.sha512",
@@ -190,5 +190,33 @@
     "C:\\Users\\1\\.nuget\\packages\\xunit.extensibility.execution\\2.4.1\\xunit.extensibility.execution.2.4.1.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.1\\xunit.runner.visualstudio.2.4.1.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Detected package downgrade: Microsoft.EntityFrameworkCore.Analyzers from 3.1.3 to 3.1.2. Reference the package directly from the project to select a different version. \r\n Kursova.Tests -> Kursova.DAL -> Microsoft.EntityFrameworkCore.Analyzers (>= 3.1.3) \r\n Kursova.Tests -> Microsoft.EntityFrameworkCore.Analyzers (>= 3.1.2)",
+      "libraryId": "Microsoft.EntityFrameworkCore.Analyzers",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Detected package downgrade: Microsoft.EntityFrameworkCore.Analyzers from 3.1.3 to 3.1.2. Reference the package directly from the project to select a different version. \r\n Kursova.Tests -> Kursova -> Microsoft.EntityFrameworkCore.Analyzers (>= 3.1.3) \r\n Kursova.Tests -> Microsoft.EntityFrameworkCore.Analyzers (>= 3.1.2)",
+      "libraryId": "Microsoft.EntityFrameworkCore.Analyzers",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Error",
+      "message": "Detected package downgrade: Microsoft.EntityFrameworkCore.Analyzers from 3.1.3 to 3.1.2. Reference the package directly from the project to select a different version. \r\n Kursova.Tests -> Kursova.BLL -> Microsoft.EntityFrameworkCore.Analyzers (>= 3.1.3) \r\n Kursova.Tests -> Microsoft.EntityFrameworkCore.Analyzers (>= 3.1.2)",
+      "libraryId": "Microsoft.EntityFrameworkCore.Analyzers",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
 }

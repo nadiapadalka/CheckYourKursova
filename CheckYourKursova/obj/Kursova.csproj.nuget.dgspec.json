@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {}
+    "C:\\Users\\1\\source\\repos\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {}
   },
   "projects": {
-    "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {
+    "C:\\Users\\1\\source\\repos\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
+        "projectUniqueName": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
         "projectName": "Kursova",
-        "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\CheckYourKursova\\obj\\",
+        "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\CheckYourKursova\\Kursova.csproj",
+        "packagesPath": "C:\\Users\\1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\CheckYourKursova\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -27,8 +27,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
-                "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj"
+              "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
+                "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj"
               }
             }
           }
@@ -52,7 +52,7 @@
             },
             "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
@@ -85,21 +85,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
+    "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
+        "projectUniqueName": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
         "projectName": "Kursova.BLL",
-        "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.BLL\\obj\\",
+        "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\Kursova.BLL.csproj",
+        "packagesPath": "C:\\Users\\1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.BLL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -112,8 +112,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
-                "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj"
+              "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
+                "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj"
               }
             }
           }
@@ -137,7 +137,7 @@
             },
             "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.3, )"
             }
           },
           "imports": [
@@ -155,21 +155,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
+    "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
         "projectName": "Kursova.DAL",
-        "projectPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "D:\\Documents\\Nazar\\University\\2020\\Software egineering\\Project repository\\CheckYourKursova\\Kursova.DAL\\obj\\",
+        "projectPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\Kursova.DAL.csproj",
+        "packagesPath": "C:\\Users\\1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -199,7 +199,7 @@
             },
             "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
-              "version": "[3.1.2, )"
+              "version": "[3.1.3, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -225,7 +225,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
         }
       }
     }
