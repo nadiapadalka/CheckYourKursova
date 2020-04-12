@@ -42,7 +42,11 @@ namespace Kursova.DAL.Repositories
             return await this.db.Students.FirstOrDefaultAsync(u => u.Id == id);
 
         }
+        public IEnumerable<Student> GetAllToList()
+        {
+            return this.db.Students.ToList();
 
+        }
         public void Create(Student user)
         {
             this.db.Students.Update(user);

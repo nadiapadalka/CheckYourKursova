@@ -1,173 +1,150 @@
-﻿//using System;
-//using Xunit;
-//using Kursova.DAL.EF;
-//using Kursova.DAL.Repositories;
-//using Kursova.BLL.DTO;
-//using System.Linq;
-//using Kursova.BLL.Services;
-//using Microsoft.EntityFrameworkCore;
-//using System.ComponentModel.DataAnnotations;
+﻿using System;
+using Xunit;
+using Kursova.DAL.EF;
+using Kursova.DAL.Entities;
 
-//namespace UnitTestProject1
-//{
+using Kursova.DAL.Repositories;
+using Kursova.BLL.DTO;
+using System.Linq;
+using Kursova.BLL.Services;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Logging;
 
-//    public class StudentServiceTest : IDisposable
-//    {
-//        KursovaDbContext databaseContext;
-//        DbContextOptions<KursovaDbContext> options = new DbContextOptionsBuilder<KursovaDbContext>()
-//                      .UseInMemoryDatabase(databaseName: "InMemoryArticleDatabase")
-//                      .Options;
-//        KursovaDbContext CreateDatabase()
-//        {
-//            databaseContext = new KursovaDbContext(options);
-//            return databaseContext;
-//        }
+namespace UnitTestProject1
+{
 
-//        StudentService CreateStudentService()
-//        {
-//            databaseContext = CreateDatabase();
-//            return new StudentService(new EFUnitOfWork(databaseContext));
-//        }
-//        StudentService CreateTestStudents()
-//        {
-//            StudentService StudentService = CreateStudentService();
+    public class StudentServiceTest : IDisposable
+    {
+        KursovaDbContext databaseContext;
+        DbContextOptions<KursovaDbContext> options = new DbContextOptionsBuilder<KursovaDbContext>()
+                      .UseInMemoryDatabase(databaseName: "InMemoryArticleDatabase")
+                      .Options;
+        KursovaDbContext CreateDatabase()
+        {
+            databaseContext = new KursovaDbContext(options);
+            return databaseContext;
+        }
 
-
-//            StudentService.CreateStudent(new StudentDTO
-//            {
-//                Id = 132,
-//                FullName = "Yaroslav Nolkuchak",
-//                Group = "Pmi31",
-//                Kafedra = "Programming",
-//                Email = "simonnolkuchak@com",
-//                Password = "1178"
-
-//            });
-//            StudentService.CreateStudent(new StudentDTO
-//            {
-//                Id = 122,
-//                FullName = "Nadiia Padalka",
-//                Group = "Pmi33",
-//                Kafedra = "Programming",
-//                Email = "nadiiapadalka@com",
-//                Password = "2124"
-
-//            });
-//            return StudentService;
-//        }
-
-//        public void Dispose()
-//        {
-//            databaseContext.Database.EnsureDeleted();
-//        }
-//        [Fact]
-//        public void TestCreateStudentMethod()
-//        {
-
-//            var StudentService = CreateTestStudents();
-
-//            int res = StudentService.GetAll().Count();
-
-//            Assert.Equal(2, res);
-
-//        }
-
-//        [Fact]
-//        public void TestDeleteStudentMethod()
-//        {
-//            var StudentService = CreateStudentService();
+        StudentService CreateStudentService()
+        {
+            databaseContext = CreateDatabase();
+            return new StudentService(new EFUnitOfWork(databaseContext));
+        }
+        StudentService CreateTestStudents()
+        {
+            StudentService StudentService = CreateStudentService();
 
 
-//            StudentService.CreateStudent(new StudentDTO
-//            {
-//                Id = 132,
-//                FullName = "Yaroslav Nolkuchak",
-//                Group = "Pmi31",
-//                Kafedra = "Programming",
-//                Email = "simonnolkuchak@com",
-//                Password = "1178"
+            StudentService.CreateStudent(new Student
+            {
+                Id = 132,
+                FullName = "Yaroslav Nolkuchak",
+                Group = "Pmi31",
+                Kafedra = "Programming",
+                Email = "simonnolkuchak@com",
+                Password = "1178"
 
-//            });
-//            StudentService.CreateStudent(new StudentDTO
-//            {
-//                Id = 122,
-//                FullName = "Nadiia Padalka",
-//                Group = "Pmi33",
-//                Kafedra = "Programming",
-//                Email = "nadiiapadalka@com",
-//                Password = "2124"
+            });
+            StudentService.CreateStudent(new Student
+            {
+                Id = 122,
+                FullName = "Nadiia Padalka",
+                Group = "Pmi33",
+                Kafedra = "Programming",
+                Email = "nadiiapadalka@com",
+                Password = "2124"
 
-//            });
-//            //var Student = StudentService.GetAll().FirstOrDefault();
-//            StudentService.Dispose(122);
-//            int res = StudentService.GetAll().Count();
+            });
+            return StudentService;
+        }
 
-//            Assert.Equal(1, res);
+        public void Dispose()
+        {
+            databaseContext.Database.EnsureDeleted();
+        }
+        [Fact]
+        public void TestCreateStudentMethod()
+        {
 
-//        }
-//        [Fact]
-//        public void TestGetByID()
-//        {
+            var StudentService = CreateTestStudents();
 
-//            var StudentService = CreateTestStudents();
-
-//            var Student = StudentService.GetAll().FirstOrDefault();
-
-//            Assert.NotNull(StudentService.GetById(Student.Id));
-
-//        }
-
-//        [Fact]
-//        public void TestGetByID_StudentIdEqualNull_Exeption()
-//        {
-
-//            var StudentService = CreateTestStudents();
-
-//            Exception ex = Assert.Throws<ValidationException>(() => StudentService.GetById(null));
-           
-//            Assert.Equal("ID not set.", ex.Message);
-
-//        }
-
-//        [Fact]
-//        public void TestGetByID_StudentEqualNull_Exeption()
-//        {
-//            var StudentService = CreateTestStudents();
-//            var Student = StudentService.GetAll().FirstOrDefault();
-//            StudentService.Dispose(132);
-//            StudentService.Dispose(122);
-
-//            Exception ex = Assert.Throws<ValidationException>(() => StudentService.GetById(Student.Id));
-
-//            Assert.Equal("Student with this ID was not found", ex.Message);
-
-//        }
-
-//        [Fact]
-//        public void TestGetStudent()
-//        {
+            var res = StudentService.GetAll();
 
 
-//            var StudentService = CreateTestStudents();
+            Assert.NotNull(res);
 
-//            var Student = StudentService.GetAll().FirstOrDefault();
-//            Assert.Equal(132, StudentService.Get(Student.Id).Id);
+        }
+        //public void TestUpdateStudentMethod()
+        //{
+
+        //    var StudentService = CreateTestStudents();
+        //    Student student = new Student
+        //    {
+        //        Id = 122,
+        //        FullName = "Nadiia Padalka",
+        //        Group = "Pmi33",
+        //        Kafedra = "Programming",
+        //        Email = "nadiiapadalka@com",
+        //        Password = "2124"
+
+        //    };
+        //    StudentService.CreateStudent(student);
+        //    StudentService.Update
+
+        //    Assert.NotNull(StudentService.GetAll());
+
+        //}
+
+        [Fact]
+        public void TestDeleteStudentMethod()
+        {
+            var StudentService = CreateStudentService();
+
+
+            StudentService.CreateStudent(new Student
+            {
+                Id = 132,
+                FullName = "Yaroslav Nolkuchak",
+                Group = "Pmi31",
+                Kafedra = "Programming",
+                Email = "simonnolkuchak@com",
+                Password = "1178"
+
+            });
+            StudentService.CreateStudent(new Student
+            {
+                Id = 122,
+                FullName = "Mariia Padalka",
+                Group = "Pmi33",
+                Kafedra = "Programming",
+                Email = "mariiapadalka@com",
+                Password = "2124"
+
+            });
+            //var Student = StudentService.GetAll().FirstOrDefault();
+            StudentService.Dispose(122);
+            var res = StudentService.GetbyEmail("nadiapadalka@com");
+
+            Assert.True(res.IsCompleted);
+
+        }
+
+        [Fact]
+        public void TestGetStudentMethod()
+        {
+            var StudentService = CreateStudentService();
+
+
+         
+            var res = StudentService.Get("nadiapadalka@com", "Nadiia Padalka");
+
+            Assert.True(res.IsCompleted);
+
+        }
 
 
 
-//        }
-//        [Fact]
-//        public void TestGetStudentName()
-//        {
 
-
-//            var StudentService = CreateTestStudents();
-
-//            var Student = StudentService.GetAll().FirstOrDefault();
-//            Assert.Equal(Student.FullName, StudentService.GetFirstName(Student.Id));
-
-
-
-//        }
-//    }
-//}
+    }
+}

@@ -18,9 +18,11 @@ namespace AuthApp.Controllers
     {
         private readonly ITeacherService teacherService;
         private readonly ILogger<TeacherController> _logger;
+        private readonly KursovaDbContext db;
 
-        public TeacherController(ITeacherService _teacherservice, ILogger<TeacherController> logger)
+        public TeacherController(KursovaDbContext _db, ITeacherService _teacherservice, ILogger<TeacherController> logger)
         {
+            db = _db;
             teacherService = _teacherservice;
             _logger = logger;
         }
@@ -75,14 +77,13 @@ namespace AuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = teacherService.Get(model.Email, model.Password);
+                var result = await teacherService.Get(model.Email, model.Initials);
                 if (result == null)
                 {
-                  //  teacherService.CreateTeacher(
-                //    new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
-                //    await Authenticate(model.Email);
+                     db.Add(
+                   new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
+                    await Authenticate(model.Email);
                     _logger.LogInformation($"Teacher Loginned successfully ");
-
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -133,16 +134,24 @@ namespace AuthApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTask(CreateTaskModel model)
         {
-            //if (ModelState.IsValid)
-            //{
-            //        db.TaskItems.Add(
-            //        new TaskItem {Title = model.Title, Description = model.Description, Grade = model.Grade,
-            //            StartDate = model.StartDate, DeadLine = model.DeadLine, EstimatedTime = model.EstimatedTime, IsDone = model.IsDone });
-            //        await db.SaveChangesAsync();
+            if (ModelState.IsValid)
+            {
+                db.TaskItems.Add(
+                new TaskItem
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    Grade = model.Grade,
+                    StartDate = model.StartDate,
+                    DeadLine = model.DeadLine,
+                    EstimatedTime = model.EstimatedTime,
+                    IsDone = model.IsDone
+                });
+                await db.SaveChangesAsync();
 
-            //        return RedirectToAction("Account");
-             
-            //}
+                return RedirectToAction("Account");
+
+            }
             return View(model);
         }
 

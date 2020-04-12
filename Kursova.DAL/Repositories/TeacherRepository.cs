@@ -26,6 +26,11 @@ namespace Kursova.DAL.Repositories
             return await this.db.Teachers.ToListAsync();
 
         }
+        public  IEnumerable<Teacher> GetAllToList()
+        {
+            return  this.db.Teachers.ToList();
+
+        }
         public void Update(Teacher user)
         {
             this.db.Teachers.Update(user);

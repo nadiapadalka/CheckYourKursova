@@ -54,7 +54,13 @@ namespace Kursova.BLL.Services
         }
 
 
+        public  IEnumerable<Teacher> AllToList()
+        {
+            _logger.LogInformation($"Getting all teachers to list");
 
+
+            return  Database.Teachers.GetAllToList();
+        }
         public void Dispose(int id)
         {
             var Teacher = this.Database.Teachers.GetbyID(id);

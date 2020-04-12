@@ -30,17 +30,21 @@ namespace Kursova.BLL.Services
             this.Database = uow;
             this._logger = logger;
         }
+        public StudentService(IUnitOfWork uow)
+        {
 
+            this.Database = uow;
+        }
         public IUnitOfWork Database { get; set; }
         
-        public void CreateStudent(Student StudentDto)
+        public void CreateStudent(Student user)
         {
             
-                this.Database.Students.Create(StudentDto);
+          this.Database.Students.Create(user);
+              
         }
         public async Task<Student> Get(string username, string fullname)
         {
-            _logger.LogInformation($"Getting student by {username} and {fullname}");
 
            var result =  await this.Database.Students.GetbyEmailandInitials(username, fullname);
             if(result != null)
@@ -58,16 +62,17 @@ namespace Kursova.BLL.Services
         {
             var appLicationUser = await Database.Students.GetbyEmailAsync(email);
 
-            if (appLicationUser != null)
-            {
-                _logger.LogInformation("Got student by email.");
-                return _mapper.Map<Student>(appLicationUser);
-            }
-            else
-            {
-                _logger.LogWarning($"User with email {email} couldn`t be found.");
-                return null;
-            }
+            //if (appLicationUser != null)
+            //{
+            //    _logger.LogInformation("Got student by email.");
+            //    return _mapper.Map<Student>(appLicationUser);
+            //}
+            //else
+            //{
+            //    _logger.LogWarning($"User with email {email} couldn`t be found.");
+            //    return null;
+            //}
+            return appLicationUser;
         }
 
 
@@ -88,53 +93,16 @@ namespace Kursova.BLL.Services
             Database.Students.Update(user);
         }
 
-        
-       
-
-        public static string strKey = "U2A9/R*41FD412+4-123";
-
-        public static string Encrypt(string strData)
+        public void Dispose(int id)
         {
-            string strValue = " ";
-            if (!string.IsNullOrEmpty(strKey))
+            var Student = this.Database.Students.GetbyID(id);
+            if (Student != null)
             {
-                if (strKey.Length < 16)
-                {
-                    char c = "XXXXXXXXXXXXXXXX"[16];
-                    strKey = strKey + strKey.Substring(0, 16 - strKey.Length);
-                }
-
-                if (strKey.Length > 16)
-                {
-                    strKey = strKey.Substring(0, 16);
-                }
-
-                // create encryption keys
-                byte[] byteKey = Encoding.UTF8.GetBytes(strKey.Substring(0, 8));
-                byte[] byteVector = Encoding.UTF8.GetBytes(strKey.Substring(strKey.Length - 8, 8));
-
-                // convert data to byte array
-                byte[] byteData = Encoding.UTF8.GetBytes(strData);
-
-                // encrypt 
-                DESCryptoServiceProvider objDES = new DESCryptoServiceProvider();
-                MemoryStream objMemoryStream = new MemoryStream();
-                CryptoStream objCryptoStream = new CryptoStream(objMemoryStream, objDES.CreateEncryptor(byteKey, byteVector), CryptoStreamMode.Write);
-                objCryptoStream.Write(byteData, 0, byteData.Length);
-                objCryptoStream.FlushFinalBlock();
-
-                // convert to string and Base64 encode
-                strValue = Convert.ToBase64String(objMemoryStream.ToArray());
+                this.Database.Teachers.Delete(id);
+              //  this.Database.Save();
             }
-            else
-            {
-                strValue = strData;
-            }
-
-            return strValue;
         }
 
-     
 
        
 

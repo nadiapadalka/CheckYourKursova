@@ -11,6 +11,7 @@ namespace Kursova.DAL.Interfaces
         Task<IEnumerable<T>> GetAll();
         Task<T> GetbyEmailandInitials(string email,string initials);
         Task<T> GetbyEmailAsync(string email);
+        public IEnumerable<T> GetAllToList();
 
         void Create(T item);
         Task<T> GetbyID(int id);

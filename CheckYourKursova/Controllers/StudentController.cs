@@ -20,8 +20,10 @@ namespace Kursova.Controllers
     {
         private readonly ILogger<StudentController> _logger;
         private readonly IStudentService _studentService;
-        public StudentController(IStudentService studentService, ILogger<StudentController> logger)
+        private readonly KursovaDbContext db;
+        public StudentController(KursovaDbContext _db, IStudentService studentService, ILogger<StudentController> logger)
         {
+            db = _db;
             _studentService = studentService;
             _logger = logger;
         }
@@ -72,19 +74,21 @@ namespace Kursova.Controllers
             if (ModelState.IsValid)
 
             {
-                Student user = await _studentService.GetbyEmail(model.Email);
+                var user = await _studentService.GetbyEmail(model.Email);
                 if (user == null)
                 {
 
                     // _studentService.CreateStudent(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
-
-                    // await Authenticate(model.Email);
+                    db.Add(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
+                     await Authenticate(model.Email);
                     _logger.LogInformation("Student registered successfully ");
 
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                    ModelState.AddModelError("", "Некоректний логін і(чи) пароль");
+                   // ModelState.AddModelError("", "Некоректний логін і(чи) пароль");
+                { _logger.LogInformation("Student exists!  "); }
+
             }
             return View(model);
         }

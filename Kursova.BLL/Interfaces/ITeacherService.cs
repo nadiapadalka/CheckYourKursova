@@ -11,6 +11,8 @@ namespace Kursova.BLL.Interfaces
         Task<Teacher> Get(string username, string fullname);
         Task<IEnumerable<Teacher>> GetAll();
         void Update(Teacher teacher);
+        IEnumerable<Teacher> AllToList();
+
 
     }
 }

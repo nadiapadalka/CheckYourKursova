@@ -59,7 +59,7 @@ namespace Kursova
             services.AddMvc();
             services.AddTransient<IUnitOfWork, EFUnitOfWork>();
             services.AddTransient<IStudentService,StudentService>();
-        //    services.AddScoped<IAdminService, AdminService>();
+         //   services.AddTransient<IAdminService, AdminService>();
 
             services.AddTransient<ITeacherService, TeacherService>();
 
