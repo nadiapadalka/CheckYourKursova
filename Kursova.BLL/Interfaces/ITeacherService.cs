@@ -1,18 +1,23 @@
-﻿using System.Collections.Generic;
-using Kursova.BLL.DTO;
-using Kursova.DAL.Entities;
-using System.Threading.Tasks;
+﻿// <copyright file="ITeacherService.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace Kursova.BLL.Interfaces
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Kursova.DAL.Entities;
 
     public interface ITeacherService
     {
-        void CreateTeacher(Teacher TeacherDto);
+        void CreateTeacher(Teacher teacherDto);
+
         Task<Teacher> Get(string username, string fullname);
+
         Task<IEnumerable<Teacher>> GetAll();
+
         void Update(Teacher teacher);
+
         IEnumerable<Teacher> AllToList();
-
-
     }
 }

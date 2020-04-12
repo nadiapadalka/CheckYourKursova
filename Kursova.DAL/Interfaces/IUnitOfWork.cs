@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kursova.DAL.Entities;
+﻿// <copyright file="IUnitOfWork.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Kursova.DAL.Interfaces
 {
-    
-    public interface IUnitOfWork 
+    using Kursova.DAL.Entities;
+
+    public interface IUnitOfWork
     {
         IRepository<Student> Students { get; }
 
@@ -16,13 +14,13 @@ namespace Kursova.DAL.Interfaces
 
        // IRepository<Admin> Admins { get; }
 
-        //IRepository<TaskItem> TaskItems { get; }
+        // IRepository<TaskItem> TaskItems { get; }
 
-        //IRepository<TaskChanges> TaskChanges { get; }
+        // IRepository<TaskChanges> TaskChanges { get; }
 
-        //IRepository<Documentation> Documentations { get; }
+        // IRepository<Documentation> Documentations { get; }
 
-        //IRepository<Comment> Comments { get; }
+        // IRepository<Comment> Comments { get; }
         void Save();
     }
 }

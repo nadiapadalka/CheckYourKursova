@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿// <copyright file="LoginModel.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Kursova.ViewModels
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class LoginModel
     {
         [Required(ErrorMessage = "Не вказаний Email")]

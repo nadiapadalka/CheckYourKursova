@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kursova.DAL.EF;
-using Kursova.DAL.Entities;
-using Kursova.DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
+﻿// <copyright file="StudentRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Kursova.DAL.Repositories
 {
-
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Kursova.DAL.EF;
+    using Kursova.DAL.Entities;
+    using Kursova.DAL.Interfaces;
+    using Microsoft.EntityFrameworkCore;
 
     public class StudentRepository : IRepository<Student>
     {
@@ -22,16 +21,16 @@ namespace Kursova.DAL.Repositories
             this.db = context;
         }
 
-        public async Task<IEnumerable<Student> >GetAll()
+        public async Task<IEnumerable<Student>> GetAll()
         {
-          return  await this.db.Students.ToListAsync();
-            
+          return await this.db.Students.ToListAsync();
         }
 
-        public async Task<Student> GetbyEmailandInitials(string email,string fullname)
+        public async Task<Student> GetbyEmailandInitials(string email, string fullname)
         {
             return await this.db.Students.FirstOrDefaultAsync(u => u.Email == email && u.FullName == fullname);
         }
+
         public async Task<Student> GetbyEmailAsync(string email)
         {
             return await this.db.Students.FirstOrDefaultAsync(u => u.Email == email);
@@ -40,21 +39,21 @@ namespace Kursova.DAL.Repositories
         public async Task<Student> GetbyID(int id)
         {
             return await this.db.Students.FirstOrDefaultAsync(u => u.Id == id);
-
         }
+
         public IEnumerable<Student> GetAllToList()
         {
             return this.db.Students.ToList();
-
         }
+
         public void Create(Student user)
         {
             this.db.Students.Update(user);
             this.db.SaveChangesAsync();
         }
 
-       public void Update(Student user)
-        { 
+        public void Update(Student user)
+        {
             this.db.Students.Update(user);
             this.db.SaveChangesAsync();
         }
@@ -64,8 +63,7 @@ namespace Kursova.DAL.Repositories
             Student user = this.db.Students.Find(id);
             if (user != null)
             {
-                //this.db.Students.Remove(user);
-                db.Set<Student>().Remove(user);
+                this.db.Set<Student>().Remove(user);
             }
         }
 

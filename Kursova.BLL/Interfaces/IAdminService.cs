@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Kursova.BLL.DTO;
+﻿// <copyright file="IAdminService.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Kursova.BLL.Interfaces
 {
     public interface IAdminService
     {
-        //void CreateAdmin(AdminDTO adminDTO);
-        //AdminDTO GetById(int? id);
-        //AdminDTO Get(int adminId);
-        //AdminDTO GetByAdminNameAndPassword(string name, string password);
-        //string GetName(int adminId);
-
-        //IEnumerable<AdminDTO> GetAll();
-
-        //void Dispose(int id);
     }
 }

@@ -1,111 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using AutoMapper;
-using Kursova.BLL.DTO;
-using Kursova.BLL.Interfaces;
-using Kursova.DAL.Entities;
-using Kursova.DAL.Interfaces;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using Microsoft.Extensions.Logging;
+﻿// <copyright file="StudentService.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Kursova.BLL.Services
 {
-
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using AutoMapper;
+    using Kursova.BLL.Interfaces;
+    using Kursova.DAL.Entities;
+    using Kursova.DAL.Interfaces;
+    using Microsoft.Extensions.Logging;
 
     public class StudentService : IStudentService
     {
-        private readonly ILogger<StudentService> _logger;
-        private readonly IMapper _mapper;
+        private readonly ILogger<StudentService> logger;
+        private readonly IMapper mapper;
 
         public StudentService(IUnitOfWork uow, ILogger<StudentService> logger)
         {
-
             this.Database = uow;
-            this._logger = logger;
+            this.logger = logger;
         }
+
         public StudentService(IUnitOfWork uow)
         {
-
             this.Database = uow;
         }
+
         public IUnitOfWork Database { get; set; }
-        
+
         public void CreateStudent(Student user)
         {
-            
           this.Database.Students.Create(user);
-              
         }
+
         public async Task<Student> Get(string username, string fullname)
         {
-
-           var result =  await this.Database.Students.GetbyEmailandInitials(username, fullname);
-            if(result != null)
+           var result = await this.Database.Students.GetbyEmailandInitials(username, fullname);
+           if (result != null)
             {
-                _logger.LogInformation($"Getting student by {username} and {fullname}");
+                this.logger.LogInformation($"Getting student by {username} and {fullname}");
             }
             else
             {
-                _logger.LogInformation($"Couldn't find a student by {username} and {fullname}");
+                this.logger.LogInformation($"Couldn't find a student by {username} and {fullname}");
             }
-            return result;
+
+           return result;
         }
 
         public async Task<Student> GetbyEmail(string email)
         {
-            var appLicationUser = await Database.Students.GetbyEmailAsync(email);
-
-            //if (appLicationUser != null)
-            //{
-            //    _logger.LogInformation("Got student by email.");
-            //    return _mapper.Map<Student>(appLicationUser);
-            //}
-            //else
-            //{
-            //    _logger.LogWarning($"User with email {email} couldn`t be found.");
-            //    return null;
-            //}
+            var appLicationUser = await this.Database.Students.GetbyEmailAsync(email);
             return appLicationUser;
         }
 
-
-
         public async Task<IEnumerable<Student>> GetAll()
-
-
         {
-            _logger.LogInformation($"Getting all students.");
+            this.logger.LogInformation($"Getting all students.");
 
-           return  await this.Database.Students.GetAll();
+            return await this.Database.Students.GetAll();
         }
 
         public void Update(Student user)
         {
-            _logger.LogInformation($"Updating student data. Changing password to {user.Password}");
+            this.logger.LogInformation($"Updating student data. Changing password to {user.Password}");
 
-            Database.Students.Update(user);
+            this.Database.Students.Update(user);
         }
 
         public void Dispose(int id)
         {
-            var Student = this.Database.Students.GetbyID(id);
-            if (Student != null)
+            var student = this.Database.Students.GetbyID(id);
+            if (student != null)
             {
                 this.Database.Teachers.Delete(id);
-              //  this.Database.Save();
             }
         }
-
-
-       
-
-        
     }
 }
