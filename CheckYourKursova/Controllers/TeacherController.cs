@@ -170,5 +170,10 @@ namespace AuthApp.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
+        public IActionResult Teacher_notification()
+        {
+            return View();
+        }
     }
+
 }
