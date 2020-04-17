@@ -1,0 +1,1 @@
+javascript json xml zip pdf sql graphql msword ms-excel ms-powerpoint vnd.openxmlformats-officedocument.wordprocessingml.document vnd.openxmlformats-officedocument.spreadsheetml.sheet vnd.openxmlformats-officedocument.presentationml.presentation
