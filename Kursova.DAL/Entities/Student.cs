@@ -1,21 +1,35 @@
-﻿namespace Kursova.DAL.Entities
+﻿// <copyright file="Student.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Kursova.DAL.Entities
 {
     public class Student
     {
-        public Student() { }
-        public Student(int _Id, string _FullName, string _Group, string _Kafedra, string _Email, string _Password) {
-            Id = _Id;
-            FullName = _FullName;
-            Group = _Group;
-            Kafedra = _Kafedra;
-            Email = _Email;
-            Password = _Password;
+        public Student()
+        {
         }
+
+        public Student(int id, string fullName, string group, string kafedra, string email, string password)
+        {
+            this.Id = id;
+            this.FullName = fullName;
+            this.Group = group;
+            this.Kafedra = kafedra;
+            this.Email = email;
+            this.Password = password;
+        }
+
         public int Id { get; set; }
+
         public string FullName { get; set; }
+
         public string Group { get; set; }
+
         public string Kafedra { get; set; }
+
         public string Email { get; set; }
+
         public string Password { get; set; }
     }
 }

@@ -1,142 +1,157 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Kursova.DAL.Entities;
-using Kursova.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Kursova.DAL.EF;
-using Kursova.BLL.Interfaces;
-using Microsoft.Extensions.Logging;
-
+﻿// <copyright file="TeacherController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace AuthApp.Controllers
 {
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Kursova.BLL.Interfaces;
+    using Kursova.DAL.EF;
+    using Kursova.DAL.Entities;
+    using Kursova.ViewModels;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
+
     public class TeacherController : Controller
     {
         private readonly ITeacherService teacherService;
-        private readonly ILogger<TeacherController> _logger;
+        private readonly ILogger<TeacherController> stlogger;
         private readonly KursovaDbContext db;
 
-        public TeacherController(KursovaDbContext _db, ITeacherService _teacherservice, ILogger<TeacherController> logger)
+        public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger)
         {
-            db = _db;
-            teacherService = _teacherservice;
-            _logger = logger;
+            this.db = kursovadb;
+            this.teacherService = iteacherservice;
+            this.stlogger = logger;
         }
+
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return this.View();
         }
 
         [HttpGet]
         public IActionResult LoginTeacher()
         {
-            return View();
+            return this.View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginTeacher(LoginModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var result = teacherService.Get(model.Email, model.Password);
+                var result = this.teacherService.Get(model.Email, model.Password);
 
                 if (result != null)
                 {
-                    await Authenticate(model.Email);
-                    
-                        _logger.LogInformation($"Teacher Loginned successfully ");
+                    await this.Authenticate(model.Email);
 
-                        return RedirectToAction("Teacher_home", "Teacher");
+                    this.stlogger.LogInformation($"Teacher Loginned successfully ");
+
+                    return this.RedirectToAction("Teacher_home", "Teacher");
                 }
-                ModelState.AddModelError("", "Некорректний логін і(або) пароль");
+
+                this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");
             }
-            return View(model);
+
+            return this.View(model);
         }
 
-        
         [HttpGet]
 
         public async Task<IActionResult> Teacher_Kursova()
         {
-            return View(await teacherService.GetAll());
+            return this.View(await this.teacherService.GetAll());
         }
 
         [HttpGet]
         public IActionResult RegisterTeacher()
         {
-            return View();
+            return this.View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterTeacher(RegisterTeacherModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                var result = await teacherService.Get(model.Email, model.Initials);
+                var result = await this.teacherService.Get(model.Email, model.Initials);
                 if (result == null)
                 {
-                     db.Add(
+                   this.db.Add(
                    new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
-                    await Authenticate(model.Email);
-                    _logger.LogInformation($"Teacher Loginned successfully ");
-                    return RedirectToAction("Index", "Home");
+                   await this.Authenticate(model.Email);
+                   this.stlogger.LogInformation($"Teacher Loginned successfully ");
+                   this.db.SaveChanges();
+                   return this.RedirectToAction("Index", "Home");
                 }
                 else
-                    ModelState.AddModelError("", "Некоректний логін і(чи) пароль");
+                {
+                    this.ModelState.AddModelError(string.Empty, "Некоректний логін і(чи) пароль");
+                }
             }
-            return View(model);
+
+            return this.View(model);
         }
+
         [HttpGet]
 
         public async Task<IActionResult> Teacher_home()
         {
-            _logger.LogInformation($"Teacher Info page ");
+            this.stlogger.LogInformation($"Teacher Info page ");
 
-            return View(await teacherService.GetAll());
+            return this.View(await this.teacherService.GetAll());
         }
+
         [HttpGet]
         public IActionResult ChangeTeacherPassword()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangeTeacherPassword(ChangeTeacherPasswordModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                Teacher user = await teacherService.Get(model.Email, model.Initials);
+                Teacher user = await this.teacherService.Get(model.Email, model.Initials);
                 if (user != null)
                 {
                     user.Password = model.Password;
-                    teacherService.Update(user);
-                    await Authenticate(model.Email);
-                    _logger.LogInformation($"Teacher password changed ");
+                    this.teacherService.Update(user);
+                    await this.Authenticate(model.Email);
+                    this.stlogger.LogInformation($"Teacher password changed ");
 
-                    return RedirectToAction("Index", "Home");
-
+                    return this.RedirectToAction("Index", "Home");
                 }
             }
-            return View(model);
+
+            return this.View(model);
         }
+
         [HttpGet]
         public IActionResult CreateTask()
         {
-            return View();
+            return this.View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTask(CreateTaskModel model)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                db.TaskItems.Add(
+                this.db.TaskItems.Add(
                 new TaskItem
                 {
                     Title = model.Title,
@@ -145,30 +160,30 @@ namespace AuthApp.Controllers
                     StartDate = model.StartDate,
                     DeadLine = model.DeadLine,
                     EstimatedTime = model.EstimatedTime,
-                    IsDone = model.IsDone
+                    IsDone = model.IsDone,
                 });
-                await db.SaveChangesAsync();
+                await this.db.SaveChangesAsync();
 
-                return RedirectToAction("Account");
-
+                return this.RedirectToAction("Account");
             }
-            return View(model);
+
+            return this.View(model);
         }
 
         private async Task Authenticate(string userName)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return this.RedirectToAction("Login", "Account");
         }
         public IActionResult Teacher_notification()
         {

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "H8SzW3siLorXk8VMwMeln29yR1O2CF5p2nh89M2gih8fC+BeRrnEn3q5Vbo6+f2TORnVDxcGlAgBxEvOjt8l/w==",
+  "dgSpecHash": "Bygbtuq8AYnbHy1APTyWBkCCdfZndUxCu+fFvpWzIxWDPo6wGNhQZnS8wBCVuvBfX49hpd42izCPlvbc3gOXLA==",
   "success": true,
   "projectFilePath": "C:\\Users\\1\\source\\repos\\CheckYourKursova\\Kursova.Tests\\Kursova.Tests.csproj",
   "expectedPackageFiles": [
@@ -81,6 +81,7 @@
     "C:\\Users\\1\\.nuget\\packages\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
+    "C:\\Users\\1\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.buffers\\4.3.0\\system.buffers.4.3.0.nupkg.sha512",
     "C:\\Users\\1\\.nuget\\packages\\system.codedom\\4.7.0\\system.codedom.4.7.0.nupkg.sha512",

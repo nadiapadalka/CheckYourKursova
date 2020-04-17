@@ -1,18 +1,8 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Text;
-//using System.Linq;
-//using Kursova.BLL.DTO;
-//using Kursova.BLL.Interfaces;
-//using Kursova.DAL.Interfaces;
-//using Kursova.DAL.Entities;
-//using AutoMapper;
-//using System.Security.Cryptography;
-//using System.IO;
-//using System.ComponentModel.DataAnnotations;
-
-//namespace Kursova.BLL.Services
-//{
+﻿// <copyright file="AdminService.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+// namespace Kursova.BLL.Services
+// {
 //    class AdminService : IAdminService
 //    {
 //        private IUnitOfWork Database { get; set; }
@@ -40,7 +30,7 @@
 //            }
 //        }
 
-//        public void Dispose(int id)
+// public void Dispose(int id)
 //        {
 //            var admin = this.Database.Admins.Get(id);
 //            if (admin != null)
@@ -50,19 +40,19 @@
 //            }
 //        }
 
-//        public AdminDTO Get(int adminId)
+// public AdminDTO Get(int adminId)
 //        {
 //            var admin = this.GetAll().FirstOrDefault(x => x.Id == adminId);
 //            return admin;
 //        }
 
-//        public IEnumerable<AdminDTO> GetAll()
+// public IEnumerable<AdminDTO> GetAll()
 //        {
 //            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Admin, AdminDTO>()).CreateMapper();
 //            return mapper.Map<IEnumerable<Admin>, List<AdminDTO>>(this.Database.Admins.GetAll());
 //        }
 
-//        public AdminDTO GetByAdminNameAndPassword(string name, string password)
+// public AdminDTO GetByAdminNameAndPassword(string name, string password)
 //        {
 //            Admin admin = this.Database.Admins.GetbyPass(name, Encrypt(password));
 //            if (admin != null)
@@ -72,14 +62,14 @@
 //            return null;
 //        }
 
-//        public AdminDTO GetById(int? id)
+// public AdminDTO GetById(int? id)
 //        {
 //            if (id == null)
 //            {
 //                throw new ValidationException("ID not set.");
 //            }
 
-//            Admin admin = this.Database.Admins.Get(id.Value);
+// Admin admin = this.Database.Admins.Get(id.Value);
 //            if (admin == null)
 //            {
 //                throw new ValidationException("Admin with this ID was not found");
@@ -87,9 +77,9 @@
 //            return new AdminDTO(admin.Id, admin.Name, admin.Password);
 //        }
 
-//        public string GetName(int adminId)
+// public string GetName(int adminId)
 //        {
 //            throw new NotImplementedException();
 //        }
 
-//        
+//
