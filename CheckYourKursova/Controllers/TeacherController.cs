@@ -5,6 +5,7 @@
 namespace AuthApp.Controllers
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Kursova.BLL.Interfaces;
@@ -13,6 +14,8 @@ namespace AuthApp.Controllers
     using Kursova.ViewModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -22,12 +25,15 @@ namespace AuthApp.Controllers
         private readonly ITeacherService teacherService;
         private readonly ILogger<TeacherController> stlogger;
         private readonly KursovaDbContext db;
+        private readonly IWebHostEnvironment _appEnvironment;
+        private CourseProjects projects = new CourseProjects();
 
-        public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger)
+        public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger, IWebHostEnvironment buidler)
         {
             this.db = kursovadb;
             this.teacherService = iteacherservice;
             this.stlogger = logger;
+            this._appEnvironment = buidler;
         }
 
         [HttpGet]
@@ -69,7 +75,8 @@ namespace AuthApp.Controllers
 
         public async Task<IActionResult> Teacher_Kursova()
         {
-            return this.View(await this.teacherService.GetAll());
+            //return this.View(await this.teacherService.GetAll());
+            return this.View(this.projects);
         }
 
         [HttpGet]
@@ -87,12 +94,12 @@ namespace AuthApp.Controllers
                 var result = await this.teacherService.Get(model.Email, model.Initials);
                 if (result == null)
                 {
-                   this.db.Add(
-                   new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
-                   await this.Authenticate(model.Email);
-                   this.stlogger.LogInformation($"Teacher Loginned successfully ");
-                   this.db.SaveChanges();
-                   return this.RedirectToAction("Index", "Home");
+                    this.db.Add(
+                    new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
+                    await this.Authenticate(model.Email);
+                    this.stlogger.LogInformation($"Teacher Loginned successfully ");
+                    this.db.SaveChanges();
+                    return this.RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -189,6 +196,97 @@ namespace AuthApp.Controllers
         {
             return View();
         }
-    }
 
+        [HttpGet]
+        public FileResult GetFile(string filename)
+        {
+            string path = Path.Combine(this._appEnvironment.ContentRootPath, "wwwroot/files/" + filename);
+            byte[] mas = System.IO.File.ReadAllBytes(path);
+            string fileType = this.GetFileType(filename);
+            return this.File(mas, fileType, filename);
+        }
+
+        private string GetFileType(string filename)
+        {
+            var type = filename.Split(".")[1];
+
+            using (StreamReader stream = new StreamReader("..\\CheckYourKursova\\wwwroot\\files\\application.txt"))
+            {
+                var types = stream.ReadToEnd().Split(" ");
+                foreach (var item in types)
+                {
+                    if (item == "vnd.openxmlformats-officedocument.wordprocessingml.document" && type == "docx")
+                    {
+                        return "application/" + item;
+                    }
+                    else if (item == "vnd.openxmlformats-officedocument.spreadsheetml.sheet" && type == "xlsx")
+                    {
+                        return "application/" + item;
+                    }
+                    else if (item == "vnd.openxmlformats-officedocument.presentationml.presentation" && type == "pptx")
+                    {
+                        return "application/" + item;
+                    }
+
+                    if (item == type)
+                    {
+                        return "application/" + item;
+                    }
+                }
+            }
+
+            using (StreamReader stream = new StreamReader("..\\CheckYourKursova\\wwwroot\\files\\text.txt"))
+            {
+                var types = stream.ReadToEnd().Split(" ");
+                foreach (var item in types)
+                {
+                    if (item == type)
+                    {
+                        return "text/" + item;
+                    }
+                }
+            }
+
+            using (StreamReader stream = new StreamReader("..\\CheckYourKursova\\wwwroot\\files\\image.txt"))
+            {
+                var types = stream.ReadToEnd().Split(" ");
+                foreach (var item in types)
+                {
+                    if (item == type)
+                    {
+                        return "image/" + item;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        [HttpPost]
+        public IActionResult UploadFile(IFormFile file)
+        {
+            string filename = string.Empty;
+            foreach (var item in file.FileName.Split("\\"))
+            {
+                filename = item;
+            }
+
+            using (FileStream stream = new FileStream("..\\CheckYourKursova\\wwwroot\\files\\uploadedfiles\\" + filename, FileMode.Create, FileAccess.Write))
+            {
+                file.CopyTo(stream);
+                this.projects.AllProjects[0].TeacherMaterials.Add(filename);
+            }
+
+            return this.RedirectToAction("Teacher_Kursova");
+        }
+
+        //[HttpGet]
+        //[Route("/Teacher/ChooseStudent/{studentName}")]
+        //public IActionResult ChooseStudent(string studentName)
+        //{
+        //    this.projects.CurrentProject = this.projects.AllProjects.Where(x => x.StudentName == studentName).FirstOrDefault();
+        //        return this.RedirectToAction("Teacher_Kursova");
+        //}
+    }
 }
+
