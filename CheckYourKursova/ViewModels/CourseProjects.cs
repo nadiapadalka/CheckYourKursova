@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// <copyright file="CourseProjects.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace Kursova.ViewModels
 {
+    using System.Collections.Generic;
+
     public class CourseProjects
     {
-        public List<ProjectInfo> AllProjects { get; set; } = new List<ProjectInfo>();
-
-        public ProjectInfo CurrentProject { get; set; } = new ProjectInfo();
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CourseProjects"/> class.
+        /// </summary>
         public CourseProjects()
         {
             this.AllProjects.Add(
@@ -24,9 +24,12 @@ namespace Kursova.ViewModels
                         "testFileToCheckDownloading.xml",
                         "TestFileToCheckDownloading.docx",
                 },
-            }
-            );
+            });
             this.CurrentProject = this.AllProjects[0];
         }
+
+        public List<ProjectInfo> AllProjects { get; set; } = new List<ProjectInfo>();
+
+        public ProjectInfo CurrentProject { get; set; } = new ProjectInfo();
     }
 }
