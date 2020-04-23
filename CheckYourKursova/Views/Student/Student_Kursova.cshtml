@@ -1,5 +1,5 @@
-﻿@model IEnumerable<Kursova.DAL.Entities.Student>
-
+﻿@*@model IEnumerable<Kursova.DAL.Entities.Student>*@
+@model Kursova.ViewModels.CourseStudentProjects
 <head>
 
     <meta charset="utf-8">
@@ -37,13 +37,13 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="student_home.html">Моя сторінка</a>
+                        <a class="nav-link js-scroll-trigger" href="Student_home.html">Моя сторінка</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="student_kursova.html">Моя курсова</a>
+                        <a class="nav-link js-scroll-trigger" href="Student_Kursova.html">Моя курсова</a>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="btn btn-primary" href="student_notification.html">
+                        <button type="button" class="btn btn-primary" href="Student_notification.html">
                             Сповіщення &nbsp;
                             <span class="badge badge-light">5</span>
                             <span class="sr-only">непрочитані сповіщення</span>
@@ -65,6 +65,7 @@
                             <div class="row">
                                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                 <div class="form-group">
+
                                     <input type="thema" readonly class="form-control" id="ThemaKursova" placeholder="Тема курсової"><br><br>
 
                                     <span style="font-weight: bold;" class="text-dark">
@@ -74,17 +75,9 @@
 
                                     <br><br>
 
-                                    <label for="inputDocument" class="sr-only">Документ</label>
-                                    <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
 
                                     <form class="form-inline">
-                                        <div class="input-group mb-3">
-                                            <label for="inputText" class="sr-only">Додати коментар</label>
-                                            <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-primary">+</button>
-                                            </div>
-                                        </div>
+
 
                                         <label for="inputDocument" class="sr-only">Документ</label>
                                         <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
@@ -96,55 +89,7 @@
                                             </div>
                                         </div>
 
-                                        <label for="inputDocument" class="sr-only">Документ</label>
-                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                        <div class="input-group mb-3">
-                                            <label for="inputText" class="sr-only">Додати коментар</label>
-                                            <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-primary">+</button>
-                                            </div>
-                                        </div>
 
-                                        <label for="inputDocument" class="sr-only">Документ</label>
-                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                        <div class="input-group mb-3">
-                                            <label for="inputText" class="sr-only">Додати коментар</label>
-                                            <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-primary">+</button>
-                                            </div>
-                                        </div>
-
-                                        <label for="inputDocument" class="sr-only">Документ</label>
-                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                        <div class="input-group mb-3">
-                                            <label for="inputText" class="sr-only">Додати коментар</label>
-                                            <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-primary">+</button>
-                                            </div>
-                                        </div>
-
-                                        <label for="inputDocument" class="sr-only">Документ</label>
-                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                        <div class="input-group mb-3">
-                                            <label for="inputText" class="sr-only">Додати коментар</label>
-                                            <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-primary">+</button>
-                                            </div>
-                                        </div>
-
-                                        <label for="inputDocument" class="sr-only">Документ</label>
-                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                        <div class="input-group mb-3">
-                                            <label for="inputText" class="sr-only">Додати коментар</label>
-                                            <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-primary">+</button>
-                                            </div>
-                                        </div>
                                     </form>
                                 </div>
                                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
@@ -161,89 +106,33 @@
                                             </div>
                                         </form>
 
-                                        <form class="form-inline">
-                                            <div class="input-group mb-3">
-                                                <label for="inputTask" class="sr-only">Завдання</label>
-                                                <input type="text" readonly class="form-control" id="staticTask" placeholder="Завдання">
-                                                <button type="checkbox" class="btn btn-primary">✓</button>
-                                            </div>
-                                        </form>
 
-                                        <form class="form-inline">
-                                            <div class="input-group mb-3">
-                                                <label for="inputTask" class="sr-only">Завдання</label>
-                                                <input type="text" readonly class="form-control" id="staticTask" placeholder="Завдання">
-                                                <button type="checkbox" class="btn btn-primary">✓</button>
-                                            </div>
-                                        </form>
-
-                                        <form class="form-inline">
-                                            <div class="input-group mb-3">
-                                                <label for="inputTask" class="sr-only">Завдання</label>
-                                                <input type="text" readonly class="form-control" id="staticTask" placeholder="Завдання">
-                                                <button type="checkbox" class="btn btn-primary">✓</button>
-                                            </div>
-                                        </form>
                                         <br><br>
 
                                         <span style="font-weight: bold;" class="text-dark">Список літератури</span>
 
                                         <br><br>
 
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
 
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
+                                        @{
+                                            foreach (var item in Model.CurrentProject.TeacherMaterials)
+                                            {
+                                                <div class="input-group mb-3">
+                                                    <label for="inputDocument" class="sr-only">Документ</label>
+                                                    <input type="text" readonly class="form-control" id="staticDocument" placeholder="@item">
+                                                    <div class="input-group-append">
+                                                        <form asp-action="GetFile" method="get">
+                                                            <input type="hidden" value="@item" name="filename" />
+                                                            <button type="submit" class="btn btn-outline-secondary">Download!</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
 
                                     </div>
                                 </div>
-                            </div>
-    </header>
+</header>
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
