@@ -41,6 +41,7 @@ namespace Kursova
             services.AddTransient<IUnitOfWork, EFUnitOfWork>();
             services.AddTransient<IStudentService, StudentService>();
             services.AddTransient<ITeacherService, TeacherService>();
+            services.AddTransient<IAdminService, AdminService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

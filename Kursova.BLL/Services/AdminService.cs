@@ -1,85 +1,122 @@
 ﻿// <copyright file="AdminService.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
-// namespace Kursova.BLL.Services
-// {
-//    class AdminService : IAdminService
-//    {
-//        private IUnitOfWork Database { get; set; }
-//        public AdminService(IUnitOfWork uow)
-//        {
-//            this.Database = uow;
-//        }
-//        public void CreateAdmin(AdminDTO adminDTO)
-//        {
-//            Admin admin = new Admin()
-//            {
-//                Id = adminDTO.Id,
-//                Name = adminDTO.Name,
-//                Password = adminDTO.Password
-//            };
-//            var check = this.Database.Admins.GetAll().Where(x => x.Id == admin.Id).First();
-//            if (check == null)
-//            {
-//                this.Database.Admins.Create(admin);
-//                this.Database.Save();
-//            }
-//            else
-//            {
-//                throw new Exception("The user allready exists");
-//            }
-//        }
 
-// public void Dispose(int id)
-//        {
-//            var admin = this.Database.Admins.Get(id);
-//            if (admin != null)
-//            {
-//                this.Database.Admins.Delete(id);
-//                this.Database.Save();
-//            }
-//        }
+namespace Kursova.BLL.Services
+{
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using System.Linq;
+    using AutoMapper;
+    using Kursova.BLL.Interfaces;
+    using Kursova.DAL.Entities;
+    using Kursova.DAL.Interfaces;
+    using Microsoft.Extensions.Logging;
 
-// public AdminDTO Get(int adminId)
-//        {
-//            var admin = this.GetAll().FirstOrDefault(x => x.Id == adminId);
-//            return admin;
-//        }
+    public class AdminService : IAdminService
+    {
+        private readonly ILogger<StudentService> logger;
+        private readonly IMapper mapper;
 
-// public IEnumerable<AdminDTO> GetAll()
-//        {
-//            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Admin, AdminDTO>()).CreateMapper();
-//            return mapper.Map<IEnumerable<Admin>, List<AdminDTO>>(this.Database.Admins.GetAll());
-//        }
+        public AdminService(IUnitOfWork uow, ILogger<StudentService> logger)
+        {
+            this.Database = uow;
+            this.logger = logger;
+        }
 
-// public AdminDTO GetByAdminNameAndPassword(string name, string password)
-//        {
-//            Admin admin = this.Database.Admins.GetbyPass(name, Encrypt(password));
-//            if (admin != null)
-//            {
-//                return new AdminDTO(admin.Id, admin.Name, admin.Password);
-//            }
-//            return null;
-//        }
+        public AdminService(IUnitOfWork uow)
+        {
+            this.Database = uow;
+        }
 
-// public AdminDTO GetById(int? id)
-//        {
-//            if (id == null)
-//            {
-//                throw new ValidationException("ID not set.");
-//            }
+        public IUnitOfWork Database { get; set; }
 
-// Admin admin = this.Database.Admins.Get(id.Value);
-//            if (admin == null)
-//            {
-//                throw new ValidationException("Admin with this ID was not found");
-//            }
-//            return new AdminDTO(admin.Id, admin.Name, admin.Password);
-//        }
+        public void Dispose(int id)
+        {
+            var student = this.Database.Students.GetbyID(id);
+            if (student != null)
+            {
+                this.Database.Teachers.Delete(id);
+            }
+        }
 
-// public string GetName(int adminId)
-//        {
-//            throw new NotImplementedException();
-//        }
+        // For Admin
+        public void CreateAdmin(Admin admin)
+        {
+            this.Database.Admins.Create(admin);
+        }
 
-//
+        public Task<Admin> GetAdmin(string username, string password)
+        {
+            var admin = this.Database.Admins.GetbyEmailandInitials(username, password);
+            if (admin != null)
+            {
+                this.logger.LogInformation($"Getting admin by {username} and {password}");
+            }
+            else
+            {
+                this.logger.LogInformation($"Couldn't find a admin by {username} and {password}");
+            }
+            return admin;
+        }
+
+        public Task<Admin> GetAdminByEmail(string username)
+        {
+            var admin = this.Database.Admins.GetbyEmailAsync(username);
+            if (admin != null)
+            {
+                this.logger.LogInformation($"Getting admin by {username}.");
+            }
+            else
+            {
+                this.logger.LogInformation($"Couldn't find an admin by {username}.");
+            }
+            return admin;
+        }
+
+        public Task<IEnumerable<Admin>> GetAllAdmins()
+        {
+            this.logger.LogInformation($"Getting all admins.");
+            return this.Database.Admins.GetAll();
+        }
+
+        public void UpdateAdmin(Admin admin)
+        {
+            this.logger.LogInformation($"Updating admin data. Changing password to {admin.Password}.");
+            this.Database.Admins.Update(admin);
+        }
+
+        // For Users
+        public Task<IEnumerable<Student>> GetAllStudents()
+        {
+            this.logger.LogInformation($"Getting all students.");
+            return this.Database.Students.GetAll();
+        }
+
+        public Task<IEnumerable<Teacher>> GetAllTeachers()
+        {
+            this.logger.LogInformation($"Getting all students.");
+            return this.Database.Teachers.GetAll();
+        }
+
+        public void DeleteStudentByEmail(string email)
+        {
+            var student = this.Database.Students.GetAllToList().Where(x => x.Email == email).FirstOrDefault();
+            if (student != null)
+            {
+                // SaveChanges();
+                this.Database.Students.Delete(student.Id);
+            }
+        }
+
+        public void DeleteTeacherByEmail(string email)
+        {
+            var teacher = this.Database.Teachers.GetAllToList().Where(x => x.Email == email).FirstOrDefault();
+            if (teacher != null)
+            {
+                // SaveChanges();
+                this.Database.Teachers.Delete(teacher.Id);
+            }
+        }
+    }
+}

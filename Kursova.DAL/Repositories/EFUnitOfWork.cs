@@ -13,8 +13,8 @@ namespace Kursova.DAL.Repositories
         private KursovaDbContext db;
         private StudentRepository studentRepository;
         private TeacherRepository teacherRepository;
+        private AdminRepository adminRepository;
 
-        // private AdminRepository adminRepository;
         private bool disposed = false;
 
         public EFUnitOfWork(KursovaDbContext db)
@@ -22,8 +22,7 @@ namespace Kursova.DAL.Repositories
             this.db = db;
             this.studentRepository = new StudentRepository(db);
             this.teacherRepository = new TeacherRepository(db);
-
-           // this.adminRepository = new AdminRepository(db);
+            this.adminRepository = new AdminRepository(db);
         }
 
         public IRepository<Student> Students
@@ -49,6 +48,19 @@ namespace Kursova.DAL.Repositories
                 }
 
                 return this.teacherRepository;
+            }
+        }
+
+        public IRepository<Admin> Admins
+        {
+            get
+            {
+                if (this.adminRepository == null)
+                {
+                    this.adminRepository = new AdminRepository(this.db);
+                }
+
+                return this.adminRepository;
             }
         }
 

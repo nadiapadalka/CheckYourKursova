@@ -1,9 +1,7 @@
 ﻿@model Kursova.ViewModels.UsersInfoModel
-<!--
-
-<form asp-action="ForgotPassword" asp-controller="Account" asp-anti-forgery="true">
-</form>
-    -->
+@{
+    Layout = null;
+}
 <header class="masthead">
     <div class="container">
         <div class="intro-text">
@@ -11,8 +9,12 @@
                 <div class="card-body">
                     <h2>Admin Page</h2>
 
-                    <a class="btn btn-outline-dark" asp-action="RegisterStudent" asp-controller="Admin">Додати студента</a>
+                    <a asp-action="Index" asp-controller="Admin">Користувачі</a>
+                    <a asp-action="Messages" asp-controller="Admin">Сповіщення</a>
+                    <br />
+
                     <a class="btn btn-outline-dark" asp-action="RegisterTeacher" asp-controller="Admin">Додати викладача</a>
+                    <a class="btn btn-outline-dark" asp-action="RegisterStudent" asp-controller="Admin">Додати студента</a>
 
                     <div class="text-center">
                         <br />
@@ -23,7 +25,7 @@
                                 <th>Вчене звання</th>
                                 <th>Кафедра</th>
                                 <th>Електронна пошта</th>
-                                <th></th>
+                                <th>Закріплений студент</th>
                                 <th></th>
                             </tr>
                             @{
@@ -35,14 +37,27 @@
                                         <td>@item.Kafedra</td>
                                         <td>@item.Email</td>
                                         <td>
+                                            @{
+                                                if (@Kursova.ViewModels.UsersInfoModel.StudentsOfTeacher.ContainsKey(item.Email))
+                                                {
+                                                    foreach (var student in @Kursova.ViewModels.UsersInfoModel.StudentsOfTeacher[item.Email])
+                                                    {
+                                                        <a>@student.FullName</a>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <a>Нема студентів</a>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
                                             <form asp-action="TeacherDocuments" method="get">
                                                 <input type="hidden" value="@item.Email" name="email" />
                                                 <button type="submit" class="btn btn-outline-dark">
                                                     Документи
                                                 </button>
                                             </form>
-                                        </td>
-                                        <td>
                                             <form asp-action="DeleteTeacher" method="post">
                                                 <input type="hidden" value="@item.Email" name="email" />
                                                 <button type="submit" class="btn btn-outline-dark">
@@ -58,11 +73,11 @@
                         <h2 style="color: black;">Всі студенти</h2>
                         <table style="width:100%">
                             <tr>
-                                <th>Прізвище та ім'я</th>
+                                <th>Прізвище та ініціали</th>
                                 <th>Група</th>
                                 <th>Кафедра</th>
                                 <th>Електронна пошта</th>
-                                <th></th>
+                                <th>Науковий керівник</th>
                                 <th></th>
                             </tr>
                             @{
@@ -74,14 +89,29 @@
                                         <td>@item.Kafedra</td>
                                         <td>@item.Email</td>
                                         <td>
+                                            @{
+                                                if (@Kursova.ViewModels.UsersInfoModel.TeacherOfStudent.ContainsKey(item.Email))
+                                                {
+                                                    <a>@Kursova.ViewModels.UsersInfoModel.TeacherOfStudent[item.Email].Initials</a>
+                                                }
+                                                else
+                                                {
+                                                    <form asp-action="ChooseTeacherForStudent" method="get">
+                                                        <input type="hidden" value="@item.Email" name="studentEmail" />
+                                                        <button type="submit" class="btn btn-outline-dark">
+                                                            +
+                                                        </button>
+                                                    </form>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
                                             <form asp-action="StudentDocuments" method="get">
                                                 <input type="hidden" value="@item.Email" name="email" />
                                                 <button type="submit" class="btn btn-outline-dark">
                                                     Документи
                                                 </button>
                                             </form>
-                                        </td>
-                                        <td>
                                             <form asp-action="DeleteStudent" method="post">
                                                 <input type="hidden" value="@item.Email" name="email" />
                                                 <button type="submit" class="btn btn-outline-dark">
