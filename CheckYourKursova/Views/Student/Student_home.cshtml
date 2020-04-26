@@ -98,19 +98,27 @@
                                     &emsp;&emsp;&emsp;
                                     <div class="form-group">
                                         <span style="font-weight: bold;" class="text-dark">Інформація про наукового керівника</span>
-
-                                        <label for="inputFullName" class="sr-only">Прізвище та ініціали</label>
-                                        <input type="text" readonly class="form-control" id="staticFullName" placeholder="Прізвище та ініціали">
-                                        <label for="inputE_mail" class="sr-only">Електронна пошта</label>
-                                        <input type="text" readonly class="form-control" id="staticE_mail" placeholder="Електронна пошта">
-                                    </div>
+                                        @foreach (var item in Model)
+                                        {@if (item.Email == User.Identity.Name)
+{
+                                                <label for="inputFullName" class="sr-only">Прізвище та ініціали</label>
+                                                <input type="text" readonly class="form-control" id="staticFullName" placeholder="@Html.DisplayFor(modelItem => item.TeacherInitials)">
+    }
+}
+                                                <label for="inputE_mail" class="sr-only">Електронна пошта</label>
+                                                <input type="text" readonly class="form-control" id="staticE_mail" placeholder="Електронна пошта">
+                                            </div>
                                     &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
                                     <div class="col-xs-12 col-md-7">
 
 
                                         <label for="inputThema" class="sr-only">Тема курсової</label>
-                                        <input type="text" readonly class="form-control" id="staticThema" placeholder="Тема курсової">
+                                        @foreach (var item in Model)
+                                        {@if (item.Email == User.Identity.Name)
+                                        {
+                                                <input type="text" readonly class="form-control" id="staticThema" placeholder="@Html.DisplayFor(modelItem => item.CourseWorkTitle)">
+                                         } }
                                     </div>
                                     <div class="col-xs-12 col-md-6">
                                         <br><br>
