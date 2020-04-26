@@ -41,7 +41,7 @@ namespace Kursova.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var result = await this.service.Get(model.Email, model.Password);
+                var result = this.service.Get(model.Email, model.Password);
                 if (result != null)
                 {
                     await this.Authenticate(model.Email);

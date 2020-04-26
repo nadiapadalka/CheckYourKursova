@@ -35,11 +35,11 @@
 
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="student_home.html">Моя сторінка</a>
+                    <li >
+                        <a href="@Url.Action("Student_Home","Student")" class="nav-link js-scroll-trigger "  >Моя сторінка</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="student_kursova.html">Моя курсова</a>
+                        <a class="nav-link js-scroll-trigger" href="@Url.Action("Student_Kursova","Student")">Моя курсова</a>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="btn btn-primary" href="student_notification.html">

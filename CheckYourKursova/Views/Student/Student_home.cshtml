@@ -32,14 +32,13 @@
             <div class="container">
                 <a class="navbar-brand" href="index.html">
                 </a>
-
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="teacher_home.html">Моя сторінка</a>
+                            <a class="nav-link js-scroll-trigger" href="@Url.Action("Student_Home","Student")">Моя сторінка</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link js-scroll-trigger" href="teacher_kurslist.html">Моя курсова</a>
+                            <a class="nav-link js-scroll-trigger" href = "@Url.Action("Student_Kursova", "Student")" >Моя курсова</a>
                         </li>
                         <li class="nav-item">
                             <button type="button" class="btn btn-primary" href="teacher_notification.html">
@@ -113,7 +112,19 @@
                                         <label for="inputThema" class="sr-only">Тема курсової</label>
                                         <input type="text" readonly class="form-control" id="staticThema" placeholder="Тема курсової">
                                     </div>
+                                    <div class="col-xs-12 col-md-6">
+                                        <br><br>
+                                        <span style="font-weight: bold; margin-right: 200px;" class="text-dark">Вибрати керівника</span>
+                                    </div>
 
+
+                                    <div class="input-group mb-4" style="margin-left: 10px; padding-right: 100px; ">
+                                        <label for="inputFullName" class="sr-only">Напишіть прізвище та ініціали</label>
+                                        <input type="text" class="form-control" id="staticFullName" placeholder="Напишіть прізвище та ініціали" style="margin-left: 10px;">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary" style="margin-right: 550px;">Надіслати</button>
+                                        </div>
+                                    </div>
                                 </div>
 
 
