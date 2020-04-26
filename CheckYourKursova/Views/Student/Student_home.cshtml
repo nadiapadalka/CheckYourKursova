@@ -127,12 +127,20 @@
 
 
                                     <div class="input-group mb-4" style="margin-left: 10px; padding-right: 100px; ">
-                                        <label for="inputFullName" class="sr-only">Напишіть прізвище та ініціали</label>
-                                        <input type="text" class="form-control" id="staticFullName" placeholder="Напишіть прізвище та ініціали" style="margin-left: 10px;">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-primary" style="margin-right: 550px;">Надіслати</button>
-                                        </div>
-                                    </div>
+                               <div class="dropdown open">
+                                <a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 10px;">Оберіть прізвище та ініціали</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                  <option class="dropdown-item" >1</option>
+                                  <option class="dropdown-item" >2</option>
+                                  <option class="dropdown-item" >3</option>
+                                </div>                                                   
+                                <label for="inputThema" class="sr-only">Прізвище та ініціали</label>
+                                <input type="text" readonly class="form-control" id="staticThema" placeholder="Прізвище та ініціали" style="margin-left: 10px;">                        
+                              </div>                              
+                              <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary" style="margin-right: 550px;">Надіслати</button>
+                              </div>
+                            </div>   
                                 </div>
 
 
