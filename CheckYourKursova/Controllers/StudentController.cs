@@ -12,6 +12,8 @@ using Kursova.DAL.EF;
 using Kursova.BLL.Services;
 using Kursova.BLL.Interfaces;
 using Microsoft.Extensions.Logging;
+using Kursova.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 
 namespace Kursova.Controllers
@@ -21,11 +23,14 @@ namespace Kursova.Controllers
         private readonly ILogger<StudentController> _logger;
         private readonly IStudentService _studentService;
         private readonly KursovaDbContext db;
-        public StudentController(KursovaDbContext _db, IStudentService studentService, ILogger<StudentController> logger)
+        private readonly IHubContext<NotifyHub> _hubContext;
+
+        public StudentController(KursovaDbContext _db, IStudentService studentService, ILogger<StudentController> logger, IHubContext<NotifyHub> hubContext)
         {
             db = _db;
             _studentService = studentService;
             _logger = logger;
+            _hubContext = hubContext;
         }
         [HttpGet]
         public IActionResult Login()
@@ -81,8 +86,9 @@ namespace Kursova.Controllers
                     // _studentService.CreateStudent(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
                     db.Add(new Student { Email = model.Email, Password = model.Password, FullName = model.FullName, Group = model.Group, Kafedra = model.Kafedra });
                      await Authenticate(model.Email);
+                    this.db.SaveChanges();
                     _logger.LogInformation("Student registered successfully ");
-
+                    await SendMessage(" Зареструвався новий студент.");
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -131,5 +137,16 @@ namespace Kursova.Controllers
             return View(model);
         }
        
+    }
+    [HttpGet]
+    public IActionResult Student_notification()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task SendMessage(string message)
+    {
+        await _hubContext.Clients.All.SendAsync("Send", message);
     }
 }

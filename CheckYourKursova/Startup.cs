@@ -33,6 +33,10 @@ using Kursova.BLL.Interfaces;
 using Kursova.DAL.Repositories;
 
 using Kursova.DAL.Interfaces;
+using Microsoft.Owin;
+
+using Owin;
+[assembly: OwinStartup(typeof(Kursova.Startup))]
 namespace Kursova
 {
     public class Startup
@@ -65,6 +69,7 @@ namespace Kursova
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddSignalR(options => options.EnableDetailedErrors = true);
             services.Configure<IISOptions>(options =>
             {
                 options.ForwardClientCertificate = false;
@@ -73,6 +78,7 @@ namespace Kursova
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
         }
 
+        [Obsolete]
         public void Configure(IApplicationBuilder app,IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -92,7 +98,11 @@ namespace Kursova
 
             app.UseAuthentication();    
             app.UseAuthorization();     
-
+            app.UseFileServer();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<Hubs.NotifyHub>("/notifications");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

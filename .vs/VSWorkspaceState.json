@@ -1,8 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\CheckYourKursova"
+    "\\CheckYourKursova",
+    "\\CheckYourKursova\\bin",
+    "\\CheckYourKursova\\bin\\Debug",
+    "\\CheckYourKursova\\bin\\Release",
+    "\\CheckYourKursova\\Views",
+    "\\CheckYourKursova\\Views\\Shared",
+    "\\CheckYourKursova\\Views\\Teacher"
   ],
-  "SelectedNode": "\\Kursova.sln",
+  "SelectedNode": "\\CheckYourKursova\\Views\\Teacher\\Teacher_notification.cshtml",
   "PreviewInSolutionExplorer": false
 }
