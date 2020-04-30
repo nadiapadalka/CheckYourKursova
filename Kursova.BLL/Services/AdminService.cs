@@ -30,7 +30,12 @@ namespace Kursova.BLL.Services
         }
 
         public IUnitOfWork Database { get; set; }
+        public void UpdateStudent(Student user)
+        {
+            this.logger.LogInformation($"Updating student data. Changing password to {user.Password}");
 
+            this.Database.Students.Update(user);
+        }
         public void Dispose(int id)
         {
             var student = this.Database.Students.GetbyID(id);
@@ -72,6 +77,20 @@ namespace Kursova.BLL.Services
                 this.logger.LogInformation($"Couldn't find an admin by {username}.");
             }
             return admin;
+        }
+
+        public Task<Student> GetStudentByEmail(string username)
+        {
+            var student = this.Database.Students.GetbyEmailAsync(username);
+            if (student != null)
+            {
+                this.logger.LogInformation($"Getting studet by {username}.");
+            }
+            else
+            {
+                this.logger.LogInformation($"Couldn't find an admin by {username}.");
+            }
+            return student;
         }
 
         public Task<IEnumerable<Admin>> GetAllAdmins()

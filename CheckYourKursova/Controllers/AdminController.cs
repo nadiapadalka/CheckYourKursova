@@ -9,6 +9,7 @@ namespace Kursova.Controllers
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using System.Web;
     using Kursova.BLL.Interfaces;
     using Kursova.DAL.EF;
     using Kursova.DAL.Entities;
@@ -17,20 +18,23 @@ namespace Kursova.Controllers
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
 
     public class AdminController : Controller
     {
         private KursovaDbContext db;
         private IAdminService service;
         private UsersInfoModel info = new UsersInfoModel();
+        private readonly ILogger<StudentController> log;
 
-        public AdminController(KursovaDbContext context, IAdminService service)
+        public AdminController(KursovaDbContext context, IAdminService service, ILogger<StudentController> log)
         {
             this.db = context;
             this.service = service;
-
-            info.Students = this.service.GetAllStudents().Result.ToList();
+            this.log = log;
+            info.Students = this.service.GetAllStudents().Result.ToList(); 
             info.Teachers = this.service.GetAllTeachers().Result.ToList();
         }
 
@@ -47,11 +51,9 @@ namespace Kursova.Controllers
             if (this.ModelState.IsValid)
             {
                 var result = await this.service.GetAdmin(model.Email, model.Password);
-                // var result = this.db.Admins.Where(admin => admin.Name == model.Email && admin.Password == model.Password).FirstOrDefault();
                 if (result != null)
                 {
                     await this.Authenticate(model.Email);
-                    // this.log.LogInformation($"Admin loginned successfully ");
 
                     return this.RedirectToAction("Index", "Admin");
                 }
@@ -65,14 +67,35 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            // info.Students = this.db.Students;
-            // info.Teachers = this.db.Teachers;
+            return this.View(info);
+        }
 
-            // info.Students = this.service.GetAllStudents().Result.ToList();
-            // info.Teachers = this.service.GetAllTeachers().Result.ToList();
+        [HttpGet]
+        public IActionResult Student_home()
+        {
+            return this.View(info);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStudent(string email, int name)
+        {
+           
+           // var teachersList = (from product in db.Teachers select product.Initials).ToList();
+           // var stud = this.db.Students.Where(x => x.Email == email).FirstOrDefault();
+            Student stud =  await this.service.GetStudentByEmail(email);
+            if (stud != null)
+            {
+                stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
+                this.service.UpdateStudent(stud);
+
+                log.LogInformation($"Initials { name }");
+
+                return this.RedirectToAction("Student_home","Admin");
+            }
 
             return this.View(info);
         }
+        
 
         [HttpGet]
         public IActionResult StudentDocuments(string email)
@@ -124,6 +147,7 @@ namespace Kursova.Controllers
             var teacher = this.db.Teachers.Where(x => x.Email == email).FirstOrDefault();
             if (teacher != null)
             {
+                
                 this.db.Set<Teacher>().Remove(teacher);
                 this.db.SaveChanges();
             }

@@ -21,12 +21,15 @@ namespace Kursova.Controllers
         private readonly ILogger<StudentController> log;
         private readonly IStudentService service;
         private readonly KursovaDbContext db;
+        private readonly ITeacherService teacherService;
+
 
         public StudentController(KursovaDbContext database, IStudentService studentService, ILogger<StudentController> logger)
         {
             this.db = database;
             this.service = studentService;
             this.log = logger;
+           // info.Teachers = this.service.GetAllTeachers().Result.ToList();
         }
 
         [HttpGet]
@@ -47,7 +50,7 @@ namespace Kursova.Controllers
                     await this.Authenticate(model.Email);
                     this.log.LogInformation($"Student loginned successfully ");
 
-                    return this.RedirectToAction("Student_home", "Student");
+                    return this.RedirectToAction("Student_home", "Admin");
                 }
 
                 this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");
@@ -99,15 +102,6 @@ namespace Kursova.Controllers
         }
 
         [HttpGet]
-
-        public async Task<IActionResult> Student_home()
-        {
-            this.log.LogInformation("Getting info about student");
-            return this.View(await this.service.GetAll());
-        }
-
-        [HttpGet]
-
         public IActionResult Student_Kursova()
         {
             return this.View();

@@ -4,14 +4,20 @@
 
 namespace Kursova.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using Kursova.DAL.Entities;
+    using System.ComponentModel.DataAnnotations;
+
 
     public class UsersInfoModel
     {
         public string AdminName { get; set; } = "Admin's name";
 
         public Student CurrentStudent { get; set; }
+        public string TeacherInitials { get; set; }
+
+        public string Email { get; set; }
 
         public IEnumerable<Student> Students { get; set; }
 
@@ -19,7 +25,6 @@ namespace Kursova.ViewModels
 
         public IEnumerable<Documentation> Documentations { get; set; }
 
-        // key - teacher Initials, value - list of students
         public static Dictionary<string, List<Student>> StudentsOfTeacher { get; set; } = new Dictionary<string, List<Student>>();
 
         // key - student FullName, value - teacher
