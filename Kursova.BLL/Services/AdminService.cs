@@ -5,8 +5,8 @@
 namespace Kursova.BLL.Services
 {
     using System.Collections.Generic;
-    using System.Threading.Tasks;
     using System.Linq;
+    using System.Threading.Tasks;
     using AutoMapper;
     using Kursova.BLL.Interfaces;
     using Kursova.DAL.Entities;
@@ -30,12 +30,14 @@ namespace Kursova.BLL.Services
         }
 
         public IUnitOfWork Database { get; set; }
+
         public void UpdateStudent(Student user)
         {
             this.logger.LogInformation($"Updating student data. Changing password to {user.Password}");
 
             this.Database.Students.Update(user);
         }
+
         public void Dispose(int id)
         {
             var student = this.Database.Students.GetbyID(id);
@@ -51,6 +53,12 @@ namespace Kursova.BLL.Services
             this.Database.Admins.Create(admin);
         }
 
+        public async Task<Admin> GetAdminByName(string name)
+        {
+            var appLicationUser = await this.Database.Admins.GetbyEmailAsync(name);
+            return appLicationUser;
+        }
+
         public Task<Admin> GetAdmin(string username, string password)
         {
             var admin = this.Database.Admins.GetbyEmailandInitials(username, password);
@@ -62,6 +70,7 @@ namespace Kursova.BLL.Services
             {
                 this.logger.LogInformation($"Couldn't find a admin by {username} and {password}");
             }
+
             return admin;
         }
 
@@ -76,6 +85,7 @@ namespace Kursova.BLL.Services
             {
                 this.logger.LogInformation($"Couldn't find an admin by {username}.");
             }
+
             return admin;
         }
 
@@ -90,13 +100,14 @@ namespace Kursova.BLL.Services
             {
                 this.logger.LogInformation($"Couldn't find an admin by {username}.");
             }
+
             return student;
         }
 
-        public Task<IEnumerable<Admin>> GetAllAdmins()
+        public async Task<IEnumerable<Admin>> GetAllAdmins()
         {
             this.logger.LogInformation($"Getting all admins.");
-            return this.Database.Admins.GetAll();
+            return await this.Database.Admins.GetAll();
         }
 
         public void UpdateAdmin(Admin admin)
