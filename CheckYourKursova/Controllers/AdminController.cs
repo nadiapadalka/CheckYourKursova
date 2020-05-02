@@ -4,6 +4,7 @@
 
 namespace Kursova.Controllers
 {
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -21,19 +22,32 @@ namespace Kursova.Controllers
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
-
+    using System.IO;
+    using SixLabors.ImageSharp;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Hosting;
+    using System.Net.Http.Headers;
+    public class Image
+    {
+        public int Id { get; set; }
+        public string ImageTitle { get; set; }
+        public byte[] ImageData { get; set; }
+    }
     public class AdminController : Controller
     {
         private KursovaDbContext db;
         private IAdminService service;
         private UsersInfoModel info = new UsersInfoModel();
         private readonly ILogger<StudentController> log;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public AdminController(KursovaDbContext context, IAdminService service, ILogger<StudentController> log)
+
+        public AdminController(KursovaDbContext context, IAdminService service, ILogger<StudentController> log, IWebHostEnvironment hostEnvironment)
         {
             this.db = context;
             this.service = service;
             this.log = log;
+            this.webHostEnvironment = hostEnvironment;
             info.Students = this.service.GetAllStudents().Result.ToList(); 
             info.Teachers = this.service.GetAllTeachers().Result.ToList();
         }
@@ -61,7 +75,7 @@ namespace Kursova.Controllers
                 this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");
             }
 
-            return this.View(model);
+            return this.View(info);
         }
 
         [HttpGet]
@@ -75,13 +89,88 @@ namespace Kursova.Controllers
         {
             return this.View(info);
         }
+        [HttpPost]
+        public async Task<IActionResult> Create(string email, IFormFile img)
+        {
+            Student stud = await this.service.GetStudentByEmail(email);
+
+            if (stud != null && img!= null)
+            {
+
+                info.UploadedImage = GetByteArrayFromImage(img);
+
+                string filename =  System.IO.Path.GetFileName(img.FileName);
+                //string path = Path.Combine("~/files/uploadedfiles/" + filename);
+                stud.ProfilePicture = filename;
+                ViewBag.url = filename;
+                log.LogInformation($"image not null{stud.ProfilePicture}");
+                service.UpdateStudent(stud);
+                using (FileStream stream = new FileStream("..\\CheckYourKursova\\wwwroot\\files\\uploadedfiles\\" + filename, FileMode.Create, FileAccess.Write))
+                {
+                    img.CopyTo(stream);
+                }
+
+                return this.RedirectToAction("Student_home", "Admin");
+            }
+            // stud.ProfilePicture = info.ImageUrl;
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateTeachersImage(string email, IFormFile img)
+        {
+            Teacher teacher = await this.service.GetTeacherByEmail(email);
+
+            if (teacher != null && img != null)
+            {
+
+                info.UploadedImage = GetByteArrayFromImage(img);
+
+                string filename = System.IO.Path.GetFileName(img.FileName);
+                teacher.ProfilePicture = filename;
+                ViewBag.url = filename;
+                log.LogInformation($"image not null{teacher.ProfilePicture}");
+                service.UpdateTeacher(teacher);
+                using (FileStream stream = new FileStream("..\\CheckYourKursova\\wwwroot\\files\\uploadedfiles\\" + filename, FileMode.Create, FileAccess.Write))
+                {
+                    img.CopyTo(stream);
+                }
+
+                return this.RedirectToAction("Teacher_home", "Admin");
+            }
+            return RedirectToAction("Index");
+        }
+        private byte[] GetByteArrayFromImage(IFormFile file)
+        {
+            using (var target = new MemoryStream())
+            {
+                file.CopyTo(target);
+                return target.ToArray();
+            }
+        }
+        
+        [HttpPost]
+        public ActionResult RetrieveImage()
+        {
+        
+            string imageBase64Data =
+        Convert.ToBase64String(info.UploadedImage);
+            string imageDataURL =
+        string.Format("data:image/jpg;base64,{0}",
+        imageBase64Data);
+            
+            ViewBag.ImageTitle = info.ImageUrl;
+            ViewBag.ImageDataUrl = imageDataURL;
+            return View("Index");
+        }
+        [HttpGet]
+        public IActionResult Teacher_home()
+        {
+            return this.View(info);
+        }
 
         [HttpPost]
         public async Task<IActionResult> UpdateStudent(string email, int name)
         {
-           
-           // var teachersList = (from product in db.Teachers select product.Initials).ToList();
-           // var stud = this.db.Students.Where(x => x.Email == email).FirstOrDefault();
             Student stud =  await this.service.GetStudentByEmail(email);
             if (stud != null)
             {
@@ -95,7 +184,15 @@ namespace Kursova.Controllers
 
             return this.View(info);
         }
-        
+        //[HttpPost]
+        //public IActionResult Upload(IFormFile file)
+        //{
+        //    using var image = Image.Load(file.OpenReadStream());
+        //   // image.Bounds(x => x.Resize(256, 256));
+        //    image.Mutate(x => x.Resize(256, 256));
+        //    image.Save("...");
+        //    return Ok();
+        //}
 
         [HttpGet]
         public IActionResult StudentDocuments(string email)

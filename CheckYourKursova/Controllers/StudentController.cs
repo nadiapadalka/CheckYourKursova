@@ -29,7 +29,6 @@ namespace Kursova.Controllers
             this.db = database;
             this.service = studentService;
             this.log = logger;
-           // info.Teachers = this.service.GetAllTeachers().Result.ToList();
         }
 
         [HttpGet]

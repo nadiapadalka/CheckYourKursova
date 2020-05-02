@@ -16,9 +16,11 @@ namespace Kursova.BLL.Interfaces
 
         Task<Admin> GetAdminByEmail(string username);
         Task<Student> GetStudentByEmail(string username);
+        Task<Teacher> GetTeacherByEmail(string username);
 
         Task<IEnumerable<Admin>> GetAllAdmins();
         void UpdateStudent(Student student);
+        void UpdateTeacher(Teacher student);
 
         void UpdateAdmin(Admin admin);
 
