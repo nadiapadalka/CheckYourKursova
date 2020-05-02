@@ -36,11 +36,7 @@ namespace AuthApp.Controllers
             this._appEnvironment = buidler;
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return this.View();
-        }
+        
 
         [HttpGet]
         public IActionResult LoginTeacher()
@@ -62,7 +58,7 @@ namespace AuthApp.Controllers
 
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
 
-                    return this.RedirectToAction("Teacher_home", "Teacher");
+                    return this.RedirectToAction("Teacher_home", "Admin");
                 }
 
                 this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");

@@ -9,6 +9,7 @@ namespace Kursova.ViewModels
     using Kursova.DAL.Entities;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Http;
 
     public class UsersInfoModel
     {
@@ -29,6 +30,9 @@ namespace Kursova.ViewModels
 
         // key - student FullName, value - teacher
         public static Dictionary<string, Teacher> TeacherOfStudent { get; set; } = new Dictionary<string, Teacher>();
-
+       // [Required(ErrorMessage = "Please choose profile image")]
+        [Display(Name = "Profile Picture")]
+        public byte[] UploadedImage { get; set; }
+        public string ImageUrl { get; set; }
     }
 }
