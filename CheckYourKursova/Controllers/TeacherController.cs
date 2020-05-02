@@ -1,26 +1,27 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Kursova.BLL.Interfaces;
-using Kursova.DAL.EF;
-using Kursova.DAL.Entities;
-using Kursova.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Kursova.Models;
-using Kursova.Hubs;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
+﻿// <copyright file="TeacherController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace AuthApp.Controllers
 {
-    
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Kursova.BLL.Interfaces;
+    using Kursova.DAL.EF;
+    using Kursova.DAL.Entities;
+    using Kursova.Hubs;
+    using Kursova.Models;
+    using Kursova.ViewModels;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
     public class TeacherController : Controller
     {
         private readonly ITeacherService teacherService;
@@ -28,7 +29,7 @@ namespace AuthApp.Controllers
         private readonly KursovaDbContext db;
         private readonly IWebHostEnvironment _appEnvironment;
         private CourseProjects projects = new CourseProjects();
-	private readonly IHubContext<NotifyHub> _hubContext;
+        private readonly IHubContext<NotifyHub> _hubContext;
 
         public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger, IWebHostEnvironment buidler, IHubContext<NotifyHub> hubContext)
         {
@@ -36,7 +37,7 @@ namespace AuthApp.Controllers
             this.teacherService = iteacherservice;
             this.stlogger = logger;
             this._appEnvironment = buidler;
-	    _hubContext = hubContext;
+            _hubContext = hubContext;
         }
 
         
@@ -98,7 +99,7 @@ namespace AuthApp.Controllers
                     await this.Authenticate(model.Email);
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
                     this.db.SaveChanges();
-		    await TSendMessage(" Зареструвався новий викладач.");
+                    await TSendMessage(" Зареструвався новий викладач.");
                     return this.RedirectToAction("Index", "Home");
                 }
                 else
@@ -192,9 +193,10 @@ namespace AuthApp.Controllers
             await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return this.RedirectToAction("Login", "Account");
         }
+
         public IActionResult Teacher_notification()
         {
-            return View();
+            return this.View();
         }
 
         [HttpGet]
@@ -280,23 +282,10 @@ namespace AuthApp.Controllers
             return this.RedirectToAction("Teacher_Kursova");
         }
 
-        //[HttpGet]
-        //[Route("/Teacher/ChooseStudent/{studentName}")]
-        //public IActionResult ChooseStudent(string studentName)
-        //{
-        //    this.projects.CurrentProject = this.projects.AllProjects.Where(x => x.StudentName == studentName).FirstOrDefault();
-        //        return this.RedirectToAction("Teacher_Kursova");
-        //}
-	[HttpGet]
-        public IActionResult Teacher_notification()
-        {
-            return View();
-        }
-
-	[HttpPost]
+        [HttpPost]
         public async Task TSendMessage(string message)
         {
-            await _hubContext.Clients.All.SendAsync("TSend", message);
+            await this._hubContext.Clients.All.SendAsync("TSend", message);
         }
     }
 }

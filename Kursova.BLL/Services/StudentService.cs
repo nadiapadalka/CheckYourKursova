@@ -15,15 +15,17 @@ namespace Kursova.BLL.Services
     public class StudentService : IStudentService
     {
         private readonly ILogger<StudentService> logger;
-        private readonly IMapper mapper;
-
+      
         public StudentService(IUnitOfWork uow, ILogger<StudentService> logger)
+#pragma warning restore SA1614 // Element parameter documentation should have text
         {
             this.Database = uow;
             this.logger = logger;
         }
 
+#pragma warning disable SA1600 // Elements should be documented
         public StudentService(IUnitOfWork uow)
+#pragma warning restore SA1600 // Elements should be documented
         {
             this.Database = uow;
         }

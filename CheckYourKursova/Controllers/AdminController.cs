@@ -4,35 +4,24 @@
 
 namespace Kursova.Controllers
 {
-
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using System.Web;
     using Kursova.BLL.Interfaces;
     using Kursova.DAL.EF;
     using Kursova.DAL.Entities;
-    using Kursova.DAL.Repositories;
     using Kursova.ViewModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
-    using System.IO;
-    using SixLabors.ImageSharp;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Hosting;
-    using System.Net.Http.Headers;
-    public class Image
-    {
-        public int Id { get; set; }
-        public string ImageTitle { get; set; }
-        public byte[] ImageData { get; set; }
-    }
+
     public class AdminController : Controller
     {
         private KursovaDbContext db;
@@ -40,7 +29,6 @@ namespace Kursova.Controllers
         private UsersInfoModel info = new UsersInfoModel();
         private readonly ILogger<StudentController> log;
         private readonly IWebHostEnvironment webHostEnvironment;
-
 
         public AdminController(KursovaDbContext context, IAdminService service, ILogger<StudentController> log, IWebHostEnvironment hostEnvironment)
         {
@@ -89,6 +77,7 @@ namespace Kursova.Controllers
         {
             return this.View(info);
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(string email, IFormFile img)
         {
@@ -112,9 +101,9 @@ namespace Kursova.Controllers
 
                 return this.RedirectToAction("Student_home", "Admin");
             }
-            // stud.ProfilePicture = info.ImageUrl;
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateTeachersImage(string email, IFormFile img)
         {
@@ -122,7 +111,6 @@ namespace Kursova.Controllers
 
             if (teacher != null && img != null)
             {
-
                 info.UploadedImage = GetByteArrayFromImage(img);
 
                 string filename = System.IO.Path.GetFileName(img.FileName);
@@ -139,6 +127,7 @@ namespace Kursova.Controllers
             }
             return RedirectToAction("Index");
         }
+
         private byte[] GetByteArrayFromImage(IFormFile file)
         {
             using (var target = new MemoryStream())
@@ -147,21 +136,7 @@ namespace Kursova.Controllers
                 return target.ToArray();
             }
         }
-        
-        [HttpPost]
-        public ActionResult RetrieveImage()
-        {
-        
-            string imageBase64Data =
-        Convert.ToBase64String(info.UploadedImage);
-            string imageDataURL =
-        string.Format("data:image/jpg;base64,{0}",
-        imageBase64Data);
-            
-            ViewBag.ImageTitle = info.ImageUrl;
-            ViewBag.ImageDataUrl = imageDataURL;
-            return View("Index");
-        }
+
         [HttpGet]
         public IActionResult Teacher_home()
         {
@@ -184,15 +159,6 @@ namespace Kursova.Controllers
 
             return this.View(info);
         }
-        //[HttpPost]
-        //public IActionResult Upload(IFormFile file)
-        //{
-        //    using var image = Image.Load(file.OpenReadStream());
-        //   // image.Bounds(x => x.Resize(256, 256));
-        //    image.Mutate(x => x.Resize(256, 256));
-        //    image.Save("...");
-        //    return Ok();
-        //}
 
         [HttpGet]
         public IActionResult StudentDocuments(string email)
@@ -233,8 +199,6 @@ namespace Kursova.Controllers
                 this.db.Set<Student>().Remove(stud);
                 this.db.SaveChanges();
             }
-            // this.service.DeleteStudentByEmail(email);
-
             return this.RedirectToAction("Index");
         }
 
@@ -244,11 +208,9 @@ namespace Kursova.Controllers
             var teacher = this.db.Teachers.Where(x => x.Email == email).FirstOrDefault();
             if (teacher != null)
             {
-                
                 this.db.Set<Teacher>().Remove(teacher);
                 this.db.SaveChanges();
             }
-            // this.service.DeleteTeacherByEmail(email);
             return this.RedirectToAction("Index");
         }
 

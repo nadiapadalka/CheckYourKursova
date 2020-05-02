@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Kursova.Models;
 using Kursova.Hubs;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
 
 namespace Kursova.Controllers
 {

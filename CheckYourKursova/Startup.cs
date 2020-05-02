@@ -1,3 +1,4 @@
+using System;
 using Kursova.BLL.Interfaces;
 using Kursova.BLL.Services;
 using Kursova.DAL.EF;
@@ -11,9 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Owin;
-
 using Owin;
 [assembly: OwinStartup(typeof(Kursova.Startup))]
+
 namespace Kursova
 {
     public class Startup
@@ -50,9 +51,10 @@ namespace Kursova
             });
 
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
-	    services.AddSignalR(options => options.EnableDetailedErrors = true);
+            services.AddSignalR(options => options.EnableDetailedErrors = true);
         }
-	[Obsolete]
+
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -66,8 +68,8 @@ namespace Kursova
             }
 
             app.UseStaticFiles();
-	    app.UseFileServer();
-	    app.UseSignalR(routes =>
+            app.UseFileServer();
+            app.UseSignalR(routes =>
             {
                 routes.MapHub<Hubs.NotifyHub>("/notifications");
             });
