@@ -1,20 +1,22 @@
-﻿// <copyright file="StudentController.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Kursova.BLL.Interfaces;
+using Kursova.DAL.EF;
+using Kursova.DAL.Entities;
+using Kursova.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
+using Kursova.Models;
+using Kursova.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace Kursova.Controllers
 {
-    using System.Collections.Generic;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-    using Kursova.BLL.Interfaces;
-    using Kursova.DAL.EF;
-    using Kursova.DAL.Entities;
-    using Kursova.ViewModels;
-    using Microsoft.AspNetCore.Authentication;
-    using Microsoft.AspNetCore.Authentication.Cookies;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
 
     public class StudentController : Controller
     {
@@ -22,13 +24,15 @@ namespace Kursova.Controllers
         private readonly IStudentService service;
         private readonly KursovaDbContext db;
         private readonly ITeacherService teacherService;
+	private readonly IHubContext<NotifyHub> _hubContext;
 
 
-        public StudentController(KursovaDbContext database, IStudentService studentService, ILogger<StudentController> logger)
+        public StudentController(KursovaDbContext database, IStudentService studentService, ILogger<StudentController> logger, IHubContext<NotifyHub> hubContext)
         {
             this.db = database;
             this.service = studentService;
             this.log = logger;
+	    _hubContext = hubContext;
            // info.Teachers = this.service.GetAllTeachers().Result.ToList();
         }
 
@@ -89,6 +93,7 @@ namespace Kursova.Controllers
                     await this.Authenticate(model.Email);
                     this.db.SaveChanges();
                     this.log.LogInformation("Student registered successfully ");
+		    await SendMessage(" Зарестровано нового студента.");
 
                     return this.RedirectToAction("Index", "Home");
                 }
@@ -133,6 +138,17 @@ namespace Kursova.Controllers
             }
 
             return this.View(model);
+        }
+
+	public IActionResult Student_notification()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task SendMessage(string message)
+        {
+            await _hubContext.Clients.All.SendAsync("Send", message);
         }
     }
 }
