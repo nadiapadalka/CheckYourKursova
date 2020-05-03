@@ -147,7 +147,7 @@ namespace Kursova.Controllers
         public async Task<IActionResult> UpdateStudent(string email, int name)
         {
             Student stud =  await this.service.GetStudentByEmail(email);
-            if (stud != null)
+            if (stud != null )
             {
                 stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
                 this.service.UpdateStudent(stud);
@@ -155,6 +155,23 @@ namespace Kursova.Controllers
                 log.LogInformation($"Initials { name }");
 
                 return this.RedirectToAction("Student_home","Admin");
+            }
+
+            return this.View(info);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStudentCourseWork(string email, string courseWork)
+        {
+            Student stud = await this.service.GetStudentByEmail(email);
+            if (stud != null)
+            {
+                stud.CourseWorkTitle = courseWork;
+                this.service.UpdateStudent(stud);
+
+                log.LogInformation($"Changing Coursework { courseWork }");
+
+                return this.RedirectToAction("Teacher_home", "Admin");
             }
 
             return this.View(info);
