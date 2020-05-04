@@ -140,14 +140,14 @@
                                             @if(@item.CourseWorkTitle == null)
                                     {       <td>
                                                 
-                                                <form asp-action="UpdateStudentCourseWork" method="post"
-                                                      enctype="multipart/form-data" asp-controller="Admin">
+                                                <form asp-action="UpdateStudentCourseWork" method="post" 
+                                                       asp-controller="Admin">
                                                     <div class="row">
                                                         <input type="hidden" value="@item.Email" name="email" />
                                                         <input type="text" name="courseWork" class="form-control mr-2 ml-1"  id="staticGroup" style="width:65%" placeholder="Ввести тему">
                                                         <button class="btn btn-primary mr-2 ml-auto ml-1" style="width : 28%; float: right;" type="submit">Вибрати</button>
                                                     </div>
-                                                        </form>
+                                                       </form>
                                                         
                                                 </td>
                                                 }

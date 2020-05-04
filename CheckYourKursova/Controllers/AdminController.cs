@@ -115,7 +115,6 @@ namespace Kursova.Controllers
 
                 string filename = System.IO.Path.GetFileName(img.FileName);
                 teacher.ProfilePicture = filename;
-                ViewBag.url = filename;
                 log.LogInformation($"image not null{teacher.ProfilePicture}");
                 service.UpdateTeacher(teacher);
                 using (FileStream stream = new FileStream("..\\CheckYourKursova\\wwwroot\\files\\uploadedfiles\\" + filename, FileMode.Create, FileAccess.Write))
@@ -125,6 +124,7 @@ namespace Kursova.Controllers
 
                 return this.RedirectToAction("Teacher_home", "Admin");
             }
+
             return RedirectToAction("Index");
         }
 
@@ -146,18 +146,17 @@ namespace Kursova.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateStudent(string email, int name)
         {
-            Student stud =  await this.service.GetStudentByEmail(email);
+            Student stud = await this.service.GetStudentByEmail(email);
             if (stud != null )
             {
                 stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
                 this.service.UpdateStudent(stud);
-
-                log.LogInformation($"Initials { name }");
+                log.LogInformation($"Initials {name}");
 
                 return this.RedirectToAction("Student_home","Admin");
             }
 
-            return this.View(info);
+            return this.View(this.info);
         }
 
         [HttpPost]
@@ -169,12 +168,10 @@ namespace Kursova.Controllers
                 stud.CourseWorkTitle = courseWork;
                 this.service.UpdateStudent(stud);
 
-                log.LogInformation($"Changing Coursework { courseWork }");
-
                 return this.RedirectToAction("Teacher_home", "Admin");
             }
 
-            return this.View(info);
+            return this.View(this.info);
         }
 
         [HttpGet]
