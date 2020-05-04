@@ -1,22 +1,22 @@
-// <copyright file="Startup.cs" company="PlaceholderCompany">
-// Copyright (c) PlaceholderCompany. All rights reserved.
-// </copyright>
+using System;
+using Kursova.BLL.Interfaces;
+using Kursova.BLL.Services;
+using Kursova.DAL.EF;
+using Kursova.DAL.Interfaces;
+using Kursova.DAL.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Owin;
+using Owin;
+[assembly: OwinStartup(typeof(Kursova.Startup))]
 
 namespace Kursova
 {
-    using Kursova.BLL.Interfaces;
-    using Kursova.BLL.Services;
-    using Kursova.DAL.EF;
-    using Kursova.DAL.Interfaces;
-    using Kursova.DAL.Repositories;
-    using Microsoft.AspNetCore.Authentication.Cookies;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Hosting;
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -51,8 +51,10 @@ namespace Kursova
             });
 
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
+            services.AddSignalR(options => options.EnableDetailedErrors = true);
         }
 
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -66,7 +68,11 @@ namespace Kursova
             }
 
             app.UseStaticFiles();
-
+            app.UseFileServer();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<Hubs.NotifyHub>("/notifications");
+            });
             app.UseRouting();
             app.UseHttpsRedirection();
 

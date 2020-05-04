@@ -11,15 +11,17 @@ namespace AuthApp.Controllers
     using Kursova.BLL.Interfaces;
     using Kursova.DAL.EF;
     using Kursova.DAL.Entities;
+    using Kursova.Hubs;
+    using Kursova.Models;
     using Kursova.ViewModels;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
-
     public class TeacherController : Controller
     {
         private readonly ITeacherService teacherService;
@@ -27,20 +29,18 @@ namespace AuthApp.Controllers
         private readonly KursovaDbContext db;
         private readonly IWebHostEnvironment _appEnvironment;
         private CourseProjects projects = new CourseProjects();
+        private readonly IHubContext<NotifyHub> _hubContext;
 
-        public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger, IWebHostEnvironment buidler)
+        public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger, IWebHostEnvironment buidler, IHubContext<NotifyHub> hubContext)
         {
             this.db = kursovadb;
             this.teacherService = iteacherservice;
             this.stlogger = logger;
             this._appEnvironment = buidler;
+            _hubContext = hubContext;
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return this.View();
-        }
+        
 
         [HttpGet]
         public IActionResult LoginTeacher()
@@ -62,7 +62,7 @@ namespace AuthApp.Controllers
 
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
 
-                    return this.RedirectToAction("Teacher_home", "Teacher");
+                    return this.RedirectToAction("Teacher_home", "Admin");
                 }
 
                 this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");
@@ -99,6 +99,7 @@ namespace AuthApp.Controllers
                     await this.Authenticate(model.Email);
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
                     this.db.SaveChanges();
+                    await TSendMessage(" Зареструвався новий викладач.");
                     return this.RedirectToAction("Index", "Home");
                 }
                 else
@@ -192,9 +193,10 @@ namespace AuthApp.Controllers
             await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return this.RedirectToAction("Login", "Account");
         }
+
         public IActionResult Teacher_notification()
         {
-            return View();
+            return this.View();
         }
 
         [HttpGet]
@@ -280,13 +282,11 @@ namespace AuthApp.Controllers
             return this.RedirectToAction("Teacher_Kursova");
         }
 
-        //[HttpGet]
-        //[Route("/Teacher/ChooseStudent/{studentName}")]
-        //public IActionResult ChooseStudent(string studentName)
-        //{
-        //    this.projects.CurrentProject = this.projects.AllProjects.Where(x => x.StudentName == studentName).FirstOrDefault();
-        //        return this.RedirectToAction("Teacher_Kursova");
-        //}
+        [HttpPost]
+        public async Task TSendMessage(string message)
+        {
+            await this._hubContext.Clients.All.SendAsync("TSend", message);
+        }
     }
 }
 
