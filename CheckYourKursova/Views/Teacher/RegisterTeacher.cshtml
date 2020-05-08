@@ -1,4 +1,7 @@
 ﻿@model Kursova.ViewModels.RegisterTeacherModel
+@{
+    Layout = "_Sublayout";
+}
 <!--
 
 <form asp-action="RegisterTeacher">
@@ -28,11 +31,11 @@
                             <span asp-validation-for="Email" />
                         </div>
                         <div class="input-group">
-                            <input  id="inputPassword" class="form-control" placeholder="Пароль" asp-for="Password" required autofocus>
+                            <input id="inputPassword" class="form-control" placeholder="Пароль" asp-for="Password" required autofocus>
                             <span asp-validation-for="Password" />
                         </div>
                         <div class="input-group">
-                            <input  id="inputPassword" class="form-control" placeholder="Підтвердити пароль" asp-for="ConfirmPassword" required autofocus>
+                            <input id="inputPassword" class="form-control" placeholder="Підтвердити пароль" asp-for="ConfirmPassword" required autofocus>
                             <span asp-validation-for="ConfirmPassword" />
                         </div>
 

@@ -1,7 +1,10 @@
 ﻿@model Kursova.ViewModels.RegisterModel
+@{
+    Layout = "_Sublayout";
+}
 <!--
 <form asp-action="Register" asp-controller="Account" asp-anti-forgery="true">
-   
+
 </form>
 -->
 <header class="masthead">
@@ -13,7 +16,7 @@
                     <form asp-action="Register" asp-controller="Student" asp-anti-forgery="true">
                         <div class="validation" asp-validation-summary="ModelOnly" />
                         <div>
-                            
+
                             <div class="input-group">
                                 <input type="text" id="inputName" class="form-control" placeholder="Прізвище та ініціали (Столяр Ю.Р.)" asp-for="FullName" required autofocus>
                                 <span asp-validation-for="FullName" />
@@ -41,7 +44,7 @@
                                 @*<input type="submit" value="Увійти" class="btn btn-outline-dark" />*@
                                 @*<input type="submit" value="Зареєструватися" />*@
 
-                                <input class="btn btn-outline-success btn-m text-uppercase js-scroll-trigger"type="submit" value="Зареєструватися" >
+                                <input class="btn btn-outline-success btn-m text-uppercase js-scroll-trigger" type="submit" value="Зареєструватися">
                             </div>
                         </div>
                     </form>
