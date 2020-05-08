@@ -27,7 +27,15 @@
                                     <tr>
                                         <td>@item.Title</td>
                                         <td>@item.Description</td>
-                                        <td>@item.AttachedMaterials</td>
+                                        <td>
+                                            @{
+                                                foreach (var doc in item.AttachedTeacherMaterials.Split("/"))
+                                                {
+                                                    <p>@doc</p>
+                                                }
+
+                                            }
+                                        </td>
                                         <td>
                                             <form asp-action="DeleteTeacherDocument" method="post">
                                                 <input type="hidden" value="@item.Id" name="id" />

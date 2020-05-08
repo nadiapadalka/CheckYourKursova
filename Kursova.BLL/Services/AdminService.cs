@@ -38,7 +38,6 @@ namespace Kursova.BLL.Services
             this.Database.Students.Update(user);
         }
 
-
         public void UpdateTeacher(Teacher user)
         {
             this.logger.LogInformation($"Updating teacher data. Changing password to {user.Password}");
@@ -129,7 +128,7 @@ namespace Kursova.BLL.Services
         public Task<IEnumerable<Admin>> GetAllAdmins()
         {
             this.logger.LogInformation($"Getting all admins.");
-            return await this.Database.Admins.GetAll();
+            return this.Database.Admins.GetAll();
         }
 
         public void UpdateAdmin(Admin admin)

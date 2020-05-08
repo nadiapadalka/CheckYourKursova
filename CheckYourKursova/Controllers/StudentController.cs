@@ -14,6 +14,8 @@ using Kursova.Models;
 using Kursova.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNet.SignalR;
+using System.IO;
+using System.Linq;
 
 namespace Kursova.Controllers
 {
@@ -54,8 +56,12 @@ namespace Kursova.Controllers
                     await this.Authenticate(model.Email);
                     this.log.LogInformation($"Student loginned successfully ");
 
+                    string name = this.db.Students.Where(x => x.Email == model.Email).FirstOrDefault().FullName;
+                    this.Folder(name, "Create");
+
                     return this.RedirectToAction("Student_home", "Admin");
                 }
+
 
                 this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");
             }
@@ -149,6 +155,17 @@ namespace Kursova.Controllers
         public async Task SendMessage(string message)
         {
             await _hubContext.Clients.All.SendAsync("Send", message);
+        }
+
+        private void Folder(string ownerName, string option = "Create")
+        {
+            DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
+            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
+            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
+            if (option == "Delete")
+            {
+                dir.Delete();
+            }
         }
     }
 }

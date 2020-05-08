@@ -1,0 +1,29 @@
+﻿@model Kursova.ViewModels.UsersInfoModel;
+@{
+    ViewData["Title"] = "ChooseTeacherForStudent";
+    Layout = null;
+}
+
+<h1>Оберіть викладача для студента @Model.CurrentStudent.FullName</h1>
+
+<table style="width:100%">
+    <tr>
+        <th>Викладач</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model.Teachers)
+    {
+        <tr>
+            <td>@item.Initials</td>
+            <td>
+                <form asp-action="SetTeacherForStudent" method="post">
+                    <input type="hidden" value="@Model.CurrentStudent.Email" name="studentEmail" />
+                    <input type="hidden" value="@item.Email" name="teacherEmail" />
+                    <button type="submit" class="btn btn-outline-dark">
+                        Вибрати
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

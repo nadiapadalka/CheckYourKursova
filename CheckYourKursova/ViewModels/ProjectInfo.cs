@@ -10,6 +10,8 @@ namespace Kursova.ViewModels
     {
         public string StudentName { get; set; }
 
+        public string TeacherName { get; set; }
+
         public string CourseProjectName { get; set; }
 
         public IEnumerable<string> StudentMaterials { get; set; } = new List<string>();

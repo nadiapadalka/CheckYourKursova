@@ -4,8 +4,10 @@
 
 namespace AuthApp.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
     using Kursova.BLL.Interfaces;
@@ -62,6 +64,8 @@ namespace AuthApp.Controllers
 
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
 
+                    this.Folder(result.Result.Initials, "Create");
+
                     return this.RedirectToAction("Teacher_home", "Admin");
                 }
 
@@ -69,6 +73,17 @@ namespace AuthApp.Controllers
             }
 
             return this.View(model);
+        }
+
+        private void Folder(string ownerName, string option = "Create")
+        {
+            DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
+            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
+            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
+            if (option == "Delete")
+            {
+                dir.Delete();
+            }
         }
 
         [HttpGet]
@@ -200,9 +215,11 @@ namespace AuthApp.Controllers
         }
 
         [HttpGet]
-        public FileResult GetFile(string filename)
+        public FileResult GetFile(string filename, string ownerName)
         {
-            string path = Path.Combine(this._appEnvironment.ContentRootPath, "wwwroot/files/" + filename);
+            // string path = Path.Combine(this._appEnvironment.ContentRootPath, "wwwroot/files/" + filename);
+
+            string path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ownerName}\\Downloaded files\\{filename}";
             byte[] mas = System.IO.File.ReadAllBytes(path);
             string fileType = this.GetFileType(filename);
             return this.File(mas, fileType, filename);
@@ -265,7 +282,7 @@ namespace AuthApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult UploadFile(IFormFile file)
+        public IActionResult UploadFile(IFormFile file, string ownerName)
         {
             string filename = string.Empty;
             foreach (var item in file.FileName.Split("\\"))
@@ -273,12 +290,19 @@ namespace AuthApp.Controllers
                 filename = item;
             }
 
-            using (FileStream stream = new FileStream("..\\CheckYourKursova\\wwwroot\\files\\uploadedfiles\\" + filename, FileMode.Create, FileAccess.Write))
+            string path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ownerName}\\Uploaded files\\{filename}";
+
+            using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
             {
                 file.CopyTo(stream);
                 this.projects.AllProjects[0].TeacherMaterials.Add(filename);
             }
-
+            var doc = this.db.Documentations.Where(doc => doc.TeacherName == ownerName).LastOrDefault();
+            if (doc != null)
+            {
+                doc.AttachedTeacherMaterials += filename + "/";
+                this.db.Documentations.Update(doc);
+            }
             return this.RedirectToAction("Teacher_Kursova");
         }
 
