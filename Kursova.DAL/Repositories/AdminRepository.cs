@@ -29,7 +29,7 @@ namespace Kursova.DAL.Repositories
 
         public async Task<Admin> GetbyEmailandPassword(string email, string password)
         {
-            return await this.db.Admins.FirstOrDefaultAsync(u => u.Name == email && u.Password == password);
+            return await this.db.Admins.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
 
         public async Task<Admin> GetbyEmailandInitials(string email, string fullname)
@@ -40,7 +40,7 @@ namespace Kursova.DAL.Repositories
 
         public async Task<Admin> GetbyEmailAsync(string email)
         {
-            return await this.db.Admins.FirstOrDefaultAsync(u => u.Name == email);
+            return await this.db.Admins.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<Admin> GetbyID(int id)
@@ -76,7 +76,7 @@ namespace Kursova.DAL.Repositories
 
         public Admin GetbyPass(string username, string password)
         {
-            return this.db.Admins.Where(a => a.Name == username && a.Password == password).ToList().FirstOrDefault();
+            return this.db.Admins.Where(a => a.Email == username && a.Password == password).ToList().FirstOrDefault();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Kursova.DAL.EF
         public KursovaDbContext(DbContextOptions<KursovaDbContext> options)
             : base(options)
         {
+            // this.Database.EnsureDeleted();
             this.Database.EnsureCreated();
         }
 

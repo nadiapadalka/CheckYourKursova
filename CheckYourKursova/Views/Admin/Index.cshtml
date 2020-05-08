@@ -1,4 +1,4 @@
-﻿@model Kursova.ViewModels.UsersInfoModel
+﻿@model Kursova.ViewModels.UsersInfoModel;
 @{
     Layout = null;
 }
@@ -7,7 +7,7 @@
         <div class="intro-text">
             <div class="card card-2">
                 <div class="card-body">
-                    <h2>Admin Page</h2>
+                    <h2>Адміністратор @Kursova.ViewModels.UsersInfoModel.AdminEmail</h2>
 
                     <a asp-action="Index" asp-controller="Admin">Користувачі</a>
                     <a asp-action="Messages" asp-controller="Admin">Сповіщення</a>
@@ -38,17 +38,24 @@
                                         <td>@item.Email</td>
                                         <td>
                                             @{
-                                                if (@Kursova.ViewModels.UsersInfoModel.StudentsOfTeacher.ContainsKey(item.Email))
+                                                foreach (var student in Model.Students)
                                                 {
-                                                    foreach (var student in @Kursova.ViewModels.UsersInfoModel.StudentsOfTeacher[item.Email])
+                                                    if (student.TeacherInitials == @item.Initials)
                                                     {
-                                                        <a>@student.FullName</a>
+                                                        <p>@student.FullName</p>
+                                                    }
+                                                }
+                                                @*if (Model.StudentsOfTeacher.ContainsKey(item.Email))
+                                                {
+                                                    @foreach (var student in Model.StudentsOfTeacher[item.Email])
+                                                    {
+                                                        <p>@student.FullName</p>
                                                     }
                                                 }
                                                 else
                                                 {
                                                     <a>Нема студентів</a>
-                                                }
+                                                }*@
                                             }
                                         </td>
                                         <td>
@@ -88,12 +95,11 @@
                                         <td>@item.Group</td>
                                         <td>@item.Kafedra</td>
                                         <td>@item.Email</td>
-                                        <td>@item.TeacherInitials</td>
                                         <td>
                                             @{
-                                                if (@Kursova.ViewModels.UsersInfoModel.TeacherOfStudent.ContainsKey(item.Email))
+                                                if (item.TeacherInitials != null)
                                                 {
-                                                    <a>@Kursova.ViewModels.UsersInfoModel.TeacherOfStudent[item.Email].Initials</a>
+                                                    <p>@item.TeacherInitials</p>
                                                 }
                                                 else
                                                 {

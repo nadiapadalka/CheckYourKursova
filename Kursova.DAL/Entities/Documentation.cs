@@ -4,16 +4,22 @@
 
 namespace Kursova.DAL.Entities
 {
+    using System.Collections.Generic;
+
     public class Documentation
     {
         public int Id { get; set; }
 
-        public int UserId { get; set; }
+        public string StudentName { get; set; }
+
+        public string TeacherName { get; set; }
 
         public string Title { get; set; }
 
         public string Description { get; set; }
 
-        public string AttachedMaterials { get; set; }
+        public string AttachedStudentMaterials { get; set; }
+
+        public string AttachedTeacherMaterials { get; set; }
     }
 }

@@ -69,6 +69,7 @@
                                             <div class="input-group-append">
                                                 <form asp-action="GetFile" method="get">
                                                     <input type="hidden" value="@item" name="filename" />
+                                                    <input type="hidden" value="@Model.CurrentProject.StudentName" name="ownerName" />
                                                     <button type="submit" class="btn btn-outline-secondary">Download!</button>
                                                 </form>
                                             </div>
@@ -131,6 +132,7 @@
                                         <br><br>
                                         <form asp-controller="Teacher" asp-action="UploadFile" enctype="multipart/form-data" method="post">
                                             <input type="file" name="file" />
+                                            <input type="hidden" value="" name="ownerName" />
                                             <button type="submit">Submit</button>
                                         </form>
                                         <!--<br><br><input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->

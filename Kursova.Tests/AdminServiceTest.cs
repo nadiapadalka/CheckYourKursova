@@ -37,13 +37,13 @@ namespace UnitTestProject1
             adminService.CreateAdmin(new Admin
             {
                 Id = 132,
-                Name = "Natalia Savchuk",
+                Email = "Natalia Savchuk",
                 Password = "11178",
             });
             adminService.CreateAdmin(new Admin
             {
                 Id = 122,
-                Name = "Ira Semchuk",
+                Email = "Ira Semchuk",
                 Password = "21924",
             });
             return adminService;
@@ -69,13 +69,13 @@ namespace UnitTestProject1
             adminService.CreateAdmin(new Admin
             {
                 Id = 132,
-                Name = "Natalia Savchuk",
+                Email = "Natalia Savchuk",
                 Password = "11178",
             });
             adminService.CreateAdmin(new Admin
             {
                 Id = 122,
-                Name = "Ira Semchuk",
+                Email = "Ira Semchuk",
                 Password = "21924",
             });
             adminService.Dispose(122);
