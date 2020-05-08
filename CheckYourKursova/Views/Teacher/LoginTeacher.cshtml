@@ -1,9 +1,12 @@
 ﻿@model Kursova.ViewModels.LoginModel
+@{
+    Layout = "_Sublayout";
+}
 <!--
 
 
 <form asp-action="LoginTeacher" asp-controller="Account" asp-anti-forgery="true">
-    
+
 </form>
 
 -->
@@ -38,7 +41,7 @@
                                 <a class="dropdown-item" asp-action="RegisterTeacher" asp-controller="Teacher" style="margin-left: 200px;margin-right: 100px;">Зареєструватися</a>
                             </div>
                             <div class="col-md-4">
-                                <a class="dropdown-item" asp-action="ChangeTeacherPassword" asp-controller="Teacher"  style="margin-left: 200px;margin-right: 100px;">Забули пароль?</a>
+                                <a class="dropdown-item" asp-action="ChangeTeacherPassword" asp-controller="Teacher" style="margin-left: 200px;margin-right: 100px;">Забули пароль?</a>
                             </div>
                         </div>
                     </form>
