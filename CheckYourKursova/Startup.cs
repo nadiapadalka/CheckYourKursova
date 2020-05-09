@@ -43,7 +43,6 @@ namespace Kursova
             services.AddTransient<ITeacherService, TeacherService>();
             services.AddTransient<IAdminService, AdminService>();
 
-            services.AddControllersWithViews();
             services.AddRazorPages();
             services.Configure<IISOptions>(options =>
             {

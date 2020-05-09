@@ -37,16 +37,16 @@ namespace Kursova.BLL.Services
           this.Database.Students.Create(user);
         }
 
-        public async Task<Student> Get(string username, string fullname)
+        public async Task<Student> Get(string username, string password)
         {
-           var result = await this.Database.Students.GetbyEmailandInitials(username, fullname);
+           var result = await this.Database.Students.GetbyEmailandInitials(username, password);
            if (result != null)
             {
-                this.logger.LogInformation($"Getting student by {username} and {fullname}");
+                this.logger.LogInformation($"Getting student by {username} and {password}");
             }
             else
             {
-                this.logger.LogInformation($"Couldn't find a student by {username} and {fullname}");
+                this.logger.LogInformation($"Couldn't find a student by {username} and {password}");
             }
 
            return result;

@@ -8,9 +8,9 @@ namespace Kursova.DAL.Entities
     {
         public int Id { get; set; }
 
-        public string Username { get; set; }
+        public string Initials { get; set; }
 
-        public string Title { get; set; }
+        public string CourseWork { get; set; }
 
         public string Description { get; set; }
     }

@@ -29,6 +29,8 @@ namespace Kursova.Controllers
         private UsersInfoModel info = new UsersInfoModel();
         private readonly ILogger<StudentController> log;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private KursovaPageModel model = new KursovaPageModel();
+
 
         public AdminController(KursovaDbContext context, IAdminService service, ILogger<StudentController> log, IWebHostEnvironment hostEnvironment)
         {
@@ -36,6 +38,9 @@ namespace Kursova.Controllers
             this.service = service;
             this.log = log;
             this.webHostEnvironment = hostEnvironment;
+            info.Students = this.service.GetAllStudents().Result.ToList();
+            info.Teachers = this.service.GetAllTeachers().Result.ToList();
+            model.Students = this.service.GetAllStudents().Result.ToList();
         }
 
         [HttpGet]
@@ -43,7 +48,30 @@ namespace Kursova.Controllers
         {
             return this.View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var user = await this.db.Students.FirstOrDefaultAsync(u => u.Email == email);
+                this.log.LogInformation("Student in comment controller found!");
+                if (user != null)
+                {
+                    this.db.Add(new Comment { Initials = user.FullName, CourseWork = user.CourseWorkTitle, Description = model.Comment });
+                    this.db.SaveChanges();
+                    this.log.LogInformation("Comment added successfully ");
 
+                    return this.RedirectToAction("Student_Kursova", "Admin");
+                }
+                else
+                {
+                    this.log.LogInformation("Student do not exist!  ");
+                }
+            }
+
+            return this.View(model);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAdmin(LoginModel model)
@@ -143,6 +171,7 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Teacher_home()
         {
+            //this.Update(this.info);
             return this.View(this.info);
         }
 
@@ -154,7 +183,8 @@ namespace Kursova.Controllers
             {
                 stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
                 this.service.UpdateStudent(stud);
-                this.log.LogInformation($"Initials {name}");
+
+                this.log.LogInformation($"Initials {stud.TeacherInitials}");
 
                 return this.RedirectToAction("Student_home", "Admin");
             }
@@ -170,7 +200,6 @@ namespace Kursova.Controllers
             {
                 stud.CourseWorkTitle = courseWork;
                 this.service.UpdateStudent(stud);
-
                 return this.RedirectToAction("Teacher_home", "Admin");
             }
 
@@ -374,6 +403,12 @@ namespace Kursova.Controllers
             model.Students = this.service.GetAllStudents().Result.ToList();
             model.Teachers = this.service.GetAllTeachers().Result.ToList();
             model.Documentations = this.db.Documentations.ToList();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Student_Kursova()
+        {
+            return this.View(model);
         }
     }
 }

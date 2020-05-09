@@ -35,6 +35,11 @@
     <ProjectReference Include="..\Kursova.DAL\Kursova.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\NewFolder1\" />
+    <Folder Include="wwwroot\NewFolder\" />
+  </ItemGroup>
+
 
 
 </Project>

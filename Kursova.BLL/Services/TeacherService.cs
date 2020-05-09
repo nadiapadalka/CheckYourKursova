@@ -32,11 +32,17 @@ namespace Kursova.BLL.Services
           this.Database.Teachers.Create(teacherDto);
         }
 
-        public async Task<Teacher> Get(string username, string fullname)
+        public async Task<Teacher> Get(string username, string password)
         {
-                this.logger.LogInformation($"Getting teacher by {username} and {fullname}");
+                this.logger.LogInformation($"Getting teacher by {username} and {password}");
 
-                return await this.Database.Teachers.GetbyEmailandInitials(username, fullname);
+                return await this.Database.Teachers.GetbyEmailandInitials(username, password);
+        }
+        public async Task<Teacher> GetbyEmail(string email)
+        {
+            this.logger.LogInformation($"Getting teacher by {email} ");
+
+            return await this.Database.Teachers.GetbyEmailAsync(email);
         }
 
         public void Update(Teacher user)

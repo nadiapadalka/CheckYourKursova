@@ -13,7 +13,6 @@ namespace Kursova.DAL.EF
         public KursovaDbContext(DbContextOptions<KursovaDbContext> options)
             : base(options)
         {
-            // this.Database.EnsureDeleted();
             this.Database.EnsureCreated();
         }
 
@@ -21,13 +20,11 @@ namespace Kursova.DAL.EF
 
         public DbSet<Teacher> Teachers { get; set; }
 
-        public DbSet<TaskItem> TaskItems { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<Documentation> Documentations { get; set; }
 
-        public DbSet<TaskChanges> TaskChanges { get; set; }
 
         public DbSet<Admin> Admins { get; set; }
     }

@@ -26,9 +26,9 @@ namespace Kursova.DAL.Repositories
           return await this.db.Students.ToListAsync();
         }
 
-        public async Task<Student> GetbyEmailandInitials(string email, string fullname)
+        public async Task<Student> GetbyEmailandInitials(string email, string password)
         {
-            return await this.db.Students.FirstOrDefaultAsync(u => u.Email == email && u.FullName == fullname);
+            return await this.db.Students.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
 
         public async Task<Student> GetbyEmailAsync(string email)

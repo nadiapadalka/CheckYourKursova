@@ -24,6 +24,7 @@ namespace AuthApp.Controllers
     using Microsoft.AspNetCore.SignalR;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
+
     public class TeacherController : Controller
     {
         private readonly ITeacherService teacherService;
@@ -42,8 +43,6 @@ namespace AuthApp.Controllers
             _hubContext = hubContext;
         }
 
-        
-
         [HttpGet]
         public IActionResult LoginTeacher()
         {
@@ -56,7 +55,8 @@ namespace AuthApp.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var result = this.teacherService.Get(model.Email, model.Password);
+                Teacher result = await this.teacherService.Get(model.Email, model.Password);
+              //  Teacher user = await db.Teachers.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
 
                 if (result != null)
                 {
@@ -64,12 +64,11 @@ namespace AuthApp.Controllers
 
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
 
-                    this.Folder(result.Result.Initials, "Create");
+                  //  this.Folder(result.Initials, "Create");
 
                     return this.RedirectToAction("Teacher_home", "Admin");
                 }
-
-                this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");
+                return this.RedirectToAction("LoginTeacher", "Teacher");
             }
 
             return this.View(model);
@@ -86,11 +85,33 @@ namespace AuthApp.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                Teacher user = await this.teacherService.GetbyEmail(email);
+                this.stlogger.LogInformation("Student in comment controller found!");
+                if (user != null)
+                {
+                    this.db.Add(new Comment { Initials = user.Initials, CourseWork = user.Grade, Description = model.Comment });
+                    this.db.SaveChanges();
+                    this.stlogger.LogInformation("Comment added successfully ");
+
+                    return this.RedirectToAction("Student_Kursova", "Student");
+                }
+                else
+                {
+                    this.stlogger.LogInformation("Student do not exist!  ");
+                }
+            }
+
+            return this.View(model);
+        }
 
         public async Task<IActionResult> Teacher_Kursova()
         {
-            //return this.View(await this.teacherService.GetAll());
             return this.View(this.projects);
         }
 
@@ -166,31 +187,6 @@ namespace AuthApp.Controllers
         public IActionResult CreateTask()
         {
             return this.View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateTask(CreateTaskModel model)
-        {
-            if (this.ModelState.IsValid)
-            {
-                this.db.TaskItems.Add(
-                new TaskItem
-                {
-                    Title = model.Title,
-                    Description = model.Description,
-                    Grade = model.Grade,
-                    StartDate = model.StartDate,
-                    DeadLine = model.DeadLine,
-                    EstimatedTime = model.EstimatedTime,
-                    IsDone = model.IsDone,
-                });
-                await this.db.SaveChangesAsync();
-
-                return this.RedirectToAction("Account");
-            }
-
-            return this.View(model);
         }
 
         private async Task Authenticate(string userName)

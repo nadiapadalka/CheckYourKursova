@@ -57,7 +57,7 @@
                                                 @foreach (var item in Model.Students)
                                                 {@if (item.Email == User.Identity.Name)
                                                     {
-                                                        <img class="img-fluid" src="~/files/uploadedfiles/@item.ProfilePicture" />
+                                                        <img class="img-fluid" src="~/Users/@item.FullName/Uploaded files/@item.ProfilePicture" />
                                                     }
                                                     else if (item.Email == User.Identity.Name && item.ProfilePicture == null)
                                                     { <img class="img-fluid" src="~/img/portfolio/avatar.jpg" alt="">
@@ -165,7 +165,7 @@
                                         </div>
                                         <div class="input-group mb-4" style="margin-left: 10px; padding-right: 100px; ">
                                             <div class="dropdown open">
-                                                <form asp-action="UpdateStudent" asp-controller="Admin" method="post">
+                                                <form enctype="multipart/form-data" asp-action="UpdateStudent" asp-controller="Admin" method="post">
                                                     <input type="hidden" value="@User.Identity.Name" name="email" />
 
                                                     <select asp-for="TeacherInitials" name="name" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 10px;"
