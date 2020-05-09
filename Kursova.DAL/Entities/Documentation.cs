@@ -9,8 +9,8 @@ namespace Kursova.DAL.Entities
     public class Documentation
     {
         public int Id { get; set; }
-        public int PageId { get; set; }
 
+        public int PageId { get; set; }
 
         public string StudentName { get; set; }
 

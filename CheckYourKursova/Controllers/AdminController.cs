@@ -106,7 +106,7 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Student_home()
         {
-            this.Update(this.info);
+         //   this.Update(this.info);
             return this.View(this.info);
         }
 
@@ -151,6 +151,48 @@ namespace Kursova.Controllers
 
             return this.RedirectToAction("Student_Kursova", "Admin");
 
+        }
+        public async Task<IActionResult> Download(string email, string filename)
+        {
+            log.LogInformation($"filename{filename}");
+            Student stud = await this.service.GetStudentByEmail(email);
+
+            if (filename == null)
+                return Content("filename not present");
+
+            var path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ stud.TeacherInitials}\\Uploaded files\\{ filename}";
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, GetContentType(path), Path.GetFileName(path));
+        }
+        private string GetContentType(string path)
+        {
+            var types = GetMimeTypes();
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types[ext];
+        }
+
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                {".txt", "text/plain"},
+                {".pdf", "application/pdf"},
+                {".doc", "application/vnd.ms-word"},
+                {".docx", "application/vnd.ms-word"},
+                {".xls", "application/vnd.ms-excel"},
+                {".xlsx", "application/vnd.openxmlformats"},  
+                {".png", "image/png"},
+                {".jpg", "image/jpeg"},
+                {".jpeg", "image/jpeg"},
+                {".gif", "image/gif"},
+                {".csv", "text/csv"}
+            };
         }
         [HttpPost]
         public async Task<IActionResult> CreateTeachersImage(string email, IFormFile img)
@@ -200,7 +242,7 @@ namespace Kursova.Controllers
             {
                 stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
                 this.service.UpdateStudent(stud);
-
+                this.db.SaveChanges();
                 this.log.LogInformation($"Initials {stud.TeacherInitials}");
 
                 return this.RedirectToAction("Student_home", "Admin");
@@ -217,6 +259,7 @@ namespace Kursova.Controllers
             {
                 stud.CourseWorkTitle = courseWork;
                 this.service.UpdateStudent(stud);
+                await this.db.SaveChangesAsync();
                 return this.RedirectToAction("Teacher_home", "Admin");
             }
 
@@ -425,7 +468,7 @@ namespace Kursova.Controllers
         [HttpGet]
         public async Task<IActionResult> Student_Kursova()
         {
-            return this.View(model);
+            return  this.View(this.model);
         }
     }
 }

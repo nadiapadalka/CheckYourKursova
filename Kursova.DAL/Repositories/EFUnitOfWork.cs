@@ -15,8 +15,6 @@ namespace Kursova.DAL.Repositories
         private TeacherRepository teacherRepository;
         private AdminRepository adminRepository;
 
-        private bool disposed = false;
-
         public EFUnitOfWork(KursovaDbContext db)
         {
             this.db = db;

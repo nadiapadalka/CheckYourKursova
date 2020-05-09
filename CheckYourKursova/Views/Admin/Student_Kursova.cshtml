@@ -126,62 +126,44 @@
                                 &emsp;&emsp;
 
                                 <div class="form-group">
-                                    <div class="mx-sm-3 mb-2">                                        
+                                    <div class="mx-sm-3 mb-2">
                                         <br><br>
 
                                         <span style="font-weight: bold;" class="text-dark">Список літератури</span>
 
                                         <br><br>
-
-                                        <div class="input-group mb-3">
+                                        @foreach (var student in Model.Students)
+                                        {
+                                            @foreach (var doc in Model.Documentation)
+                                            {
+                                                if (student.TeacherInitials == doc.TeacherName)
+                                                {
+                                    <div class="input-group mb-3">
+                                        <form method="post" asp-action="Download" asp-controller="Admin">
                                             <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
+                                            <input type="hidden" name="email" value="@User.Identity.Name" />
+                                            <input type="text" readonly class="form-control" name="filename"  value="@doc.Title">
                                             <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
 
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <label for="inputDocument" class="sr-only">Документ</label>
-                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                            <div class="input-group-append">
-                                                <form method="get" action="file.doc">
-                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                </form>
-                                            </div>
-                                        </div>
+                                                <button type="submit" class="btn btn-outline-secondary">Download!</button>
+                                                </div>
+                                        </form>
+                                    </div>
+                                                   
+                                                }
+                                                else
+                                                {
+                                                <div class="input-group mb-3">
+                                                    <label for="inputDocument" class="sr-only">Документ</label>
+                                                    <input type="text"  readonly class="form-control" id="staticDocument" placeholder="Документ">
+                                                    <div class="input-group-append">
+                                                        <form method="get" action="file.doc">
+                                                            <button type="submit" class="btn btn-outline-secondary">Download!</button>
+                                                        </form>
+                                                    </div>
+                                                </div>}
+                                            }
+                                        }
 
                                     </div>
                                 </div>

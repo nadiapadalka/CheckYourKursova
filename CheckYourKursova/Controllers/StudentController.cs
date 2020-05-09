@@ -1,4 +1,8 @@
-﻿namespace Kursova.Controllers
+﻿// <copyright file="StudentController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Kursova.Controllers
 {
     using System.Collections.Generic;
     using System.IO;
@@ -23,7 +27,7 @@
         private readonly IStudentService service;
         private readonly KursovaDbContext db;
         private readonly ITeacherService teacherService;
-	    private readonly IHubContext<NotifyHub> _hubContext;
+        private readonly IHubContext<NotifyHub> _hubContext;
 
         private KursovaPageModel info = new KursovaPageModel();
 

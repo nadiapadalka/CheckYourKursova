@@ -56,7 +56,6 @@ namespace AuthApp.Controllers
             if (this.ModelState.IsValid)
             {
                 Teacher result = await this.teacherService.Get(model.Email, model.Password);
-              //  Teacher user = await db.Teachers.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
 
                 if (result != null)
                 {
@@ -64,7 +63,7 @@ namespace AuthApp.Controllers
 
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
 
-                  //  this.Folder(result.Initials, "Create");
+                    this.Folder(result.Initials, "Create");
 
                     return this.RedirectToAction("Teacher_home", "Admin");
                 }
@@ -85,30 +84,30 @@ namespace AuthApp.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
-        {
-            if (this.ModelState.IsValid)
-            {
-                Teacher user = await this.teacherService.GetbyEmail(email);
-                this.stlogger.LogInformation("Student in comment controller found!");
-                if (user != null)
-                {
-                    this.db.Add(new Comment { Initials = user.Initials, CourseWork = user.Grade, Description = model.Comment });
-                    this.db.SaveChanges();
-                    this.stlogger.LogInformation("Comment added successfully ");
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
+        //{
+        //    if (this.ModelState.IsValid)
+        //    {
+        //        Teacher user = await this.teacherService.GetbyEmail(email);
+        //        this.stlogger.LogInformation("Student in comment controller found!");
+        //        if (user != null)
+        //        {
+        //            this.db.Add(new Comment { Initials = user.Initials, CourseWork = user.Grade, Description = model.Comment });
+        //            this.db.SaveChanges();
+        //            this.stlogger.LogInformation("Comment added successfully ");
 
-                    return this.RedirectToAction("Student_Kursova", "Student");
-                }
-                else
-                {
-                    this.stlogger.LogInformation("Student do not exist!  ");
-                }
-            }
+        //            return this.RedirectToAction("Student_Kursova", "Student");
+        //        }
+        //        else
+        //        {
+        //            this.stlogger.LogInformation("Student do not exist!  ");
+        //        }
+        //    }
 
-            return this.View(model);
-        }
+        //    return this.View(model);
+        //}
 
         public async Task<IActionResult> Teacher_Kursova()
         {
@@ -213,8 +212,6 @@ namespace AuthApp.Controllers
         [HttpGet]
         public FileResult GetFile(string filename, string ownerName)
         {
-            // string path = Path.Combine(this._appEnvironment.ContentRootPath, "wwwroot/files/" + filename);
-
             string path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ownerName}\\Downloaded files\\{filename}";
             byte[] mas = System.IO.File.ReadAllBytes(path);
             string fileType = this.GetFileType(filename);
@@ -278,27 +275,25 @@ namespace AuthApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult UploadFile(IFormFile file, string ownerName)
+        public async Task<IActionResult > UploadFile(string email, IFormFile file, string ownerName)
         {
             string filename = string.Empty;
+            Teacher teacher = await this.teacherService.GetbyEmail(ownerName);
+
             foreach (var item in file.FileName.Split("\\"))
             {
                 filename = item;
             }
 
-            string path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ownerName}\\Uploaded files\\{filename}";
-
+            string filepath = System.IO.Path.GetFileName(file.FileName);
+            string path = $"..\\CheckYourKursova\\wwwroot\\Users\\{teacher.Initials}\\Uploaded files\\{filepath}";
             using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
             {
                 file.CopyTo(stream);
-                this.projects.AllProjects[0].TeacherMaterials.Add(filename);
             }
-            var doc = this.db.Documentations.Where(doc => doc.TeacherName == ownerName).LastOrDefault();
-            if (doc != null)
-            {
-                doc.AttachedTeacherMaterials += filename + "/";
-                this.db.Documentations.Update(doc);
-            }
+            this.db.Documentations.Add(
+                    new Documentation {  TeacherName = teacher.Initials, Title = filepath });
+            this.db.SaveChanges();
             return this.RedirectToAction("Teacher_Kursova");
         }
 

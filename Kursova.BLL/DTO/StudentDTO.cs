@@ -1,13 +1,17 @@
-﻿namespace Kursova.BLL.DTO
+﻿// <copyright file="StudentDTO.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Kursova.BLL.DTO
 {
     public class StudentDTO
     {
         public StudentDTO() { }
 
-        public StudentDTO(int student_ID, string fullName, string group, string kafedra,string email)
+        public StudentDTO(int student_ID, string fullName, string group, string kafedra, string email)
         {
             this.Id = student_ID;
-            this.FullName = fullName; 
+            this.FullName = fullName;
             this.Email = group;
             this.Group = kafedra;
             this.Email = email;

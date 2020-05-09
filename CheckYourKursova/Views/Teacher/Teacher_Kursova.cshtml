@@ -104,11 +104,12 @@
                                     <span style="font-weight: bold;" class="text-dark">
                                         Додати матеріали
                                         <br><br>
-                                        <form asp-controller="Teacher" asp-action="UploadFile" enctype="multipart/form-data" method="post">
-                                            <input type="file" name="file" />
-                                            <input type="hidden" value="" name="ownerName" />
-                                            <button type="submit">Submit</button>
-                                        </form>
+                                            <form asp-controller="Teacher" asp-action="UploadFile" enctype="multipart/form-data" method="post">
+                                                <input type="file" name="file" />
+                                                <input type="hidden" value="@User.Identity.Name" name="ownerName" />
+
+                                                <button type="submit">Submit</button>
+                                            </form>
                                         <!--<br><br><input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->
                                     </span>
 

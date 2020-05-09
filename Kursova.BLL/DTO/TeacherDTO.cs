@@ -1,7 +1,14 @@
-﻿namespace Kursova.BLL.DTO
+﻿// <copyright file="TeacherDTO.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace Kursova.BLL.DTO
 {
     public class TeacherDTO
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TeacherDTO"/> class.
+        /// </summary>
         public TeacherDTO() { }
 
         public int Id { get; set; }

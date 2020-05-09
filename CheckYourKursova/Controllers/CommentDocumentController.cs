@@ -34,30 +34,6 @@ namespace Kursova.Controllers
             //this.info.Teachers = this.db.Teachers;
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
-        {
-            if (this.ModelState.IsValid)
-            {
-                var user = await this.db.Students.FirstOrDefaultAsync(u => u.Email == email);
-                log.LogInformation("Student in comment controller found!");
-                if (user != null)
-                {
-                    this.db.Add(new Comment { Initials = user.FullName, CourseWork = user.CourseWorkTitle, Description = model.Comment });
-                    this.db.SaveChanges();
-                //    this.log.LogInformation("Comment added successfully ");
-
-                    return this.RedirectToPage("/Student/Student_Kursova");
-                }
-                else
-                {
-                  //  this.log.LogInformation("Student do not exist!  ");
-                }
-            }
-
-            return this.View(model);
-        }
-
+        
     }
 }

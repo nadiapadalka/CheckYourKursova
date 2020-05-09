@@ -34,7 +34,7 @@ namespace Kursova.DAL.Repositories
 
         public async Task<Admin> GetbyEmailandInitials(string email, string fullname)
         {
-            var result = await GetbyEmailandPassword(email, fullname);
+            var result = await this.GetbyEmailandPassword(email, fullname);
             return result;
         }
 
