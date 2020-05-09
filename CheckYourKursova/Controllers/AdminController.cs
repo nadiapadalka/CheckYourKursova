@@ -41,6 +41,8 @@ namespace Kursova.Controllers
             info.Students = this.service.GetAllStudents().Result.ToList();
             info.Teachers = this.service.GetAllTeachers().Result.ToList();
             model.Students = this.service.GetAllStudents().Result.ToList();
+            model.Documentation = this.db.Documentations.ToList();
+            model.Comments = this.db.Comments.ToList();
         }
 
         [HttpGet]
@@ -58,7 +60,7 @@ namespace Kursova.Controllers
                 this.log.LogInformation("Student in comment controller found!");
                 if (user != null)
                 {
-                    this.db.Add(new Comment { Initials = user.FullName, CourseWork = user.CourseWorkTitle, Description = model.Comment });
+                    this.db.Add(new Comment {PageId=user.Id, Initials = user.FullName, CourseWork = user.CourseWorkTitle, Description = model.Comment });
                     this.db.SaveChanges();
                     this.log.LogInformation("Comment added successfully ");
 
@@ -134,7 +136,22 @@ namespace Kursova.Controllers
 
             return this.RedirectToAction("Index");
         }
+        [HttpPost]
+        public async Task<IActionResult> Upload(string email, IFormFile file)
+        {
+            Student stud = await this.service.GetStudentByEmail(email);
+            if (stud != null && file != null)
+            {
+                string filename = System.IO.Path.GetFileName(file.FileName);
+                this.db.Documentations.Add(
+                    new Documentation { PageId= stud.Id, StudentName = stud.FullName, Title = filename });
+                this.db.SaveChanges();
+                return this.RedirectToAction("Student_Kursova", "Admin");
+            }
 
+            return this.RedirectToAction("Student_Kursova", "Admin");
+
+        }
         [HttpPost]
         public async Task<IActionResult> CreateTeachersImage(string email, IFormFile img)
         {

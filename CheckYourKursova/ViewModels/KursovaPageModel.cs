@@ -14,7 +14,9 @@
       //  public KursovaDbContext context { get; set; }
 
         public IEnumerable<Teacher> Teachers { get; set; }
-
+        public IEnumerable<Comment> Comments { get; set; }
+        public IEnumerable<Documentation> Documentation { get; set; }
+   
         public string Comment { get; set; }
 
         public string Document { get; set;

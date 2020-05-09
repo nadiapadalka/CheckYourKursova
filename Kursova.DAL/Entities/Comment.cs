@@ -7,6 +7,7 @@ namespace Kursova.DAL.Entities
     public class Comment
     {
         public int Id { get; set; }
+        public int PageId { get; set; }
 
         public string Initials { get; set; }
 

@@ -53,94 +53,75 @@
                                             }
                                         }
                                     }
-                                        <span style="font-weight: bold;" class="text-dark">
-                                            Додати матеріали
-                                            <br><br><input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
-                                        </span>
-
+                                    <span style="font-weight: bold;" class="text-dark">
+                                        Додати матеріали
                                         <br><br>
+                                        <form asp-action="Upload" method="post"
+                                              enctype="multipart/form-data" asp-controller="Admin">
+                                            <input type="hidden" value="@User.Identity.Name" name="email" />
 
-                                        <label for="inputDocument" class="sr-only">Документ</label>
-                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                        @foreach (var item in Model.Students)
+                                            <input name="file" asp-for="Document" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                                            <input type="submit" class="btn btn-primary" style="margin-right: 550px;" value="Підтвердити" />
+                                        </form>
+                                    </span>
+
+                                    <br><br>
+                                    @foreach (var item in Model.Students)
+                                    {
+                                        if (item.Email == User.Identity.Name)
                                         {
-                                            if (item.Email == User.Identity.Name)
+                                            <label for="inputDocument" class="sr-only">Документ</label>
+                                            var query = from doc in Model.Documentation
+                                                           join comment in Model.Comments
+                                                           on doc.Id equals comment.Id
+                                                           select new { doc.Title, comment.Description}; 
+                                            @foreach (var doc in Model.Documentation)
                                             {
-                                                <form asp-action="AddComment" asp-controller="Admin">
-                                                    <div class="input-group mb-3">
-                                                        <input type="hidden" value="@User.Identity.Name" name="email" />
-                                                        <input type="hidden" value="@item.CourseWorkTitle" name="courseWork" />
+                                                @foreach (var comment in Model.Comments)
+                                                {
+                                                    if ((doc.StudentName == item.FullName) && (comment.Initials == item.FullName) && doc.PageId == comment.PageId)
+                                                    {
+                                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
+                                                        <input type="text" class="form-control" id="inputText" placeholder="@comment.Description">
+                                                    <br />
+                                                    }
+                                                    else if ((doc.StudentName == item.FullName) && (comment.Initials == item.FullName) && doc.PageId != comment.PageId)
+                                                    {
+                                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
+                                                        <form asp-action="AddComment" asp-controller="Admin">
+                                                            <div class="input-group mb-3">
+                                                                <input type="hidden" value="@User.Identity.Name" name="email" />
+                                                                <input type="hidden" value="@item.CourseWorkTitle" name="courseWork" />
 
-                                                        <label for="inputText" class="sr-only">Додати коментар</label>
-                                                        <input type="text" asp-for="Comment" class="form-control" name="comment" id="inputText" placeholder="Додати коментар">
-                                                        <div class="input-group-append">
-                                                            <button type="submit" class="btn btn-primary">+</button>
-                                                        </div>
+                                                                <label for="inputText" class="sr-only">Додати коментар</label>
+                                                                <input type="text" asp-for="Comment" class="form-control" name="comment" id="inputText" placeholder="Додати коментар">
+                                                                <div class="input-group-append">
+                                                                    <button type="submit" class="btn btn-primary">+</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    }
+                                                }
+                                            }
+                                            <label for="inputDocument" class="sr-only">Документ</label>
+                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
+                                            <form asp-action="AddComment" asp-controller="Admin">
+                                                <div class="input-group mb-3">
+                                                    <input type="hidden" value="@User.Identity.Name" name="email" />
+                                                    <input type="hidden" value="@item.CourseWorkTitle" name="courseWork" />
+
+                                                    <label for="inputText" class="sr-only">Додати коментар</label>
+                                                    <input type="text" asp-for="Comment" class="form-control" name="comment" id="inputText" placeholder="Додати коментар">
+                                                    <div class="input-group-append">
+                                                        <button type="submit" class="btn btn-primary">+</button>
                                                     </div>
-                                                </form>}
+                                                </div>
+                                            </form>
                                         }
-                                                <label for="inputDocument" class="sr-only">Документ</label>
-                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                                <div class="input-group mb-3">
-                                                    <label for="inputText" class="sr-only">Додати коментар</label>
-                                                    <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-primary">+</button>
-                                                    </div>
-                                                </div>
+                                    }
 
-                                                <label for="inputDocument" class="sr-only">Документ</label>
-                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                                <div class="input-group mb-3">
-                                                    <label for="inputText" class="sr-only">Додати коментар</label>
-                                                    <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-primary">+</button>
-                                                    </div>
-                                                </div>
 
-                                                <label for="inputDocument" class="sr-only">Документ</label>
-                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                                <div class="input-group mb-3">
-                                                    <label for="inputText" class="sr-only">Додати коментар</label>
-                                                    <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-primary">+</button>
-                                                    </div>
-                                                </div>
-
-                                                <label for="inputDocument" class="sr-only">Документ</label>
-                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                                <div class="input-group mb-3">
-                                                    <label for="inputText" class="sr-only">Додати коментар</label>
-                                                    <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-primary">+</button>
-                                                    </div>
-                                                </div>
-
-                                                <label for="inputDocument" class="sr-only">Документ</label>
-                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                                <div class="input-group mb-3">
-                                                    <label for="inputText" class="sr-only">Додати коментар</label>
-                                                    <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-primary">+</button>
-                                                    </div>
-                                                </div>
-
-                                                <label for="inputDocument" class="sr-only">Документ</label>
-                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                                <div class="input-group mb-3">
-                                                    <label for="inputText" class="sr-only">Додати коментар</label>
-                                                    <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-primary">+</button>
-                                                    </div>
-                                                </div>
-                                            @*}
-                                        }*@
-                                    </div>
+                                </div>
                                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                                 &emsp;&emsp;
 

@@ -24,8 +24,10 @@ namespace Kursova.ViewModels
         public IEnumerable<Teacher> Teachers { get; set; }
 
         public IEnumerable<Documentation> Documentations { get; set; }
+        public IEnumerable<Teacher> Comments { get; set; }
 
-       // [Required(ErrorMessage = "Please choose profile image")]
+
+        // [Required(ErrorMessage = "Please choose profile image")]
         [Display(Name = "Profile Picture")]
         public byte[] UploadedImage { get; set; }
         public string ImageUrl { get; set; }
