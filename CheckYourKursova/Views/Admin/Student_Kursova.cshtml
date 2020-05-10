@@ -1,31 +1,28 @@
 ﻿@model Kursova.ViewModels.KursovaPageModel;
 
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <link rel="icon" href="img/logos/logo.png" sizes="32x32">
-
-    <title>Kursova</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom fonts for this template -->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-
-    <!-- Custom styles for this template -->
-    <link href="css/agency.min.css" rel="stylesheet">
-
-</head>
-<body id="page-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container">
+            <a class="nav-link text-dark" asp-area="" asp-action="MainPage" asp-controller="Home">
+                <img class="logo-main scale-with-grid" src="~/img/logos/logo_1.png" data-retina="~/img/logos/logo_1.png" data-height="" width="160" height="160">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav text-uppercase ml-auto">
+                    <li class="nav-item">
+                        <a class="btn nav-link js-scroll-trigger" href="/Admin/Student_home">Моя  сторінка</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="/Admin/Student_Kursova">Моя курсова</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="@Url.Action("Student_notification","Student")">Сповіщення</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" asp-controller="Student" asp-action="LogOut">Вийти</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <!-- Header -->
 
@@ -58,10 +55,10 @@
                                         <br><br>
                                         <form asp-action="Upload" method="post"
                                               enctype="multipart/form-data" asp-controller="Admin">
-                                            <input type="hidden" value="@User.Identity.Name" name="email" />
+                                            <input type="hidden" id="userfile" value="@User.Identity.Name" name="email" />
 
                                             <input name="file" asp-for="Document" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
-                                            <input type="submit" class="btn btn-primary" style="margin-right: 550px;" value="Підтвердити" />
+                                            <input type="submit" id="addfilestud" class="btn btn-primary" style="margin-right: 550px;" value="Підтвердити" />
                                         </form>
                                     </span>
 
@@ -90,13 +87,13 @@
                                                         <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
                                                         <form asp-action="AddComment" asp-controller="Admin">
                                                             <div class="input-group mb-3">
-                                                                <input type="hidden" value="@User.Identity.Name" name="email" />
+                                                                <input type="hidden" id="usercomment" value="@User.Identity.Name" name="email" />
                                                                 <input type="hidden" value="@item.CourseWorkTitle" name="courseWork" />
 
                                                                 <label for="inputText" class="sr-only">Додати коментар</label>
-                                                                <input type="text" asp-for="Comment" class="form-control" name="comment" id="inputText" placeholder="Додати коментар">
+                                                                <input type="text" asp-for="Comment" class="form-control" name="comment" id="inputTextCommentStud" placeholder="Додати коментар">
                                                                 <div class="input-group-append">
-                                                                    <button type="submit" class="btn btn-primary">+</button>
+                                                                    <button id="addcommemtstud" type="submit" class="btn btn-primary">+</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -107,13 +104,13 @@
                                             <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
                                             <form asp-action="AddComment" asp-controller="Admin">
                                                 <div class="input-group mb-3">
-                                                    <input type="hidden" value="@User.Identity.Name" name="email" />
+                                                    <input type="hidden" id="usercomment" value="@User.Identity.Name" name="email" />
                                                     <input type="hidden" value="@item.CourseWorkTitle" name="courseWork" />
 
                                                     <label for="inputText" class="sr-only">Додати коментар</label>
-                                                    <input type="text" asp-for="Comment" class="form-control" name="comment" id="inputText" placeholder="Додати коментар">
+                                                    <input type="text" asp-for="Comment" class="form-control" name="comment" id="inputTextCommentStud" placeholder="Додати коментар">
                                                     <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-primary">+</button>
+                                                        <button type="submit" id="addcommemtstud" class="btn btn-primary">+</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -169,18 +166,4 @@
                                 </div>
                             </div>
     </header>
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Contact form JavaScript -->
-    <script src="js/jqBootstrapValidation.js"></script>
-    <script src="js/contact_me.js"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="js/agency.min.js"></script>
-</body>
-
+    

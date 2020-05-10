@@ -27,16 +27,14 @@ namespace Kursova.Controllers
         private readonly IStudentService service;
         private readonly KursovaDbContext db;
         private readonly ITeacherService teacherService;
-        private readonly IHubContext<NotifyHub> _hubContext;
 
         private KursovaPageModel info = new KursovaPageModel();
 
-        public StudentController(KursovaDbContext database, IStudentService studentService, ILogger<StudentController> logger, IHubContext<NotifyHub> hubContext)
+        public StudentController(KursovaDbContext database, IStudentService studentService, ILogger<StudentController> logger)
         {
             this.db = database;
             this.service = studentService;
             this.log = logger;
-            _hubContext = hubContext;
             // info.Teachers = this.service.GetAllTeachers().Result.ToList();
             //info.Students = this.service.GetAll().Result;
         }
@@ -178,12 +176,6 @@ namespace Kursova.Controllers
         public IActionResult Student_notification()
         {
             return View();
-        }
-
-        [HttpPost]
-        public async Task SendMessage(string message)
-        {
-            await _hubContext.Clients.All.SendAsync("Send", message);
         }
 
         private void Folder(string ownerName, string option = "Create")
