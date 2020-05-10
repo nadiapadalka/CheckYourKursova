@@ -1,19 +1,4 @@
-﻿<!--<!DOCTYPE html>
-<html lang="en">
-
-<body>
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-
-</body>
-</html>
-    -->
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ua">
 
 <head>
@@ -41,38 +26,8 @@
 
 <body id="page-top">
 
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-        <div class="container">
-            <a class="nav-link text-dark" asp-area="" asp-action="MainPage" asp-controller="Home">
-                <img class="logo-main scale-with-grid" src="~/img/logos/logo_1.png" data-retina="~/img/logos/logo_1.png" data-height="" width="160" height="160">
-            </a>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav text-uppercase ml-auto">
-                    <li class="nav-item">
-                        <a class="btn nav-link js-scroll-trigger" href="/Admin/Student_home">Моя  сторінка</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="/Admin/Student_Kursova">Моя курсова</a>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="btn btn-primary" href="/Student/Student_notification">
-                            Сповіщення &nbsp;<span class="badge badge-light">5</span>
-                            <span class="sr-only">непрочитані сповіщення</span>
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" asp-controller="Student" asp-action="LogOut">Вийти</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    @RenderBody()
 
     <footer class="border-top footer text-muted">
         <div class="container">
@@ -91,6 +46,9 @@
     <script src="~/js/agency.min.js"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/notifyaddfilestud.js"></script>
+    <script src="~/js/notifycommentstud.js"></script>
     @RenderSection("Scripts", required: false)
 
 </body>
