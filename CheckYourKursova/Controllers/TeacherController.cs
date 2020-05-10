@@ -30,7 +30,7 @@ namespace AuthApp.Controllers
         private readonly ILogger<TeacherController> stlogger;
         private readonly KursovaDbContext db;
         private readonly IWebHostEnvironment _appEnvironment;
-        private CourseProjects projects = new CourseProjects();
+        private UsersInfoModel info = new UsersInfoModel();
         private readonly IHubContext<NotifyHub> _hubContext;
 
         public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger, IWebHostEnvironment buidler, IHubContext<NotifyHub> hubContext)
@@ -64,8 +64,6 @@ namespace AuthApp.Controllers
 
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
 
-                    this.Folder(result.Result.Initials, "Create");
-
                     return this.RedirectToAction("Teacher_home", "Admin");
                 }
 
@@ -75,23 +73,12 @@ namespace AuthApp.Controllers
             return this.View(model);
         }
 
-        private void Folder(string ownerName, string option = "Create")
-        {
-            DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
-            if (option == "Delete")
-            {
-                dir.Delete();
-            }
-        }
-
         [HttpGet]
 
         public async Task<IActionResult> Teacher_Kursova()
         {
-            //return this.View(await this.teacherService.GetAll());
-            return this.View(this.projects);
+            this.Update(this.info);
+            return this.View(this.info);
         }
 
         [HttpGet]
@@ -219,7 +206,7 @@ namespace AuthApp.Controllers
         {
             // string path = Path.Combine(this._appEnvironment.ContentRootPath, "wwwroot/files/" + filename);
 
-            string path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ownerName}\\Downloaded files\\{filename}";
+            string path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ownerName}\\Uploaded files\\{filename}";
             byte[] mas = System.IO.File.ReadAllBytes(path);
             string fileType = this.GetFileType(filename);
             return this.File(mas, fileType, filename);
@@ -295,12 +282,11 @@ namespace AuthApp.Controllers
             using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
             {
                 file.CopyTo(stream);
-                this.projects.AllProjects[0].TeacherMaterials.Add(filename);
             }
             var doc = this.db.Documentations.Where(doc => doc.TeacherName == ownerName).LastOrDefault();
             if (doc != null)
             {
-                doc.AttachedTeacherMaterials += filename + "/";
+                doc.AttachedTeacherMaterials += "***" + filename;
                 this.db.Documentations.Update(doc);
             }
             return this.RedirectToAction("Teacher_Kursova");
@@ -310,6 +296,19 @@ namespace AuthApp.Controllers
         public async Task TSendMessage(string message)
         {
             await this._hubContext.Clients.All.SendAsync("TSend", message);
+        }
+
+        [HttpGet]
+        public IActionResult ChooseStudent(string studentName)
+        {
+            UsersInfoModel.CurrentStudent = this.db.Students.Where(st => st.FullName == studentName).FirstOrDefault();
+            return RedirectToAction("Teacher_Kursova");
+        }
+        private void Update(UsersInfoModel model)
+        {
+            model.Students = this.db.Students.ToList();
+            model.Teachers = this.teacherService.AllToList();
+            model.Documentations = this.db.Documentations.ToList();
         }
     }
 }

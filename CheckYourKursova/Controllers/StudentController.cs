@@ -1,24 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Kursova.BLL.Interfaces;
-using Kursova.DAL.EF;
-using Kursova.DAL.Entities;
-using Kursova.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
-using Kursova.Models;
-using Kursova.Hubs;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNet.SignalR;
-using System.IO;
-using System.Linq;
-
-namespace Kursova.Controllers
+﻿namespace Kursova.Controllers
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using Kursova.BLL.Interfaces;
+    using Kursova.DAL.EF;
+    using Kursova.DAL.Entities;
+    using Kursova.Hubs;
+    using Kursova.Models;
+    using Kursova.ViewModels;
+    using Microsoft.AspNet.SignalR;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.SignalR;
+    using Microsoft.Extensions.Logging;
 
     public class StudentController : Controller
     {
@@ -26,7 +25,7 @@ namespace Kursova.Controllers
         private readonly IStudentService service;
         private readonly KursovaDbContext db;
         private readonly ITeacherService teacherService;
-	private readonly IHubContext<NotifyHub> _hubContext;
+        private readonly IHubContext<NotifyHub> _hubContext;
 
 
         public StudentController(KursovaDbContext database, IStudentService studentService, ILogger<StudentController> logger, IHubContext<NotifyHub> hubContext)
@@ -34,8 +33,8 @@ namespace Kursova.Controllers
             this.db = database;
             this.service = studentService;
             this.log = logger;
-	    _hubContext = hubContext;
-           // info.Teachers = this.service.GetAllTeachers().Result.ToList();
+            _hubContext = hubContext;
+            // info.Teachers = this.service.GetAllTeachers().Result.ToList();
         }
 
         [HttpGet]
@@ -55,9 +54,6 @@ namespace Kursova.Controllers
                 {
                     await this.Authenticate(model.Email);
                     this.log.LogInformation($"Student loginned successfully ");
-
-                    string name = this.db.Students.Where(x => x.Email == model.Email).FirstOrDefault().FullName;
-                    this.Folder(name, "Create");
 
                     return this.RedirectToAction("Student_home", "Admin");
                 }
@@ -99,7 +95,7 @@ namespace Kursova.Controllers
                     await this.Authenticate(model.Email);
                     this.db.SaveChanges();
                     this.log.LogInformation("Student registered successfully ");
-		    await SendMessage(" Зарестровано нового студента.");
+                    await SendMessage(" Зарестровано нового студента.");
 
                     return this.RedirectToAction("Index", "Home");
                 }
@@ -146,7 +142,7 @@ namespace Kursova.Controllers
             return this.View(model);
         }
 
-	public IActionResult Student_notification()
+        public IActionResult Student_notification()
         {
             return View();
         }
@@ -155,17 +151,6 @@ namespace Kursova.Controllers
         public async Task SendMessage(string message)
         {
             await _hubContext.Clients.All.SendAsync("Send", message);
-        }
-
-        private void Folder(string ownerName, string option = "Create")
-        {
-            DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
-            if (option == "Delete")
-            {
-                dir.Delete();
-            }
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Kursova.Controllers
             this.service = service;
             this.log = log;
             this.webHostEnvironment = hostEnvironment;
+            Update(this.info);
         }
 
         [HttpGet]
@@ -69,14 +70,14 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            this.Update(this.info);
+            // this.Update(this.info);
             return this.View(this.info);
         }
 
         [HttpGet]
         public IActionResult Student_home()
         {
-            this.Update(this.info);
+            // this.Update(this.info);
             return this.View(this.info);
         }
 
@@ -182,9 +183,11 @@ namespace Kursova.Controllers
         {
             try
             {
-                var studentName = this.db.Students.Where(x => x.Email == email).FirstOrDefault().FullName;
-                var documents = this.db.Documentations.Where(x => x.StudentName == studentName).ToList();
-                return this.View(documents);
+                var student = this.db.Students.Where(x => x.Email == email).FirstOrDefault();
+                var documents = this.db.Documentations.Where(x => x.StudentName == student.FullName).ToList();
+                this.info.Documentations = documents;
+                UsersInfoModel.CurrentStudent = student;
+                return this.View(this.info);
             }
             catch
             {
@@ -199,7 +202,9 @@ namespace Kursova.Controllers
             {
                 var teacherName = this.db.Teachers.Where(x => x.Email == email).FirstOrDefault().Initials;
                 var documents = this.db.Documentations.Where(x => x.TeacherName == teacherName).ToList();
-                return this.View(documents);
+                this.info.Documentations = documents;
+                this.info.TeacherInitials = teacherName;
+                return this.View(this.info);
             }
             catch
             {
@@ -216,7 +221,7 @@ namespace Kursova.Controllers
                 this.db.Set<Student>().Remove(stud);
                 this.db.SaveChanges();
 
-                this.Folder(stud.FullName, "Delete");
+                this.DeleteFolder(stud.FullName);
             }
 
             return this.RedirectToAction("Index");
@@ -231,7 +236,7 @@ namespace Kursova.Controllers
                 this.db.Set<Teacher>().Remove(teacher);
                 this.db.SaveChanges();
 
-                this.Folder(teacher.Initials, "Delete");
+                this.DeleteFolder(teacher.Initials);
             }
 
             return this.RedirectToAction("Index");
@@ -353,20 +358,15 @@ namespace Kursova.Controllers
         public IActionResult ChooseTeacherForStudent(string studentEmail)
         {
             var student = this.service.GetAllStudents().Result.ToList().Where(student => student.Email == studentEmail).FirstOrDefault();
-            this.info.CurrentStudent = student;
+            UsersInfoModel.CurrentStudent = student;
             this.Update(this.info);
             return this.View(this.info);
         }
 
-        private void Folder(string ownerName, string option = "Create")
+        private void DeleteFolder(string ownerName)
         {
             DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
-            if (option == "Delete")
-            {
-                dir.Delete(true);
-            }
+            dir.Delete(true);
         }
 
         private void Update(UsersInfoModel model)
@@ -375,5 +375,81 @@ namespace Kursova.Controllers
             model.Teachers = this.service.GetAllTeachers().Result.ToList();
             model.Documentations = this.db.Documentations.ToList();
         }
+
+        [HttpGet]
+        public FileResult DownloadFile(string path)
+        {
+            // string path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ownerName}\\Uploaded files\\{filename}";
+            string filename = string.Empty;
+            foreach (var item in path.Split("\\"))
+            {
+                filename = item;
+            }
+
+            byte[] mas = System.IO.File.ReadAllBytes(path);
+            string fileType = this.GetFileType(filename);
+            return this.File(mas, fileType, filename);
+        }
+
+        private string GetFileType(string filename)
+        {
+            var type = filename.Split(".")[1];
+            
+            using (StreamReader stream = new StreamReader("..\\CheckYourKursova\\wwwroot\\files\\text.txt"))
+            {
+                var types = stream.ReadToEnd().Split(" ");
+                foreach (var item in types)
+                {
+                    if (item == type)
+                    {
+                        return "text/" + item;
+                    }
+                    if (item == "plain" && type == "txt")
+                    {
+                        return "text/" + item;
+                    }
+                }
+            }
+
+            using (StreamReader stream = new StreamReader("..\\CheckYourKursova\\wwwroot\\files\\application.txt"))
+            {
+                var types = stream.ReadToEnd().Split(" ");
+                foreach (var item in types)
+                {
+                    if (item == "vnd.openxmlformats-officedocument.wordprocessingml.document" && type == "docx")
+                    {
+                        return "application/" + item;
+                    }
+                    else if (item == "vnd.openxmlformats-officedocument.spreadsheetml.sheet" && type == "xlsx")
+                    {
+                        return "application/" + item;
+                    }
+                    else if (item == "vnd.openxmlformats-officedocument.presentationml.presentation" && type == "pptx")
+                    {
+                        return "application/" + item;
+                    }
+
+                    if (item == type)
+                    {
+                        return "application/" + item;
+                    }
+                }
+            }
+
+            using (StreamReader stream = new StreamReader("..\\CheckYourKursova\\wwwroot\\files\\image.txt"))
+            {
+                var types = stream.ReadToEnd().Split(" ");
+                foreach (var item in types)
+                {
+                    if (item == type)
+                    {
+                        return "image/" + item;
+                    }
+                }
+            }
+
+            return null;
+        }
+
     }
 }

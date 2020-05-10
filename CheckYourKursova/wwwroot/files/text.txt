@@ -1,5 +1,1 @@
-css
-html
-xml
-csv
-plain
+css html xml csv plain

@@ -4,7 +4,7 @@
     Layout = null;
 }
 
-<h1>Оберіть викладача для студента @Model.CurrentStudent.FullName</h1>
+<h1>Оберіть викладача для студента @Kursova.ViewModels.UsersInfoModel.CurrentStudent.FullName</h1>
 
 <table style="width:100%">
     <tr>
@@ -17,7 +17,7 @@
             <td>@item.Initials</td>
             <td>
                 <form asp-action="SetTeacherForStudent" method="post">
-                    <input type="hidden" value="@Model.CurrentStudent.Email" name="studentEmail" />
+                    <input type="hidden" value="@Kursova.ViewModels.UsersInfoModel.CurrentStudent.Email" name="studentEmail" />
                     <input type="hidden" value="@item.Email" name="teacherEmail" />
                     <button type="submit" class="btn btn-outline-dark">
                         Вибрати

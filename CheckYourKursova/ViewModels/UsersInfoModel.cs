@@ -10,16 +10,48 @@ namespace Kursova.ViewModels
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class UsersInfoModel
     {
         public static string AdminEmail { get; set; } = "Admin's email";
-        public Student CurrentStudent { get; set; }
+        public static Student CurrentStudent { get; set; }
+        
+        public string CurrentStudentName
+        {
+            get
+            {
+                if (CurrentStudent != null)
+                {
+                    return CurrentStudent.FullName;
+                }
+                return null;
+            }
+
+            set
+            {
+                this.CurrentStudentName = value;
+            }
+        }
+
         public string TeacherInitials { get; set; }
 
         public string Email { get; set; }
 
         public IEnumerable<Student> Students { get; set; }
+
+        public static List<string> StudentsNames(IEnumerable<Student> Students)
+        {
+            List<string> names = new List<string>();
+            foreach (var item in Students)
+            {
+                names.Add(item.FullName);
+            }
+
+            return names;
+        }
+
+        // public SelectList StudentsList = new SelectList(Students);
 
         public IEnumerable<Teacher> Teachers { get; set; }
 

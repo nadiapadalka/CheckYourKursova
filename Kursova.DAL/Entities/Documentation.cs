@@ -14,8 +14,6 @@ namespace Kursova.DAL.Entities
 
         public string TeacherName { get; set; }
 
-        public string Title { get; set; }
-
         public string Description { get; set; }
 
         public string AttachedStudentMaterials { get; set; }

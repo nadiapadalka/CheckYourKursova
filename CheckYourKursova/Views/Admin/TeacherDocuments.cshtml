@@ -1,4 +1,4 @@
-﻿@model List<Kursova.DAL.Entities.Documentation>
+﻿@model Kursova.ViewModels.UsersInfoModel
 @{
     Layout = "Teacher_Layout";
 }
@@ -12,41 +12,43 @@
         <div class="intro-text">
             <div class="card card-2">
                 <div class="card-body">
-                    <h1>Teacher Documents</h1>
+                    <h1>Документи @Model.TeacherInitials</h1>
 
                     <div class="text-center">
                         <br />
                         <h2 style="color:black">Всі документи</h2>
                         <table style="width:100%">
-                            <tr>
-                                <th>Назва</th>
-                                <th>Опис</th>
-                                <th>Прикріплені матеріали</th>
-                                <th></th>
-                            </tr>
+                            <tr><h3>Опис</h3></tr>
                             @{
-                                foreach (var item in Model)
+                                foreach (var item in Model.Documentations)
                                 {
+                                    <tr><p>@item.Description</p></tr>
+                                    <tr><h3>Прикріплені матеріали</h3></tr>
                                     <tr>
-                                        <td>@item.Title</td>
-                                        <td>@item.Description</td>
-                                        <td>
-                                            @{
-                                                foreach (var doc in item.AttachedTeacherMaterials.Split("/"))
-                                                {
-                                                    <p>@doc</p>
-                                                }
+                                        @{
+                                            foreach (var doc in item.AttachedTeacherMaterials.Split("***"))
+                                            {
+                                                @doc.Split("\\").Last()
+                                                <form asp-action="DownloadFile" method="get">
+                                                    <input type="hidden" value="@doc" name="path" />
+                                                    <button type="submit" class="btn btn-outline-dark">
+                                                        Download
+                                                    </button>
+                                                </form>
 
                                             }
-                                        </td>
-                                        <td>
-                                            <form asp-action="DeleteTeacherDocument" method="post">
+                                        }
+                                    </tr>
+                                    <br />
+                                    <tr>
+                                        <p>
+                                            <form asp-action="DeleteStudentDocument" method="post">
                                                 <input type="hidden" value="@item.Id" name="id" />
                                                 <button type="submit" class="btn btn-outline-dark">
-                                                    Видалити
+                                                    Видалити документацію
                                                 </button>
                                             </form>
-                                        </td>
+                                        </p>
                                     </tr>
                                 }
                             }

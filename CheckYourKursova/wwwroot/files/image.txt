@@ -1,3 +1,1 @@
-png
-jpeg
-gif
+png jpeg gif
