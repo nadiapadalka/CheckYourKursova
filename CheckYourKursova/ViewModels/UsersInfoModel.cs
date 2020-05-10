@@ -15,6 +15,7 @@ namespace Kursova.ViewModels
     {
         public static string AdminEmail { get; set; } = "Admin's email";
         public Student CurrentStudent { get; set; }
+        public string StudentInitials { get; set; }
         public string TeacherInitials { get; set; }
 
         public string Email { get; set; }

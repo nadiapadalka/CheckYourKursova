@@ -1,3 +1,7 @@
+// <copyright file="Startup.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using System;
 using Google;
 using Kursova.BLL.Interfaces;
@@ -14,7 +18,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Owin;
-using Owin;
 [assembly: OwinStartup(typeof(Kursova.Startup))]
 
 namespace Kursova

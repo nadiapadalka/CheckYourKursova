@@ -106,7 +106,7 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Student_home()
         {
-         //   this.Update(this.info);
+            this.Update(this.info);
             return this.View(this.info);
         }
 
@@ -125,7 +125,9 @@ namespace Kursova.Controllers
                 stud.ProfilePicture = filename;
                 this.ViewBag.url = filename;
                 this.log.LogInformation($"image not null{stud.ProfilePicture}");
-                this.service.UpdateStudent(stud);
+              //  this.service.UpdateStudent(stud);
+                this.db.Students.Update(stud);
+                this.db.SaveChanges();
                 using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{stud.FullName}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
                 {
                     img.CopyTo(stream);
@@ -241,8 +243,10 @@ namespace Kursova.Controllers
             if (stud != null)
             {
                 stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
-                this.service.UpdateStudent(stud);
+                //  this.service.UpdateStudent(stud);
+                this.db.Students.Update(stud);
                 this.db.SaveChanges();
+               // this.db.SaveChanges();
                 this.log.LogInformation($"Initials {stud.TeacherInitials}");
 
                 return this.RedirectToAction("Student_home", "Admin");
@@ -258,8 +262,9 @@ namespace Kursova.Controllers
             if (stud != null)
             {
                 stud.CourseWorkTitle = courseWork;
-                this.service.UpdateStudent(stud);
-                await this.db.SaveChangesAsync();
+               // this.service.UpdateStudent(stud);
+                this.db.Students.Update(stud);
+                this.db.SaveChanges();
                 return this.RedirectToAction("Teacher_home", "Admin");
             }
 
@@ -442,7 +447,6 @@ namespace Kursova.Controllers
         public IActionResult ChooseTeacherForStudent(string studentEmail)
         {
             var student = this.service.GetAllStudents().Result.ToList().Where(student => student.Email == studentEmail).FirstOrDefault();
-            this.info.CurrentStudent = student;
             this.Update(this.info);
             return this.View(this.info);
         }
@@ -469,6 +473,11 @@ namespace Kursova.Controllers
         public async Task<IActionResult> Student_Kursova()
         {
             return  this.View(this.model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Teacher_Kursova()
+        {
+            return this.View(this.info);
         }
     }
 }

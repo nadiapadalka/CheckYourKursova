@@ -1,5 +1,5 @@
 ﻿<!-- model IEnumerable<Kursova.DAL.Entities.Teacher> -->
-@model Kursova.ViewModels.CourseProjects
+@model Kursova.ViewModels.UsersInfoModel
 @{
     Layout = "Teacher_Layout";
 }
@@ -42,26 +42,30 @@
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             <div class="form-group">
                                 <div class="dropdown open">
-                                    <a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Прізвище та ініціали студента</a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <select  asp-for="StudentInitials"name="name" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 10px;"
+                                            asp-items="@(new SelectList(Model.Students, "Id", "FullName"))">
+                                        <option>Оберіть Студента</option>
+                                    </select>                                   
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         @{
-                                            foreach (var item in Model.AllProjects)
-                                            {
-                                                @*<form asp-action="ChooseStudent" method="get">
-                                                        <input type="hidden" value="@item.StudentName" name="studentName" />
-                                                        <a href="/Teacher/ChooseStudent/@item.StudentName" class="dropdown-item">@item.StudentName</a>
-                                                    </form>*@
-                                                <a class="dropdown-item">@item.StudentName</a>
-                                            }
+
+                                            <input type="hidden" value="@User.Identity.Name" name="email" />
+
+
+                                            <button class="btn btn-primary" style="margin-right: 550px;" type="submit">Надіслати</button>
+
                                         }
                                     </div>
                                 </div><br>
+                                @foreach (var item in Model.Students)
+                                    if (item.CourseWorkTitle == Model.StudentInitials)
+                                    {
                                 <input type="thema" class="form-control" id="ThemaKursova" placeholder="Тема курсової"><br><br>
-
+                                        } }
                                 <span style="font-weight: bold;" class="text-dark">Матеріали студента</span>
 
                                 @{
-                                    foreach (var item in Model.CurrentProject.StudentMaterials)
+                                    @*foreach (var item in Model.CurrentProject.StudentMaterials)
                                     {
                                         <div class="input-group mb-3">
                                             <label for="inputDocument" class="sr-only">Документ</label>
@@ -81,7 +85,7 @@
                                                 <button type="submit" class="btn btn-primary">+</button>
                                             </div>
                                         </div>
-                                    }
+                                    }*@
                                 }
 
 
