@@ -182,6 +182,13 @@ namespace AuthApp.Controllers
             return this.View(model);
         }
 
+        public async Task<IActionResult> LogOut()
+        {
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            this.stlogger.LogInformation("Teacher LogOut");
+            return this.RedirectToAction("Index", "Home");
+        }
+
         [HttpGet]
         public IActionResult CreateTask()
         {
@@ -196,12 +203,6 @@ namespace AuthApp.Controllers
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return this.RedirectToAction("Login", "Account");
         }
 
         public IActionResult Teacher_notification()
@@ -304,4 +305,3 @@ namespace AuthApp.Controllers
         }
     }
 }
-
