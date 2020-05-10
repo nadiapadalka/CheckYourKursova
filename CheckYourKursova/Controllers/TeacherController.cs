@@ -32,15 +32,15 @@ namespace AuthApp.Controllers
         private readonly KursovaDbContext db;
         private readonly IWebHostEnvironment _appEnvironment;
         private CourseProjects projects = new CourseProjects();
-        private readonly IHubContext<NotifyHub> _hubContext;
+        
 
-        public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger, IWebHostEnvironment buidler, IHubContext<NotifyHub> hubContext)
+        public TeacherController(KursovaDbContext kursovadb, ITeacherService iteacherservice, ILogger<TeacherController> logger, IWebHostEnvironment buidler)
         {
             this.db = kursovadb;
             this.teacherService = iteacherservice;
             this.stlogger = logger;
             this._appEnvironment = buidler;
-            _hubContext = hubContext;
+           
         }
 
         [HttpGet]
@@ -133,8 +133,7 @@ namespace AuthApp.Controllers
                     new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
                     await this.Authenticate(model.Email);
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
-                    this.db.SaveChanges();
-                    await TSendMessage(" Зареструвався новий викладач.");
+                    this.db.SaveChanges();                    
                     return this.RedirectToAction("Index", "Home");
                 }
                 else
@@ -298,10 +297,5 @@ namespace AuthApp.Controllers
             return this.RedirectToAction("Teacher_Kursova");
         }
 
-        [HttpPost]
-        public async Task TSendMessage(string message)
-        {
-            await this._hubContext.Clients.All.SendAsync("TSend", message);
-        }
     }
 }

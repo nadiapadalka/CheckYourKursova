@@ -139,17 +139,16 @@
 
 
                                 <span style="font-weight: bold;" class="text-dark">
-                                    Додати матеріали
-                                    <br><br>
-                                    <form asp-controller="Admin" asp-action="UploadFileForTeacher" enctype="multipart/form-data" method="post">
-                                        <input name="file" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
-                                        <input type="hidden" value="@User.Identity.Name" name="email" />
+                                Додати матеріали
+                                <br><br>
+                                <form asp-controller="Teacher" asp-action="UploadFileForTeacher" id="exampleInputFileTecher" enctype="multipart/form-data" method="post">
+                                    <input type="file" name="file" />
+                                    <input type="hidden"id="userteaacher" value="@User.Identity.Name" name="ownerName" />
 
-                                        <input type="submit" class="btn btn-primary" style="margin-right: 550px;" value="Підтвердити" />
-                                    </form>
-                                    <!--<br><br><input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->
-                                </span>
-
+                                    <button id=" addfileteacher" type="submit">Submit</button>
+                                </form>
+                                <!--<br><br><input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->
+                            </span>
 
                                 <br><br>
                                 @foreach (var doc in Model.Documentation)
