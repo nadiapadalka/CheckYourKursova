@@ -164,6 +164,10 @@
               "target": "Package",
               "version": "[9.0.0, )"
             },
+            "Google.Apis": {
+              "target": "Package",
+              "version": "[1.45.0, )"
+            },
             "Microsoft.AspNet.SignalR.Client": {
               "target": "Package",
               "version": "[2.4.1, )"
@@ -267,6 +271,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "Google.Apis": {
+              "target": "Package",
+              "version": "[1.45.0, )"
             },
             "Microsoft.AspNetCore.SignalR": {
               "target": "Package",
@@ -377,6 +385,10 @@
             "Effort.EF6": {
               "target": "Package",
               "version": "[2.2.10, )"
+            },
+            "Google.Apis": {
+              "target": "Package",
+              "version": "[1.45.0, )"
             },
             "Microsoft.AspNet.SignalR.Client": {
               "target": "Package",

@@ -1,5 +1,5 @@
-﻿<!-- model IEnumerable<Kursova.DAL.Entities.Teacher> -->
-@model Kursova.ViewModels.UsersInfoModel
+﻿
+@model Kursova.ViewModels.KursovaPageModel;
 @{
     Layout = "Teacher_Layout";
 }
@@ -42,10 +42,13 @@
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
                             <div class="form-group">
                                 <div class="dropdown open">
-                                    <select asp-for="StudentInitials" name="name" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 10px;"
-                                            asp-items="@(new SelectList(Model.Students, "Id", "FullName"))">
-                                        <option>Оберіть Студента</option>
-                                    </select>
+                                    <form asp-action="ChooseStudent" asp-controller="Admin">
+                                        <select name="name" class="btn btn-secondary dropdown-toggle" onchange="this.form.submit()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 10px;"
+                                                asp-items="@(new SelectList(Model.Students, "Id", "FullName"))">
+                                            <option>Оберіть Студента</option>
+
+                                        </select>
+                                    </form>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                         @{
 
@@ -57,59 +60,65 @@
                                         }
                                     </div>
                                 </div><br>
-                                @foreach (var item in Model.Students)
-                                    if (item.CourseWorkTitle == Model.StudentInitials)
+                                @if (TempData["data"] != null)
+                                {
+                                    @foreach (var item in Model.Students)
                                     {
-                                        <input type="thema" class="form-control" id="ThemaKursova" placeholder="Тема курсової"><br><br>
-                                    }
-                                <span style="font-weight: bold;" class="text-dark">Матеріали студента</span>
-
-                                @{
-                                    if (Model.Documentations.Where(st => st.StudentName == Model.CurrentStudent.FullName) != null)
-                                    {
-                                        foreach (var item in Model.Documentations.Where(st => st.StudentName == Model.CurrentStudent.FullName))
+                                        if (item.Id == Convert.ToInt32(TempData["data"]))
                                         {
-                                            <div class="input-group mb-3">
-                                                <label for="inputDocument" class="sr-only">Документ</label>
-                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="@item.Title">
-                                                <div class="input-group-append">
-                                                    <form asp-action="GetFile" method="get">
-                                                        <input type="hidden" value="@item.Title" name="filename" />
-                                                        <input type="hidden" value="@Model.CurrentStudent.FullName" name="ownerName" />
-                                                        <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <div class="input-group mb-3">
-                                                <label for="inputText" class="sr-only">Додати коментар</label>
-                                                <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-primary">+</button>
-                                                </div>
-                                            </div>
+                                            <input type="thema" class="form-control" id="ThemaKursova" placeholder="@item.FullName"><br><br>
+                                            <input type="thema" class="form-control" id="ThemaKursova" placeholder="@item.CourseWorkTitle"><br><br>
+
+
+                                            <span style="font-weight: bold;" class="text-dark">Матеріали студента</span>
+                                         
+
+                                            
+                                                foreach (var doc in Model.Documentation)
+                                                {
+                                                    if (item.Id == Convert.ToInt32(TempData["data"]) && item.FullName == doc.StudentName)
+                                                    {
+                                                        <div class="input-group mb-3">
+                                                            <label for="inputDocument" class="sr-only">Документ</label>
+                                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
+                                                            <div class="input-group-append">
+                                                                <form asp-action="DownloadTeacher" method="get">
+                                                                    <input type="hidden" value="@User.Identity.Name" name="email" />
+
+                                                                    <input type="hidden" value="@doc.Title" name="filename" />
+
+                                                                    <input type="hidden" value="@item.FullName" name="studinitials" />
+                                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <form asp-controller="Admin" asp-action="AddCommentTeacher">
+                                                            <div class="input-group mb-3">
+                                                                <label for="inputText" class="sr-only">Додати коментар</label>
+                                                                <input type="hidden" value="@User.Identity.Name" name="email" />
+                                                                <input type="hidden" value="@item.CourseWorkTitle" name="coursework" />
+
+                                                                <input type="text"
+                                                                       name="comment" class="form-control" id="inputText" placeholder="Додати коментар">
+                                                                <div class="input-group-append">
+                                                                    <button type="submit" class="btn btn-primary">+</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+        
+                                                   
+                                                   
+                                                }
+                                            }
                                         }
                                     }
-                                    @*foreach (var item in Model.CurrentProject.StudentMaterials)
-                                        {
-                                            <div class="input-group mb-3">
-                                                <label for="inputDocument" class="sr-only">Документ</label>
-                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="@item">
-                                                <div class="input-group-append">
-                                                    <form asp-action="GetFile" method="get">
-                                                        <input type="hidden" value="@item" name="filename" />
-                                                        <input type="hidden" value="@Model.CurrentProject.StudentName" name="ownerName" />
-                                                        <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <div class="input-group mb-3">
-                                                <label for="inputText" class="sr-only">Додати коментар</label>
-                                                <input type="text" class="form-control" id="inputText" placeholder="Додати коментар">
-                                                <div class="input-group-append">
-                                                    <button type="submit" class="btn btn-primary">+</button>
-                                                </div>
-                                            </div>
-                                        }*@
+                                }
+
+                                
+                                else
+                                {
+                                <input type="thema" class="form-control" id="ThemaKursova" placeholder="Студент"><br><br>
+                                <input type="thema" class="form-control" id="ThemaKursova" placeholder="Тема Курсової"><br><br>
                                 }
 
 
@@ -132,29 +141,31 @@
                                 <span style="font-weight: bold;" class="text-dark">
                                     Додати матеріали
                                     <br><br>
-                                    <form asp-controller="Teacher" asp-action="UploadFileForTeacher" enctype="multipart/form-data" method="post">
-                                        <input type="file" name="file" />
-                                        <input type="hidden" value="@User.Identity.Name" name="ownerName" />
+                                    <form asp-controller="Admin" asp-action="UploadFileForTeacher" enctype="multipart/form-data" method="post">
+                                        <input name="file" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                                        <input type="hidden" value="@User.Identity.Name" name="email" />
 
-                                        <button type="submit">Submit</button>
+                                        <input type="submit" class="btn btn-primary" style="margin-right: 550px;" value="Підтвердити" />
                                     </form>
                                     <!--<br><br><input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->
                                 </span>
 
 
                                 <br><br>
+                                @foreach (var doc in Model.Documentation)
+                                {
+                                    foreach (var teacher in Model.Teachers)
+                                    {
 
-                                <label for="inputDocument" class="sr-only">Документ</label>
-                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                <label for="inputDocument" class="sr-only">Документ</label>
-                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                <label for="inputDocument" class="sr-only">Документ</label>
-                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                <label for="inputDocument" class="sr-only">Документ</label>
-                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                <label for="inputDocument" class="sr-only">Документ</label>
-                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="Документ">
 
+                                        if (doc.TeacherName == teacher.Initials)
+                                        {
+                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
+                                        }
+                                    }
+
+
+                                }
                             </div>
                         </div>
                 </div>
