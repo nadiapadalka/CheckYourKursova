@@ -49,16 +49,19 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav text-uppercase ml-auto">
                     <li class="nav-item">
-                        <a class="btn nav-link js-scroll-trigger"  href="/Admin/Student_home">Моя  сторінка</a>
+                        <a class="btn nav-link js-scroll-trigger" href="/Admin/Student_home">Моя  сторінка</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="/Admin/Student_Kursova">Моя курсова</a>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="btn btn-primary"  href="/Student/Student_notification">
+                        <button type="button" class="btn btn-primary" href="/Student/Student_notification">
                             Сповіщення &nbsp;<span class="badge badge-light">5</span>
                             <span class="sr-only">непрочитані сповіщення</span>
                         </button>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" asp-controller="Student" asp-action="LogOut">Вийти</a>
                     </li>
                 </ul>
             </div>

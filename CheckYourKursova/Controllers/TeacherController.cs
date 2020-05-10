@@ -85,30 +85,30 @@ namespace AuthApp.Controllers
             }
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
-        {
-            if (this.ModelState.IsValid)
-            {
-                Teacher user = await this.teacherService.GetbyEmail(email);
-                this.stlogger.LogInformation("Student in comment controller found!");
-                if (user != null)
-                {
-                    this.db.Add(new Comment { Initials = user.Initials, CourseWork = user.Grade, Description = model.Comment });
-                    this.db.SaveChanges();
-                    this.stlogger.LogInformation("Comment added successfully ");
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
+        //{
+        //    if (this.ModelState.IsValid)
+        //    {
+        //        Teacher user = await this.teacherService.GetbyEmail(email);
+        //        this.stlogger.LogInformation("Student in comment controller found!");
+        //        if (user != null)
+        //        {
+        //            this.db.Add(new Comment { Initials = user.Initials, CourseWork = user.Grade, Description = model.Comment });
+        //            this.db.SaveChanges();
+        //            this.stlogger.LogInformation("Comment added successfully ");
 
-                    return this.RedirectToAction("Student_Kursova", "Student");
-                }
-                else
-                {
-                    this.stlogger.LogInformation("Student do not exist!  ");
-                }
-            }
+        //            return this.RedirectToAction("Student_Kursova", "Student");
+        //        }
+        //        else
+        //        {
+        //            this.stlogger.LogInformation("Student do not exist!  ");
+        //        }
+        //    }
 
-            return this.View(model);
-        }
+        //    return this.View(model);
+        //}
 
         public async Task<IActionResult> Teacher_Kursova()
         {
@@ -183,6 +183,13 @@ namespace AuthApp.Controllers
             return this.View(model);
         }
 
+        public async Task<IActionResult> LogOut()
+        {
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            this.stlogger.LogInformation("Teacher LogOut");
+            return this.RedirectToAction("Index", "Home");
+        }
+
         [HttpGet]
         public IActionResult CreateTask()
         {
@@ -197,12 +204,6 @@ namespace AuthApp.Controllers
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-        }
-
-        public async Task<IActionResult> Logout()
-        {
-            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return this.RedirectToAction("Login", "Account");
         }
 
         public IActionResult Teacher_notification()
@@ -309,4 +310,3 @@ namespace AuthApp.Controllers
         }
     }
 }
-

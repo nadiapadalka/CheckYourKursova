@@ -117,30 +117,30 @@
             return this.View();
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
-        //{
-        //    if (this.ModelState.IsValid)
-        //    {
-        //        var user = await this.db.Students.FirstOrDefaultAsync(u => u.Email == email);
-        //        this.log.LogInformation("Student in comment controller found!");
-        //        if (user != null)
-        //        {
-        //            this.db.Add(new Comment { Initials = user.FullName, CourseWork = user.CourseWorkTitle, Description = model.Comment });
-        //            this.db.SaveChanges();
-        //            this.log.LogInformation("Comment added successfully ");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var user = await this.db.Students.FirstOrDefaultAsync(u => u.Email == email);
+                this.log.LogInformation("Student in comment controller found!");
+                if (user != null)
+                {
+                    this.db.Add(new Comment { Initials = user.FullName, CourseWork = user.CourseWorkTitle, Description = model.Comment });
+                    this.db.SaveChanges();
+                    this.log.LogInformation("Comment added successfully ");
 
-        //            return this.RedirectToAction("Student_Kursova", "Student");
-        //        }
-        //        else
-        //        {
-        //              this.log.LogInformation("Student do not exist!  ");
-        //        }
-        //    }
+                    return this.RedirectToAction("Student_Kursova", "Student");
+                }
+                else
+                {
+                    this.log.LogInformation("Student do not exist!  ");
+                }
+            }
 
-        //    return this.View(model);
-        //}
+            return this.View(model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -164,7 +164,14 @@
             return this.View(model);
         }
 
-	public IActionResult Student_notification()
+        public async Task<IActionResult> LogOut()
+        {
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            this.log.LogInformation("Student LogOut");
+            return this.RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Student_notification()
         {
             return View();
         }
