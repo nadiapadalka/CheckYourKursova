@@ -38,11 +38,10 @@ namespace Kursova.Controllers
             this.service = service;
             this.log = log;
             this.webHostEnvironment = hostEnvironment;
-            info.Students = this.service.GetAllStudents().Result.ToList();
-            info.Teachers = this.service.GetAllTeachers().Result.ToList();
             model.Students = this.service.GetAllStudents().Result.ToList();
             model.Documentation = this.db.Documentations.ToList();
             model.Comments = this.db.Comments.ToList();
+            Update(this.info);
         }
 
         [HttpGet]
@@ -60,7 +59,7 @@ namespace Kursova.Controllers
                 this.log.LogInformation("Student in comment controller found!");
                 if (user != null)
                 {
-                    this.db.Add(new Comment {PageId=user.Id, Initials = user.FullName, CourseWork = user.CourseWorkTitle, Description = model.Comment });
+                    this.db.Add(new Comment { PageId = user.Id, Initials = user.FullName, CourseWork = user.CourseWorkTitle, Description = model.Comment });
                     this.db.SaveChanges();
                     this.log.LogInformation("Comment added successfully ");
 
@@ -125,7 +124,7 @@ namespace Kursova.Controllers
                 stud.ProfilePicture = filename;
                 this.ViewBag.url = filename;
                 this.log.LogInformation($"image not null{stud.ProfilePicture}");
-              //  this.service.UpdateStudent(stud);
+                //  this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
                 using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{stud.FullName}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
@@ -146,7 +145,7 @@ namespace Kursova.Controllers
             {
                 string filename = System.IO.Path.GetFileName(file.FileName);
                 this.db.Documentations.Add(
-                    new Documentation { PageId= stud.Id, StudentName = stud.FullName, Title = filename });
+                    new Documentation { PageId = stud.Id, StudentName = stud.FullName, Title = filename });
                 this.db.SaveChanges();
                 return this.RedirectToAction("Student_Kursova", "Admin");
             }
@@ -154,6 +153,25 @@ namespace Kursova.Controllers
             return this.RedirectToAction("Student_Kursova", "Admin");
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadFileForTeacher(string email, IFormFile file)
+        {
+            Teacher teacher = await this.service.GetTeacherByEmail(email);
+            if (teacher != null && file != null)
+            {
+                string filename = System.IO.Path.GetFileName(file.FileName);
+                this.db.Documentations.Add(
+                    new Documentation { PageId = teacher.Id, TeacherName = teacher.Initials, Title = filename });
+                this.db.SaveChanges();
+                return this.RedirectToAction("Teacher_Kursova", "Admin");
+            }
+
+            return this.RedirectToAction("Teacher_Kursova", "Admin");
+
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Download(string email, string filename)
         {
             log.LogInformation($"filename{filename}");
@@ -188,7 +206,7 @@ namespace Kursova.Controllers
                 {".doc", "application/vnd.ms-word"},
                 {".docx", "application/vnd.ms-word"},
                 {".xls", "application/vnd.ms-excel"},
-                {".xlsx", "application/vnd.openxmlformats"},  
+                {".xlsx", "application/vnd.openxmlformats"},
                 {".png", "image/png"},
                 {".jpg", "image/jpeg"},
                 {".jpeg", "image/jpeg"},
@@ -246,7 +264,7 @@ namespace Kursova.Controllers
                 //  this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
-               // this.db.SaveChanges();
+                // this.db.SaveChanges();
                 this.log.LogInformation($"Initials {stud.TeacherInitials}");
 
                 return this.RedirectToAction("Student_home", "Admin");
@@ -262,7 +280,7 @@ namespace Kursova.Controllers
             if (stud != null)
             {
                 stud.CourseWorkTitle = courseWork;
-               // this.service.UpdateStudent(stud);
+                // this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
                 return this.RedirectToAction("Teacher_home", "Admin");
@@ -274,31 +292,26 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult StudentDocuments(string email)
         {
-            try
+            var studentName = this.db.Students.Where(x => x.Email == email).FirstOrDefault().FullName;
+            var documents = this.db.Documentations.Where(x => x.StudentName == studentName).ToList();
+            if (documents != null)
             {
-                var studentName = this.db.Students.Where(x => x.Email == email).FirstOrDefault().FullName;
-                var documents = this.db.Documentations.Where(x => x.StudentName == studentName).ToList();
                 return this.View(documents);
             }
-            catch
-            {
-                return this.StatusCode(500, "Internal server error");
-            }
+            return this.StatusCode(500, "Internal server error");
+
         }
 
         [HttpGet]
         public IActionResult TeacherDocuments(string email)
         {
-            try
+            var teacherName = this.db.Teachers.Where(x => x.Email == email).FirstOrDefault().Initials;
+            var documents = this.db.Documentations.Where(x => x.TeacherName == teacherName).ToList();
+            if (documents != null)
             {
-                var teacherName = this.db.Teachers.Where(x => x.Email == email).FirstOrDefault().Initials;
-                var documents = this.db.Documentations.Where(x => x.TeacherName == teacherName).ToList();
                 return this.View(documents);
             }
-            catch
-            {
-                return this.StatusCode(500, "Internal server error");
-            }
+            return this.StatusCode(500, "Internal server error");
         }
 
         [HttpPost]
@@ -447,6 +460,7 @@ namespace Kursova.Controllers
         public IActionResult ChooseTeacherForStudent(string studentEmail)
         {
             var student = this.service.GetAllStudents().Result.ToList().Where(student => student.Email == studentEmail).FirstOrDefault();
+            this.info.CurrentStudent = student;
             this.Update(this.info);
             return this.View(this.info);
         }
@@ -472,7 +486,7 @@ namespace Kursova.Controllers
         [HttpGet]
         public async Task<IActionResult> Student_Kursova()
         {
-            return  this.View(this.model);
+            return this.View(this.model);
         }
         [HttpGet]
         public async Task<IActionResult> Teacher_Kursova()
