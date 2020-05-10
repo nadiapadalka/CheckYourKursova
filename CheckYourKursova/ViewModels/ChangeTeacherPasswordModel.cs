@@ -15,6 +15,7 @@ namespace Kursova.ViewModels
 
         [Required(ErrorMessage = "Не вказаний пароль")]
         [DataType(DataType.Password)]
+        [StringLength(100, ErrorMessage = "Мінімальна довжина пароля 6.", MinimumLength = 6)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]

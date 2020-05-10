@@ -1,4 +1,5 @@
 using System;
+using Google;
 using Kursova.BLL.Interfaces;
 using Kursova.BLL.Services;
 using Kursova.DAL.EF;
@@ -7,6 +8,7 @@ using Kursova.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +49,14 @@ namespace Kursova
             services.Configure<IISOptions>(options =>
             {
                 options.ForwardClientCertificate = false;
+            });
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
             });
 
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");

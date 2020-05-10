@@ -9,6 +9,7 @@ namespace Kursova.ViewModels
     public class LoginModel
     {
         [Required(ErrorMessage = "Не вказаний Email")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Не вказаний пароль")]
