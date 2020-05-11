@@ -21,43 +21,51 @@ namespace Kursova.DAL.Repositories
             this.db = context;
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Student>> GetAll()
         {
           return await this.db.Students.ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<Student> GetbyEmailandInitials(string email, string password)
         {
             return await this.db.Students.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
 
+        /// <inheritdoc/>
         public async Task<Student> GetbyEmailAsync(string email)
         {
             return await this.db.Students.FirstOrDefaultAsync(u => u.Email == email);
         }
 
+        /// <inheritdoc/>
         public async Task<Student> GetbyID(int id)
         {
             return await this.db.Students.FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<Student> GetAllToList()
         {
             return this.db.Students.ToList();
         }
 
+        /// <inheritdoc/>
         public void Create(Student user)
         {
             this.db.Students.Update(user);
             this.db.SaveChangesAsync();
         }
 
+        /// <inheritdoc/>
         public void Update(Student user)
         {
             this.db.Students.Update(user);
             this.db.SaveChangesAsync();
         }
 
+        /// <inheritdoc/>
         public void Delete(int id)
         {
             Student user = this.db.Students.Find(id);

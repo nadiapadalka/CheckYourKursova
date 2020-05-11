@@ -23,6 +23,7 @@ namespace Kursova.DAL.Repositories
             this.adminRepository = new AdminRepository(db);
         }
 
+        /// <inheritdoc/>
         public IRepository<Student> Students
         {
             get
@@ -36,6 +37,7 @@ namespace Kursova.DAL.Repositories
             }
         }
 
+        /// <inheritdoc/>
         public IRepository<Teacher> Teachers
         {
             get
@@ -49,6 +51,7 @@ namespace Kursova.DAL.Repositories
             }
         }
 
+        /// <inheritdoc/>
         public IRepository<Admin> Admins
         {
             get
@@ -62,6 +65,7 @@ namespace Kursova.DAL.Repositories
             }
         }
 
+        /// <inheritdoc/>
         public async void Save()
         {
             await this.db.SaveChangesAsync();

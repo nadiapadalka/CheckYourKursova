@@ -16,7 +16,6 @@ namespace Kursova.BLL.Services
     public class AdminService : IAdminService
     {
         private readonly ILogger<StudentService> logger;
-        private readonly IMapper mapper;
 
         public AdminService(IUnitOfWork uow, ILogger<StudentService> logger)
         {

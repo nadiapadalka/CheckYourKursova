@@ -22,6 +22,7 @@ namespace Kursova.DAL.Repositories
             this.db = context;
         }
 
+        /// <inheritdoc/>
         public async Task<IEnumerable<Admin>> GetAll()
         {
             return await this.db.Admins.ToListAsync();
@@ -32,39 +33,46 @@ namespace Kursova.DAL.Repositories
             return await this.db.Admins.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
 
+        /// <inheritdoc/>
         public async Task<Admin> GetbyEmailandInitials(string email, string fullname)
         {
             var result = await this.GetbyEmailandPassword(email, fullname);
             return result;
         }
 
+        /// <inheritdoc/>
         public async Task<Admin> GetbyEmailAsync(string email)
         {
             return await this.db.Admins.FirstOrDefaultAsync(u => u.Email == email);
         }
 
+        /// <inheritdoc/>
         public async Task<Admin> GetbyID(int id)
         {
             return await this.db.Admins.FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        /// <inheritdoc/>
         public IEnumerable<Admin> GetAllToList()
         {
             return this.db.Admins.ToList();
         }
 
+        /// <inheritdoc/>
         public void Create(Admin user)
         {
             this.db.Admins.Update(user);
             this.db.SaveChangesAsync();
         }
 
+        /// <inheritdoc/>
         public void Update(Admin user)
         {
             this.db.Admins.Update(user);
             this.db.SaveChangesAsync();
         }
 
+        /// <inheritdoc/>
         public void Delete(int id)
         {
             Admin user = this.db.Admins.Find(id);
