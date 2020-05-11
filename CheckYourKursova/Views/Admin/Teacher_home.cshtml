@@ -41,21 +41,33 @@
                                                 <div class="portfolio-hover-content">
                                                     <i class="fas fa-plus fa-3x"></i>
 
+
                                                 </div>
                                             </div>
                                             @foreach (var item in Model.Teachers)
                                             {
                                                 @if (item.Email == User.Identity.Name)
                                                 {
-                                                    <img class="img-fluid" src="~/files/uploadedfiles/@item.ProfilePicture" />
 
+                                                    @if (item.Email == User.Identity.Name)
+                                                    {@if (item.ProfilePicture != null)
+                                                        {
+                                                            <img class="img-fluid" src="~/Users/@item.Initials/Uploaded files/@item.ProfilePicture" />
+                                                        }
+                                                        else
+                                                        { <img class="img-fluid" src="~/img/portfolio/avatar.jpg">
+                                                        }
                                                 }
-                                                else if (item.Email == User.Identity.Name && item.ProfilePicture == null)
-                                                { <img class="img-fluid" src="~/img/portfolio/avatar.jpg">
                                                 }
-                                            }
-
-                                            }
+                                                }
+                                            </a>
+                                            @foreach (var item in Model.Teachers)
+                                            {@if (item.Email == User.Identity.Name && item.ProfilePicture == null)
+                                                {
+                                                    <form asp-action="CreateTeachersImage" method="post"
+                                                          enctype="multipart/form-data" asp-controller="Admin">
+                                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                        <input type="hidden" value="@User.Identity.Name" name="email" />
 
                                         </a>
                                         @foreach (var item in Model.Teachers)

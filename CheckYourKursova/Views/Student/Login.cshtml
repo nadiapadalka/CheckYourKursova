@@ -27,11 +27,14 @@
                                 <input type="checkbox" value="remember-me"> Запам'ятати мене
                             </label>
                         </div>
-                        <div class="checkbox mb-3">
-                            <button class="btn btn-outline-success btn-m text-uppercase js-scroll-trigger" type="submit">Увійти</button>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a class="dropdown-item" asp-action="Register" asp-controller="Student" style="margin-left: 200px;margin-right: 100px;">Зареєструватися</a>
+                            </div>
+                            <div class="col-md-4">
+                                <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Student" style="margin-left: 200px;margin-right: 100px;">Забули пароль?</a>
+                            </div>
                         </div>
-                        <a class="dropdown-item" asp-action="Register" asp-controller="Student" style="margin-left: 200px;margin-right: 100px;">Зареєструватися</a>
-                        <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Student" style="margin-left: 200px;margin-right: 100px;">Забули пароль?</a>
                     </form>
                 </div>
             </div>Student
