@@ -215,7 +215,7 @@ namespace Kursova.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Download(string email, string filename)
         {
             log.LogInformation($"filename{filename}");
@@ -328,10 +328,8 @@ namespace Kursova.Controllers
             if (stud != null)
             {
                 stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
-                //  this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
-                // this.db.SaveChanges();
                 this.log.LogInformation($"Initials {stud.TeacherInitials}");
 
                 return this.RedirectToAction("Student_home", "Admin");
