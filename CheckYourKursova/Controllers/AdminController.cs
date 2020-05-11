@@ -54,7 +54,7 @@ namespace Kursova.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCommentTeacher(string email, string coursework, string comment)
+        public async Task<IActionResult> AddCommentTeacher(string email, string coursework, string comment, string filename)
         {
             if (this.ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace Kursova.Controllers
                 this.log.LogInformation("Student in comment controller found!");
                 if (user != null)
                 {
-                    this.db.Add(new Comment { PageId = user.Id, Initials = email, CourseWork = coursework, Description = comment });
+                    this.db.Add(new Comment { Filename= filename,  PageId = user.Id, Initials = email, CourseWork = coursework, Description = comment });
                     this.db.SaveChanges();
                     this.log.LogInformation("Comment added successfully ");
 
@@ -195,14 +195,14 @@ namespace Kursova.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFileForTeacher(string email, IFormFile file)
+        public async Task<IActionResult> UploadFileForTeacher(string email, string studInitials, IFormFile file)
         {
             Teacher teacher = await this.service.GetTeacherByEmail(email);
             if (teacher != null && file != null)
             {
                 string filename = System.IO.Path.GetFileName(file.FileName);
                 this.db.Documentations.Add(
-                    new Documentation { PageId = teacher.Id, TeacherName = teacher.Initials, Title = filename });
+                    new Documentation { PageId = teacher.Id, StudentName= studInitials, TeacherName = teacher.Initials, Title = filename });
                 this.db.SaveChanges();
                 using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{teacher.Initials}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
                 {
@@ -298,7 +298,7 @@ namespace Kursova.Controllers
                 return this.RedirectToAction("Teacher_home", "Admin");
             }
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction("Teacher_home", "Admin");
         }
 
         private byte[] GetByteArrayFromImage(IFormFile file)
