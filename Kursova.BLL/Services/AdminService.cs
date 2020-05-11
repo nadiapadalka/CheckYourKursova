@@ -120,8 +120,9 @@ namespace Kursova.BLL.Services
             }
             else
             {
-                this.logger.LogInformation($"Couldn't find a by teacher { username}.");
+                this.logger.LogInformation($"Couldn't find a by teacher {username}.");
             }
+
             return teacher;
         }
 

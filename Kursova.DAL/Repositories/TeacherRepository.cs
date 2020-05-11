@@ -39,7 +39,6 @@ namespace Kursova.DAL.Repositories
 
         public async Task<Teacher> GetbyEmailandInitials(string email, string password)
         {
-            
             return await this.db.Teachers.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
 

@@ -67,6 +67,7 @@ namespace AuthApp.Controllers
 
                     return this.RedirectToAction("Teacher_home", "Admin");
                 }
+
                 return this.RedirectToAction("LoginTeacher", "Teacher");
             }
 
@@ -266,11 +267,11 @@ namespace AuthApp.Controllers
             {
                 file.CopyTo(stream);
             }
+
             this.db.Documentations.Add(
-                    new Documentation {  TeacherName = teacher.Initials, Title = filepath });
+                    new Documentation { TeacherName = teacher.Initials, Title = filepath });
             this.db.SaveChanges();
             return this.RedirectToAction("Teacher_Kursova");
         }
-
     }
 }

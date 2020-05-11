@@ -35,7 +35,7 @@ namespace Kursova.DAL.Entities
         public string TeacherInitials { get; set; }
 
         public string CourseWorkTitle { get; set; }
-        public string ProfilePicture { get; set; }
 
+        public string ProfilePicture { get; set; }
     }
 }

@@ -1,4 +1,7 @@
-﻿
+﻿// <copyright file="CommentDocumentController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 namespace Kursova.Controllers
 {
     using System;
@@ -21,19 +24,16 @@ namespace Kursova.Controllers
 
     public class CommentDocumentController : Controller
     {
-
         private readonly KursovaDbContext db;
-        private KursovaPageModel info = new KursovaPageModel();
         private readonly ILogger<CommentDocumentController> log;
+        private KursovaPageModel info = new KursovaPageModel();
 
         public CommentDocumentController(KursovaDbContext context)
         {
             this.db = context;
 
-            //this.info.Students = this.db.Students;
-            //this.info.Teachers = this.db.Teachers;
+            // this.info.Students = this.db.Students;
+            // this.info.Teachers = this.db.Teachers;
         }
-
-        
     }
 }

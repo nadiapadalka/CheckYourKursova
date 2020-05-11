@@ -35,8 +35,9 @@ namespace Kursova.Controllers
             this.db = database;
             this.service = studentService;
             this.log = logger;
+
             // info.Teachers = this.service.GetAllTeachers().Result.ToList();
-            //info.Students = this.service.GetAll().Result;
+            // info.Students = this.service.GetAll().Result;
         }
 
         [HttpGet]
@@ -62,21 +63,10 @@ namespace Kursova.Controllers
                     return this.RedirectToAction("Student_home", "Admin");
                 }
 
-
                 this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");
             }
 
             return this.View(model);
-        }
-
-        private async Task Authenticate(string userName)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-            };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
         [HttpGet]
@@ -110,7 +100,6 @@ namespace Kursova.Controllers
 
             return this.View(model);
         }
-
 
         [HttpGet]
         public IActionResult ChangePassword()
@@ -174,12 +163,10 @@ namespace Kursova.Controllers
 
         public IActionResult Student_notification()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
-        
-
         private void Folder(string ownerName, string option = "Create")
         {
             DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
@@ -189,6 +176,16 @@ namespace Kursova.Controllers
             {
                 dir.Delete();
             }
+        }
+
+        private async Task Authenticate(string userName)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+            };
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
     }
 }

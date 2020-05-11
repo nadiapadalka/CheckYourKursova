@@ -13,6 +13,7 @@ namespace Kursova.BLL.Interfaces
         void CreateTeacher(Teacher teacherDto);
 
         Task<Teacher> Get(string username, string fullname);
+
         Task<Teacher> GetbyEmail(string email);
 
         Task<IEnumerable<Teacher>> GetAll();

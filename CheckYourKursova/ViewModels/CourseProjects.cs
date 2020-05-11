@@ -11,8 +11,8 @@ namespace Kursova.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="CourseProjects"/> class.
         /// </summary>
-        //public CourseProjects()
-        //{
+        // public CourseProjects()
+        // {
         //    this.AllProjects.Add(
         //    new ProjectInfo()
         //    {
@@ -26,8 +26,7 @@ namespace Kursova.ViewModels
         //        },
         //    });
         //    this.CurrentProject = this.AllProjects[0];
-        //}
-
+        // }
         public List<ProjectInfo> AllProjects { get; set; } = new List<ProjectInfo>();
 
         public ProjectInfo CurrentProject { get; set; } = new ProjectInfo();

@@ -24,13 +24,12 @@ namespace Kursova.Controllers
 
     public class AdminController : Controller
     {
+        private readonly ILogger<StudentController> log;
+        private readonly IWebHostEnvironment webHostEnvironment;
         private KursovaDbContext db;
         private IAdminService service;
         private UsersInfoModel info = new UsersInfoModel();
-        private readonly ILogger<StudentController> log;
-        private readonly IWebHostEnvironment webHostEnvironment;
         private KursovaPageModel model = new KursovaPageModel();
-
 
         public AdminController(KursovaDbContext context, IAdminService service, ILogger<StudentController> log, IWebHostEnvironment hostEnvironment)
         {
@@ -38,12 +37,11 @@ namespace Kursova.Controllers
             this.service = service;
             this.log = log;
             this.webHostEnvironment = hostEnvironment;
-            model.Students = this.service.GetAllStudents().Result.ToList();
-            model.Teachers = this.service.GetAllTeachers().Result.ToList();
-
-            model.Documentation = this.db.Documentations.ToList();
-            model.Comments = this.db.Comments.ToList();
-            Update(this.info);
+            this.model.Students = this.service.GetAllStudents().Result.ToList();
+            this.model.Teachers = this.service.GetAllTeachers().Result.ToList();
+            this.model.Documentation = this.db.Documentations.ToList();
+            this.model.Comments = this.db.Comments.ToList();
+            this.Update(this.info);
         }
 
         [HttpGet]
@@ -62,7 +60,7 @@ namespace Kursova.Controllers
                 this.log.LogInformation("Student in comment controller found!");
                 if (user != null)
                 {
-                    this.db.Add(new Comment { Filename= filename,  PageId = user.Id, Initials = email, CourseWork = coursework, Description = comment });
+                    this.db.Add(new Comment { Filename = filename,  PageId = user.Id, Initials = email, CourseWork = coursework, Description = comment });
                     this.db.SaveChanges();
                     this.log.LogInformation("Comment added successfully ");
 
@@ -74,7 +72,7 @@ namespace Kursova.Controllers
                 }
             }
 
-            return this.View(info);
+            return this.View(this.info);
         }
 
         [HttpPost]
@@ -134,7 +132,7 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Student_home()
         {
-            //this.Update(this.info);
+            // this.Update(this.info);
             return this.View(this.info);
         }
 
@@ -145,7 +143,7 @@ namespace Kursova.Controllers
 
             if (stud != null && img != null)
             {
-                this.info.UploadedImage = GetByteArrayFromImage(img);
+                this.info.UploadedImage = this.GetByteArrayFromImage(img);
 
                 string filename = System.IO.Path.GetFileName(img.FileName);
 
@@ -164,6 +162,7 @@ namespace Kursova.Controllers
 
             return this.RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> Upload(string email, IFormFile file)
         {
@@ -178,18 +177,19 @@ namespace Kursova.Controllers
                 {
                     file.CopyTo(stream);
                 }
+
                 return this.RedirectToAction("Student_Kursova", "Admin");
             }
 
             return this.RedirectToAction("Student_Kursova", "Admin");
-
         }
+
         [HttpPost]
         public async Task<IActionResult> ChooseStudent(string name)
         {
-            log.LogInformation($"{name}");
-            TempData["data"] = name;
-            log.LogInformation($"tempdata in controller {TempData["data"]}");
+            this.log.LogInformation($"{name}");
+            this.TempData["data"] = name;
+            this.log.LogInformation($"tempdata in controller {this.TempData["data"]}");
 
             return this.RedirectToAction("Teacher_Kursova", "Admin");
         }
@@ -202,60 +202,68 @@ namespace Kursova.Controllers
             {
                 string filename = System.IO.Path.GetFileName(file.FileName);
                 this.db.Documentations.Add(
-                    new Documentation { PageId = teacher.Id, StudentName= studInitials, TeacherName = teacher.Initials, Title = filename });
+                    new Documentation { PageId = teacher.Id, StudentName = studInitials, TeacherName = teacher.Initials, Title = filename });
                 this.db.SaveChanges();
                 using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{teacher.Initials}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
                 {
                     file.CopyTo(stream);
                 }
+
                 return this.RedirectToAction("Teacher_Kursova", "Admin");
             }
 
             return this.RedirectToAction("Teacher_Kursova", "Admin");
-
         }
 
         [HttpGet]
         public async Task<IActionResult> Download(string email, string filename)
         {
-            log.LogInformation($"filename{filename}");
+            this.log.LogInformation($"filename{filename}");
             Student stud = await this.service.GetStudentByEmail(email);
 
             if (filename == null)
-                return Content("filename not present");
+            {
+                return this.Content("filename not present");
+            }
 
-            var path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ stud.TeacherInitials}\\Uploaded files\\{ filename}";
+            var path = $"..\\CheckYourKursova\\wwwroot\\Users\\{stud.TeacherInitials}\\Uploaded files\\{filename}";
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
+
             memory.Position = 0;
-            return File(memory, GetContentType(path), Path.GetFileName(path));
+            return this.File(memory, this.GetContentType(path), Path.GetFileName(path));
         }
+
         [HttpGet]
         public async Task<IActionResult> DownloadTeacher(string email, string studinitials, string filename)
         {
-            log.LogInformation($"filename{filename}");
+            this.log.LogInformation($"filename{filename}");
             Teacher stud = await this.service.GetTeacherByEmail(email);
 
             if (filename == null)
-                return Content("filename not present");
+            {
+                return this.Content("filename not present");
+            }
 
-            var path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ studinitials}\\Uploaded files\\{ filename}";
+            var path = $"..\\CheckYourKursova\\wwwroot\\Users\\{studinitials}\\Uploaded files\\{filename}";
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
+
             memory.Position = 0;
-            return File(memory, GetContentType(path), Path.GetFileName(path));
+            return this.File(memory, this.GetContentType(path), Path.GetFileName(path));
         }
+
         private string GetContentType(string path)
         {
-            var types = GetMimeTypes();
+            var types = this.GetMimeTypes();
             var ext = Path.GetExtension(path).ToLowerInvariant();
             return types[ext];
         }
@@ -264,19 +272,20 @@ namespace Kursova.Controllers
         {
             return new Dictionary<string, string>
             {
-                {".txt", "text/plain"},
-                {".pdf", "application/pdf"},
-                {".doc", "application/vnd.ms-word"},
-                {".docx", "application/vnd.ms-word"},
-                {".xls", "application/vnd.ms-excel"},
-                {".xlsx", "application/vnd.openxmlformats"},
-                {".png", "image/png"},
-                {".jpg", "image/jpeg"},
-                {".jpeg", "image/jpeg"},
-                {".gif", "image/gif"},
-                {".csv", "text/csv"}
+                { ".txt", "text/plain" },
+                { ".pdf", "application/pdf" },
+                { ".doc", "application/vnd.ms-word" },
+                { ".docx", "application/vnd.ms-word" },
+                { ".xls", "application/vnd.ms-excel" },
+                { ".xlsx", "application/vnd.openxmlformats" },
+                { ".png", "image/png" },
+                { ".jpg", "image/jpeg" },
+                { ".jpeg", "image/jpeg" },
+                { ".gif", "image/gif" },
+                { ".csv", "text/csv" },
             };
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateTeachersImage(string email, IFormFile img)
         {
@@ -314,7 +323,7 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Teacher_home()
         {
-       //     this.Update(this.info);
+            // this.Update(this.info);
             return this.View(this.info);
         }
 
@@ -325,9 +334,11 @@ namespace Kursova.Controllers
             if (stud != null)
             {
                 stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
-                //  this.service.UpdateStudent(stud);
+
+                // this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
+
                 // this.db.SaveChanges();
                 this.log.LogInformation($"Initials {stud.TeacherInitials}");
 
@@ -344,6 +355,7 @@ namespace Kursova.Controllers
             if (stud != null)
             {
                 stud.CourseWorkTitle = courseWork;
+
                 // this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
@@ -362,8 +374,8 @@ namespace Kursova.Controllers
             {
                 return this.View(documents);
             }
-            return this.StatusCode(500, "Internal server error");
 
+            return this.StatusCode(500, "Internal server error");
         }
 
         [HttpGet]
@@ -375,6 +387,7 @@ namespace Kursova.Controllers
             {
                 return this.View(documents);
             }
+
             return this.StatusCode(500, "Internal server error");
         }
 
@@ -552,10 +565,11 @@ namespace Kursova.Controllers
         {
             return this.View(this.model);
         }
+
         [HttpGet]
         public async Task<IActionResult> Teacher_Kursova()
         {
-            log.LogInformation($"TempData{TempData["data"]}");
+            this.log.LogInformation($"TempData{this.TempData["data"]}");
             return this.View(this.model);
         }
     }

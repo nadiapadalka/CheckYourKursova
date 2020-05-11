@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Owin;
+
 [assembly: OwinStartup(typeof(Kursova.Startup))]
 
 namespace Kursova
@@ -65,7 +66,7 @@ namespace Kursova
                 options.Password.RequireLowercase = false;
             });
 
-            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login"); 
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
             services.AddSingleton<IUserIdProvider, UserNotify>();
             services.AddSignalR();
         }
@@ -85,7 +86,6 @@ namespace Kursova
 
             app.UseStaticFiles();
             app.UseFileServer();
-           
             app.UseRouting();
             app.UseHttpsRedirection();
 
