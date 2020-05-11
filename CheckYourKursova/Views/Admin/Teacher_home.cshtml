@@ -94,7 +94,6 @@
                             <table class="table table-bordered">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th scope="col">№</th>
                                         <th scope="col">Студент</th>
                                         <th scope="col">Тема курсової</th>
                                         <th scope="col">Група</th>
@@ -108,7 +107,7 @@
                                             if ((teacher.Initials == item.TeacherInitials) && (teacher.Email == User.Identity.Name))
                                             {
                                                 <tr>
-                                                    <th scope="row">1</th>
+                                                    
                                                     <td>@Html.DisplayFor(modelItem => item.FullName)</td>
                                                     @if (@item.CourseWorkTitle == null)
                                                     {

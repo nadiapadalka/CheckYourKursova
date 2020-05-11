@@ -134,7 +134,7 @@
                                         {
                                             @foreach (var doc in Model.Documentation)
                                             {
-                                                if (student.TeacherInitials == doc.TeacherName)
+                                                if (student.TeacherInitials == doc.TeacherName && doc.StudentName == student.FullName)
                                                 {
                                     <div class="input-group mb-3">
                                         <form method="post" asp-action="Download" asp-controller="Admin">
