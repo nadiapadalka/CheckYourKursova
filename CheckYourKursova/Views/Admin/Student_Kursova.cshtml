@@ -77,7 +77,7 @@
                                             {
                                                 @foreach (var comment in Model.Comments)
                                                 {
-                                                    if ((doc.StudentName == item.FullName) && (comment.Initials == item.FullName) && doc.PageId == comment.PageId)
+                                                    if ((doc.StudentName == item.FullName) && (comment.Initials == item.FullName) && doc.PageId == comment.PageId && doc.TeacherName == null)
                                                     {
                                                         <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
                                                         <input type="text" class="form-control" id="inputText" placeholder="@comment.Description">
@@ -134,7 +134,7 @@
                                         {
                                             @foreach (var doc in Model.Documentation)
                                             {
-                                                if (student.TeacherInitials == doc.TeacherName && doc.StudentName == student.FullName)
+                                                if (student.TeacherInitials == doc.TeacherName && doc.StudentName == student.FullName && student.Email == User.Identity.Name)
                                                 {
                                     <div class="input-group mb-3">
                                         <form method="post" asp-action="Download" asp-controller="Admin">
@@ -149,17 +149,7 @@
                                     </div>
                                                    
                                                 }
-                                                else
-                                                {
-                                                <div class="input-group mb-3">
-                                                    <label for="inputDocument" class="sr-only">Документ</label>
-                                                    <input type="text"  readonly class="form-control" id="staticDocument" placeholder="Документ">
-                                                    <div class="input-group-append">
-                                                        <form method="get" action="file.doc">
-                                                            <button type="submit" class="btn btn-outline-secondary">Download!</button>
-                                                        </form>
-                                                    </div>
-                                                </div>}
+                                               
                                             }
                                         }
 

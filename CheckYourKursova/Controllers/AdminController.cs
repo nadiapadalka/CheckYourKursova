@@ -290,6 +290,7 @@ namespace Kursova.Controllers
                 teacher.ProfilePicture = filename;
                 this.log.LogInformation($"image not null{teacher.ProfilePicture}");
                 this.service.UpdateTeacher(teacher);
+                this.db.Teachers.Update(teacher);
                 using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{teacher.Initials}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
                 {
                     img.CopyTo(stream);
@@ -313,7 +314,7 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Teacher_home()
         {
-            //this.Update(this.info);
+       //     this.Update(this.info);
             return this.View(this.info);
         }
 

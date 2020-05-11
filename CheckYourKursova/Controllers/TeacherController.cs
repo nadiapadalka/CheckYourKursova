@@ -84,31 +84,6 @@ namespace AuthApp.Controllers
             }
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddComment(string email, KursovaPageModel model)
-        //{
-        //    if (this.ModelState.IsValid)
-        //    {
-        //        Teacher user = await this.teacherService.GetbyEmail(email);
-        //        this.stlogger.LogInformation("Student in comment controller found!");
-        //        if (user != null)
-        //        {
-        //            this.db.Add(new Comment { Initials = user.Initials, CourseWork = user.Grade, Description = model.Comment });
-        //            this.db.SaveChanges();
-        //            this.stlogger.LogInformation("Comment added successfully ");
-
-        //            return this.RedirectToAction("Student_Kursova", "Student");
-        //        }
-        //        else
-        //        {
-        //            this.stlogger.LogInformation("Student do not exist!  ");
-        //        }
-        //    }
-
-        //    return this.View(model);
-        //}
-
         public async Task<IActionResult> Teacher_Kursova()
         {
             return this.View(this.projects);
@@ -133,7 +108,7 @@ namespace AuthApp.Controllers
                     new Teacher { Email = model.Email, Password = model.Password, Initials = model.Initials, Grade = model.Grade, Kafedra = model.Kafedra });
                     await this.Authenticate(model.Email);
                     this.stlogger.LogInformation($"Teacher Loginned successfully ");
-                    this.db.SaveChanges();                    
+                    this.db.SaveChanges();
                     return this.RedirectToAction("Index", "Home");
                 }
                 else
@@ -166,7 +141,7 @@ namespace AuthApp.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                Teacher user = await this.teacherService.Get(model.Email, model.Initials);
+                Teacher user = await this.teacherService.GetbyEmail(model.Email);
                 if (user != null)
                 {
                     user.Password = model.Password;

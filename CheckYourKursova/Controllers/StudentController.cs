@@ -149,7 +149,7 @@ namespace Kursova.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                Student user = await this.service.Get(model.Email, model.FullName);
+                Student user = await this.service.GetbyEmail(model.Email);
                 if (user != null)
                 {
                     user.Password = model.Password;
