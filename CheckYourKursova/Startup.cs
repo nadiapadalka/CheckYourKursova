@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Owin;
+
 [assembly: OwinStartup(typeof(Kursova.Startup))]
 
 namespace Kursova

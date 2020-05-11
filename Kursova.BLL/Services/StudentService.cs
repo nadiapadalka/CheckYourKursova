@@ -15,7 +15,7 @@ namespace Kursova.BLL.Services
     public class StudentService : IStudentService
     {
         private readonly ILogger<StudentService> logger;
-      
+
         public StudentService(IUnitOfWork uow, ILogger<StudentService> logger)
 #pragma warning restore SA1614 // Element parameter documentation should have text
         {

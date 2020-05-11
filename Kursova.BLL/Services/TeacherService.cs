@@ -38,6 +38,7 @@ namespace Kursova.BLL.Services
 
                 return await this.Database.Teachers.GetbyEmailandInitials(username, password);
         }
+
         public async Task<Teacher> GetbyEmail(string email)
         {
             this.logger.LogInformation($"Getting teacher by {email} ");

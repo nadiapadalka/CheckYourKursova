@@ -25,18 +25,41 @@ namespace Kursova.Controllers
     {
         private readonly ILogger<StudentController> log;
         private readonly IStudentService service;
+        private readonly IHubContext<NotifyHub> hubContext;
         private readonly KursovaDbContext db;
-        private readonly ITeacherService teacherService;
 
-        private KursovaPageModel info = new KursovaPageModel();
-
-        public StudentController(KursovaDbContext database, IStudentService studentService, ILogger<StudentController> logger)
+        public StudentController(KursovaDbContext database, IStudentService studentService, ILogger<StudentController> logger, IHubContext<NotifyHub> hubContext)
         {
             this.db = database;
             this.service = studentService;
             this.log = logger;
+            this.hubContext = hubContext;
+
             // info.Teachers = this.service.GetAllTeachers().Result.ToList();
-            //info.Students = this.service.GetAll().Result;
+            // info.Students = this.service.GetAll().Result;
+        }
+
+        private KursovaPageModel info = new KursovaPageModel();
+
+        private async Task Authenticate(string userName)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+            };
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        private void Folder(string ownerName, string option = "Create")
+        {
+            DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
+            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
+            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
+            if (option == "Delete")
+            {
+                dir.Delete();
+            }
         }
 
         [HttpGet]
@@ -62,21 +85,10 @@ namespace Kursova.Controllers
                     return this.RedirectToAction("Student_home", "Admin");
                 }
 
-
                 this.ModelState.AddModelError(string.Empty, "Некорректний логін і(або) пароль");
             }
 
             return this.View(model);
-        }
-
-        private async Task Authenticate(string userName)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-            };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
         [HttpGet]
@@ -99,6 +111,7 @@ namespace Kursova.Controllers
                     await this.Authenticate(model.Email);
                     this.db.SaveChanges();
                     this.log.LogInformation("Student registered successfully ");
+                    await this.SendMessage(" Зарестровано нового студента.");
 
                     return this.RedirectToAction("Index", "Home");
                 }
@@ -110,7 +123,6 @@ namespace Kursova.Controllers
 
             return this.View(model);
         }
-
 
         [HttpGet]
         public IActionResult ChangePassword()
@@ -149,7 +161,7 @@ namespace Kursova.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                Student user = await this.service.GetbyEmail(model.Email);
+                Student user = await this.service.Get(model.Email, model.FullName);
                 if (user != null)
                 {
                     user.Password = model.Password;
@@ -174,21 +186,13 @@ namespace Kursova.Controllers
 
         public IActionResult Student_notification()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
-        
-
-        private void Folder(string ownerName, string option = "Create")
+        public async Task SendMessage(string message)
         {
-            DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
-            if (option == "Delete")
-            {
-                dir.Delete();
-            }
+            await this.hubContext.Clients.All.SendAsync("Send", message);
         }
     }
 }

@@ -9,7 +9,9 @@ namespace Kursova.BLL.DTO
         /// <summary>
         /// Initializes a new instance of the <see cref="TeacherDTO"/> class.
         /// </summary>
-        public TeacherDTO() { }
+        public TeacherDTO()
+        {
+        }
 
         public int Id { get; set; }
 

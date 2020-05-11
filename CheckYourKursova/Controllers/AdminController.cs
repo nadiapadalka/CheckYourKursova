@@ -24,13 +24,12 @@ namespace Kursova.Controllers
 
     public class AdminController : Controller
     {
+        private readonly ILogger<StudentController> log;
+        private readonly IWebHostEnvironment webHostEnvironment;
         private KursovaDbContext db;
         private IAdminService service;
         private UsersInfoModel info = new UsersInfoModel();
-        private readonly ILogger<StudentController> log;
-        private readonly IWebHostEnvironment webHostEnvironment;
         private KursovaPageModel model = new KursovaPageModel();
-
 
         public AdminController(KursovaDbContext context, IAdminService service, ILogger<StudentController> log, IWebHostEnvironment hostEnvironment)
         {
@@ -38,43 +37,78 @@ namespace Kursova.Controllers
             this.service = service;
             this.log = log;
             this.webHostEnvironment = hostEnvironment;
+            this.model.Students = this.service.GetAllStudents().Result.ToList();
+            this.model.Documentation = this.db.Documentations.ToList();
+            this.model.Comments = this.db.Comments.ToList();
+            this.Update(this.info);
+        }
+
+        private void Folder(string ownerName, string option = "Create")
+        {
+            DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
+            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
+            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
+            if (option == "Delete")
+            {
+                dir.Delete(true);
+            }
+        }
+
+        private void Update(UsersInfoModel model)
+        {
             model.Students = this.service.GetAllStudents().Result.ToList();
             model.Teachers = this.service.GetAllTeachers().Result.ToList();
+            model.Documentations = this.db.Documentations.ToList();
+        }
 
-            model.Documentation = this.db.Documentations.ToList();
-            model.Comments = this.db.Comments.ToList();
-            Update(this.info);
+        private string GetContentType(string path)
+        {
+            var types = this.GetMimeTypes();
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types[ext];
+        }
+
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                { ".txt", "text/plain" },
+                { ".pdf", "application/pdf" },
+                { ".doc", "application/vnd.ms-word" },
+                { ".docx", "application/vnd.ms-word" },
+                { ".xls", "application/vnd.ms-excel" },
+                { ".xlsx", "application/vnd.openxmlformats" },
+                { ".png", "image/png" },
+                { ".jpg", "image/jpeg" },
+                { ".jpeg", "image/jpeg" },
+                { ".gif", "image/gif" },
+                { ".csv", "text/csv" },
+            };
+        }
+
+        private byte[] GetByteArrayFromImage(IFormFile file)
+        {
+            using (var target = new MemoryStream())
+            {
+                file.CopyTo(target);
+                return target.ToArray();
+            }
+        }
+
+        private async Task Authenticate(string userName)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+            };
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
         [HttpGet]
         public IActionResult LoginAdmin()
         {
             return this.View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddCommentTeacher(string email, string coursework, string comment, string filename)
-        {
-            if (this.ModelState.IsValid)
-            {
-                var user = await this.db.Teachers.FirstOrDefaultAsync(u => u.Email == email);
-                this.log.LogInformation("Student in comment controller found!");
-                if (user != null)
-                {
-                    this.db.Add(new Comment { Filename= filename,  PageId = user.Id, Initials = email, CourseWork = coursework, Description = comment });
-                    this.db.SaveChanges();
-                    this.log.LogInformation("Comment added successfully ");
-
-                    return this.RedirectToAction("Teacher_Kursova", "Admin");
-                }
-                else
-                {
-                    this.log.LogInformation("Student do not exist!  ");
-                }
-            }
-
-            return this.View(info);
         }
 
         [HttpPost]
@@ -127,14 +161,14 @@ namespace Kursova.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-           // this.Update(this.info);
+            this.Update(this.info);
             return this.View(this.info);
         }
 
         [HttpGet]
         public IActionResult Student_home()
         {
-            //this.Update(this.info);
+            this.Update(this.info);
             return this.View(this.info);
         }
 
@@ -145,13 +179,16 @@ namespace Kursova.Controllers
 
             if (stud != null && img != null)
             {
-                this.info.UploadedImage = GetByteArrayFromImage(img);
+                this.info.UploadedImage = this.GetByteArrayFromImage(img);
 
                 string filename = System.IO.Path.GetFileName(img.FileName);
 
+                // string path = Path.Combine("~/files/uploadedfiles/" + filename);
                 stud.ProfilePicture = filename;
                 this.ViewBag.url = filename;
                 this.log.LogInformation($"image not null{stud.ProfilePicture}");
+
+                // this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
                 using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{stud.FullName}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
@@ -164,6 +201,7 @@ namespace Kursova.Controllers
 
             return this.RedirectToAction("Index");
         }
+
         [HttpPost]
         public async Task<IActionResult> Upload(string email, IFormFile file)
         {
@@ -174,109 +212,51 @@ namespace Kursova.Controllers
                 this.db.Documentations.Add(
                     new Documentation { PageId = stud.Id, StudentName = stud.FullName, Title = filename });
                 this.db.SaveChanges();
-                using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{stud.FullName}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    file.CopyTo(stream);
-                }
                 return this.RedirectToAction("Student_Kursova", "Admin");
             }
 
             return this.RedirectToAction("Student_Kursova", "Admin");
-
-        }
-        [HttpPost]
-        public async Task<IActionResult> ChooseStudent(string name)
-        {
-            log.LogInformation($"{name}");
-            TempData["data"] = name;
-            log.LogInformation($"tempdata in controller {TempData["data"]}");
-
-            return this.RedirectToAction("Teacher_Kursova", "Admin");
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadFileForTeacher(string email, string studInitials, IFormFile file)
+        public async Task<IActionResult> UploadFileForTeacher(string email, IFormFile file)
         {
             Teacher teacher = await this.service.GetTeacherByEmail(email);
             if (teacher != null && file != null)
             {
                 string filename = System.IO.Path.GetFileName(file.FileName);
                 this.db.Documentations.Add(
-                    new Documentation { PageId = teacher.Id, StudentName= studInitials, TeacherName = teacher.Initials, Title = filename });
+                    new Documentation { PageId = teacher.Id, TeacherName = teacher.Initials, Title = filename });
                 this.db.SaveChanges();
-                using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{teacher.Initials}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    file.CopyTo(stream);
-                }
                 return this.RedirectToAction("Teacher_Kursova", "Admin");
             }
 
             return this.RedirectToAction("Teacher_Kursova", "Admin");
-
         }
 
         [HttpGet]
         public async Task<IActionResult> Download(string email, string filename)
         {
-            log.LogInformation($"filename{filename}");
+            this.log.LogInformation($"filename{filename}");
             Student stud = await this.service.GetStudentByEmail(email);
 
             if (filename == null)
-                return Content("filename not present");
+            {
+                return this.Content("filename not present");
+            }
 
-            var path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ stud.TeacherInitials}\\Uploaded files\\{ filename}";
+            var path = $"..\\CheckYourKursova\\wwwroot\\Users\\{stud.TeacherInitials}\\Uploaded files\\{filename}";
 
             var memory = new MemoryStream();
             using (var stream = new FileStream(path, FileMode.Open))
             {
                 await stream.CopyToAsync(memory);
             }
+
             memory.Position = 0;
-            return File(memory, GetContentType(path), Path.GetFileName(path));
-        }
-        [HttpGet]
-        public async Task<IActionResult> DownloadTeacher(string email, string studinitials, string filename)
-        {
-            log.LogInformation($"filename{filename}");
-            Teacher stud = await this.service.GetTeacherByEmail(email);
-
-            if (filename == null)
-                return Content("filename not present");
-
-            var path = $"..\\CheckYourKursova\\wwwroot\\Users\\{ studinitials}\\Uploaded files\\{ filename}";
-
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(path, FileMode.Open))
-            {
-                await stream.CopyToAsync(memory);
-            }
-            memory.Position = 0;
-            return File(memory, GetContentType(path), Path.GetFileName(path));
-        }
-        private string GetContentType(string path)
-        {
-            var types = GetMimeTypes();
-            var ext = Path.GetExtension(path).ToLowerInvariant();
-            return types[ext];
+            return this.File(memory, this.GetContentType(path), Path.GetFileName(path));
         }
 
-        private Dictionary<string, string> GetMimeTypes()
-        {
-            return new Dictionary<string, string>
-            {
-                {".txt", "text/plain"},
-                {".pdf", "application/pdf"},
-                {".doc", "application/vnd.ms-word"},
-                {".docx", "application/vnd.ms-word"},
-                {".xls", "application/vnd.ms-excel"},
-                {".xlsx", "application/vnd.openxmlformats"},
-                {".png", "image/png"},
-                {".jpg", "image/jpeg"},
-                {".jpeg", "image/jpeg"},
-                {".gif", "image/gif"},
-                {".csv", "text/csv"}
-            };
-        }
         [HttpPost]
         public async Task<IActionResult> CreateTeachersImage(string email, IFormFile img)
         {
@@ -290,7 +270,6 @@ namespace Kursova.Controllers
                 teacher.ProfilePicture = filename;
                 this.log.LogInformation($"image not null{teacher.ProfilePicture}");
                 this.service.UpdateTeacher(teacher);
-                this.db.Teachers.Update(teacher);
                 using (FileStream stream = new FileStream($"..\\CheckYourKursova\\wwwroot\\Users\\{teacher.Initials}\\Uploaded files\\{filename}", FileMode.OpenOrCreate, FileAccess.Write))
                 {
                     img.CopyTo(stream);
@@ -299,22 +278,13 @@ namespace Kursova.Controllers
                 return this.RedirectToAction("Teacher_home", "Admin");
             }
 
-            return this.RedirectToAction("Teacher_home", "Admin");
-        }
-
-        private byte[] GetByteArrayFromImage(IFormFile file)
-        {
-            using (var target = new MemoryStream())
-            {
-                file.CopyTo(target);
-                return target.ToArray();
-            }
+            return this.RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Teacher_home()
         {
-       //     this.Update(this.info);
+            // this.Update(this.info);
             return this.View(this.info);
         }
 
@@ -325,9 +295,11 @@ namespace Kursova.Controllers
             if (stud != null)
             {
                 stud.TeacherInitials = this.db.Teachers.Where(x => x.Id == name).FirstOrDefault().Initials;
-                //  this.service.UpdateStudent(stud);
+
+                // this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
+
                 // this.db.SaveChanges();
                 this.log.LogInformation($"Initials {stud.TeacherInitials}");
 
@@ -344,6 +316,7 @@ namespace Kursova.Controllers
             if (stud != null)
             {
                 stud.CourseWorkTitle = courseWork;
+
                 // this.service.UpdateStudent(stud);
                 this.db.Students.Update(stud);
                 this.db.SaveChanges();
@@ -362,8 +335,8 @@ namespace Kursova.Controllers
             {
                 return this.View(documents);
             }
-            return this.StatusCode(500, "Internal server error");
 
+            return this.StatusCode(500, "Internal server error");
         }
 
         [HttpGet]
@@ -375,6 +348,7 @@ namespace Kursova.Controllers
             {
                 return this.View(documents);
             }
+
             return this.StatusCode(500, "Internal server error");
         }
 
@@ -496,16 +470,6 @@ namespace Kursova.Controllers
             return this.View(model);
         }
 
-        private async Task Authenticate(string userName)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-            };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await this.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-        }
-
         [HttpPost]
         public IActionResult SetTeacherForStudent(string studentEmail, string teacherEmail)
         {
@@ -529,34 +493,16 @@ namespace Kursova.Controllers
             return this.View(this.info);
         }
 
-        private void Folder(string ownerName, string option = "Create")
-        {
-            DirectoryInfo dir = Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName);
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Downloaded files");
-            Directory.CreateDirectory("..\\CheckYourKursova\\wwwroot\\Users\\" + ownerName + "\\Uploaded files");
-            if (option == "Delete")
-            {
-                dir.Delete(true);
-            }
-        }
-
-        private void Update(UsersInfoModel model)
-        {
-            model.Students = this.service.GetAllStudents().Result.ToList();
-            model.Teachers = this.service.GetAllTeachers().Result.ToList();
-            model.Documentations = this.db.Documentations.ToList();
-        }
-
         [HttpGet]
         public async Task<IActionResult> Student_Kursova()
         {
             return this.View(this.model);
         }
+
         [HttpGet]
         public async Task<IActionResult> Teacher_Kursova()
         {
-            log.LogInformation($"TempData{TempData["data"]}");
-            return this.View(this.model);
+            return this.View(this.info);
         }
     }
 }

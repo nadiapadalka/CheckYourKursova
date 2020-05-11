@@ -20,11 +20,9 @@ namespace Kursova.DAL.EF
 
         public DbSet<Teacher> Teachers { get; set; }
 
-
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<Documentation> Documentations { get; set; }
-
 
         public DbSet<Admin> Admins { get; set; }
     }

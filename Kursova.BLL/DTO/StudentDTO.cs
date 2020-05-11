@@ -6,7 +6,9 @@ namespace Kursova.BLL.DTO
 {
     public class StudentDTO
     {
-        public StudentDTO() { }
+        public StudentDTO()
+        {
+        }
 
         public StudentDTO(int student_ID, string fullName, string group, string kafedra, string email)
         {
