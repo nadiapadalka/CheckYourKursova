@@ -19,14 +19,14 @@
                         <div>
 
                             <div class="input-group">
-                                <input type="text" id="inputName" class="form-control" placeholder="Прізвище та ініціали (Столяр Ю.Р.)" asp-for="FullName" required autofocus>
+                                <input type="text" id="inputNameStudent" class="form-control" placeholder="Прізвище та ініціали (Столяр Ю.Р.)" asp-for="FullName" required autofocus>
                                 <span asp-validation-for="FullName" />
                             </div>
                             <div class="input-group">
                                 <input type="text" id="inputGroup" class="form-control" placeholder="Група (ПМі-31)" asp-for="Group" required autofocus>
                             </div>
                             <div class="input-group">
-                                <input type="text" id="inputKafedra" class="form-control" placeholder="Кафедра" asp-for="Kafedra" required autofocus>
+                                <input type="text" id="inputKafedratst" class="form-control" placeholder="Кафедра" asp-for="Kafedra" required autofocus>
                             </div><br><br>
                             <div class="input-group">
                                 <input type="text" id="inputEmail" class="form-control" placeholder="Електронна пошта" asp-for="Email" required autofocus>
@@ -43,7 +43,7 @@
 
                             <div class="checkbox mb-3">
 
-                                <input class="btn btn-outline-success btn-m text-uppercase js-scroll-trigger" type="submit" value="Зареєструватися">
+                                <input class="btn btn-outline-success btn-m text-uppercase js-scroll-trigger" id="resgist" type="submit" value="Зареєструватися">
                             </div>
                         </div>
                     </form>

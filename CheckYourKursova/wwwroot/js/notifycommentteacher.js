@@ -5,7 +5,7 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/NotificationsHub")
 //Disable send button until connection is established
 //document.getElementById("resttest").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message) {
+connection.on("MessageComment", function (user, message) {
 
     //var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     //var encodedMsg = " Зареструвався " + user + " з кафедри " + msg;
@@ -21,21 +21,21 @@ connection.on("ReceiveMessage", function (user, message) {
         '<i class="fas fa-bullhorn"></i>' + '<strong>Новий коментар!</strong>' +
         encodedMsg + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
         '<span aria-hidden="true">×</span>' + '</button>' + '</div >';
-    $('#divNotificaion').append(notify);
+    $('#divNotificaionstud').append(notify);
     alert(encodedMsg);
 
 });
 
 connection.start().then(function () {
-    document.getElementById("addcommemtstud").disabled = false;
+    document.getElementById("addcommemtteach").disabled = false;
 }).catch(function (err) {
     return console.error(err.toString());
 });
 
-document.getElementById("addcommemtstud").addEventListener("click", function (event) {
-    var user = document.getElementById("usercomment").value;
-    var message = document.getElementById("inputTextCommentStud").value;
-    connection.invoke("SendMessageStudent", user, message).catch(function (err) {
+document.getElementById("addcommemtteach").addEventListener("click", function (event) {
+    var user = document.getElementById("teaccomment").value;
+    var message = document.getElementById("inputTextCommentTeach").value;
+    connection.invoke("SendMessageTeacherComment", user, message).catch(function (err) {
         return console.error(err.toString());
     });
     //event.preventDefault();
