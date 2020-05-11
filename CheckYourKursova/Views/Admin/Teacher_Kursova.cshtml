@@ -66,19 +66,45 @@
                                     {
                                         if (item.Id == Convert.ToInt32(TempData["data"]))
                                         {
-                                            <input type="thema" class="form-control" id="ThemaKursova" placeholder="@item.FullName"><br><br>
-                                            <input type="thema" class="form-control" id="ThemaKursova" placeholder="@item.CourseWorkTitle"><br><br>
+                                            <input type="thema" class="form-control" id="ThemaKursova" placeholder="@item.FullName"><br />
+                                            <input type="thema" class="form-control" id="ThemaKursova" placeholder="@item.CourseWorkTitle"><br />
 
 
                                             <span style="font-weight: bold;" class="text-dark">Матеріали студента</span>
-                                         
 
-                                            
-                                                foreach (var doc in Model.Documentation)
+
+
+                                            foreach (var doc in Model.Documentation)
+                                            {
+                                                foreach (var comment in Model.Comments)
                                                 {
-                                                    if (item.Id == Convert.ToInt32(TempData["data"]) && item.FullName == doc.StudentName)
+                                                    if (item.Id == Convert.ToInt32(TempData["data"]) && item.FullName == doc.StudentName && comment.Initials == User.Identity.Name && doc.TeacherName == null)
+
                                                     {
+                                                        if (comment.Filename == doc.Title)
+                                                        {
                                                         <div class="input-group mb-3">
+                                                            <label for="inputDocument" class="sr-only">Документ</label>
+                                                            <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
+                                                            <div class="input-group-append">
+                                                                <form asp-action="DownloadTeacher" method="get">
+                                                                    <input type="hidden" value="@User.Identity.Name" name="email" />
+
+                                                                    <input type="hidden" value="@doc.Title" name="filename" />
+
+                                                                    <input type="hidden" value="@item.FullName" name="studinitials" />
+                                                                    <button type="submit" class="btn btn-outline-secondary">Download!</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+
+                                                        <input type="text" name="comment" class="form-control" id="inputText" placeholder="@comment.Description">
+
+                                                        }
+                                                    }
+                                                }
+                                                if (item.Id == Convert.ToInt32(TempData["data"]) && item.FullName == doc.StudentName &&  doc.TeacherName == null) { 
+                                                 <div class="input-group mb-3">
                                                             <label for="inputDocument" class="sr-only">Документ</label>
                                                             <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
                                                             <div class="input-group-append">
@@ -97,6 +123,7 @@
                                                                 <label for="inputText" class="sr-only">Додати коментар</label>
                                                                 <input type="hidden" value="@User.Identity.Name" name="email" />
                                                                 <input type="hidden" value="@item.CourseWorkTitle" name="coursework" />
+                                                                <input type="hidden" value="@doc.Title" name="filename" />
 
                                                                 <input type="text"
                                                                        name="comment" class="form-control" id="inputText" placeholder="Додати коментар">
@@ -105,20 +132,26 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-        
-                                                   
-                                                   
+                                                        }
+
+                                                    }
                                                 }
+
+
+
+
                                             }
                                         }
-                                    }
-                                }
+                                    
+                                    
 
-                                
+
+
+
                                 else
-                                {
-                                <input type="thema" class="form-control" id="ThemaKursova" placeholder="Студент"><br><br>
-                                <input type="thema" class="form-control" id="ThemaKursova" placeholder="Тема Курсової"><br><br>
+                                    {
+                                    <input type="thema" class="form-control" id="ThemaKursova" placeholder="Студент"><br><br>
+                                    <input type="thema" class="form-control" id="ThemaKursova" placeholder="Тема Курсової"><br><br>
                                 }
 
 
@@ -138,32 +171,46 @@
                                 <br><br>
 
 
-                                <span style="font-weight: bold;" class="text-dark">
-                                Додати матеріали
-                                <br><br>
-                                <form asp-controller="Teacher" asp-action="UploadFileForTeacher" id="exampleInputFileTecher" enctype="multipart/form-data" method="post">
-                                    <input type="file" name="file" />
-                                    <input type="hidden"id="userteaacher" value="@User.Identity.Name" name="ownerName" />
 
-                                    <button id=" addfileteacher" type="submit">Submit</button>
-                                </form>
+
+                                @foreach (var student in Model.Students)
+                                {
+
+                                    if (student.Id == Convert.ToInt32(TempData["data"]))
+                                    {
+                                        <span style="font-weight: bold;" class="text-dark">
+                                            Додати матеріали
+                                            <br><br>
+                                        </span>
+                                        <form asp-controller="Admin" asp-action="UploadFileForTeacher" enctype="multipart/form-data" method="post">
+                                            <input name="file" type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                                            <input type="hidden" value="@User.Identity.Name" name="email" />
+                                            <input type="hidden" value="@student.FullName" name="studInitials" />
+
+                                            <input type="submit" class="btn btn-primary" style="margin-right: 550px;" value="Підтвердити" />
+                                        </form>
+
+
+                                    }
+                                }
                                 <!--<br><br><input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->
-                            </span>
+
 
                                 <br><br>
                                 @foreach (var doc in Model.Documentation)
                                 {
                                     foreach (var teacher in Model.Teachers)
                                     {
-
-
-                                        if (doc.TeacherName == teacher.Initials)
+                                        foreach (var student in Model.Students)
                                         {
-                                        <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
+
+                                            if (doc.TeacherName == teacher.Initials && student.FullName == doc.StudentName && student.Id == Convert.ToInt32(TempData["data"]))
+                                            {
+                                                <input type="text" readonly class="form-control" id="staticDocument" placeholder="@doc.Title">
+                                            }
                                         }
+
                                     }
-
-
                                 }
                             </div>
                         </div>
