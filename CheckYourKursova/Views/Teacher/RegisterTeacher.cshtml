@@ -18,13 +18,13 @@
                     <form asp-action="RegisterTeacher" asp-controller="Teacher" asp-anti-forgery="true">
                         <div class="validation" asp-validation-summary="ModelOnly" />
                         <div class="input-group">
-                            <input type="text" id="inputName" class="form-control" placeholder="Прізвище та ініціали (Сидоренко С.А.)" asp-for="Initials" required autofocus>
+                            <input type="text" id="inputNameTeacher" class="form-control" placeholder="Прізвище та ініціали (Сидоренко С.А.)" asp-for="Initials" required autofocus>
                         </div>
                         <div class="input-group">
                             <input type="text" id="inputGroup" class="form-control" placeholder="Вчене звання" asp-for="Grade" required autofocus>
                         </div>
                         <div class="input-group">
-                            <input type="text" id="inputKafedra" class="form-control" placeholder="Кафедра" asp-for="Kafedra" required autofocus>
+                            <input type="text" id="inputKafedrat" class="form-control" placeholder="Кафедра" asp-for="Kafedra" required autofocus>
                         </div><br><br>
                         <div class="input-group">
                             <input type="text" id="inputEmail" class="form-control" placeholder="Електронна пошта" asp-for="Email" required autofocus>
@@ -41,7 +41,7 @@
 
                         <div class="checkbox mb-3">
 
-                            <input class="btn btn-outline-success btn-m text-uppercase js-scroll-trigger" type="submit" value="Зареєструватися">
+                            <input class="btn btn-outline-success btn-m text-uppercase js-scroll-trigger" id="resttest" type="submit" value="Зареєструватися">
                         </div>
 
                     </form>

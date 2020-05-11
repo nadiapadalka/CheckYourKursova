@@ -9,10 +9,13 @@ using Kursova.BLL.Services;
 using Kursova.DAL.EF;
 using Kursova.DAL.Interfaces;
 using Kursova.DAL.Repositories;
+using Kursova.Hubs;
+using Kursova.Structure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -62,8 +65,9 @@ namespace Kursova
                 options.Password.RequireLowercase = false;
             });
 
-            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login");
-            services.AddSignalR(options => options.EnableDetailedErrors = true);
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Login"); 
+            services.AddSingleton<IUserIdProvider, UserNotify>();
+            services.AddSignalR();
         }
 
         [Obsolete]
@@ -81,10 +85,7 @@ namespace Kursova
 
             app.UseStaticFiles();
             app.UseFileServer();
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<Hubs.NotifyHub>("/notifications");
-            });
+           
             app.UseRouting();
             app.UseHttpsRedirection();
 
@@ -96,6 +97,7 @@ namespace Kursova
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<NotifyHub>("/NotificationsHub");
             });
         }
     }

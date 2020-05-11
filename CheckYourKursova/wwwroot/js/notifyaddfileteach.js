@@ -17,7 +17,7 @@ connection.on("ReceiveMessageTeacher", function (user, message) {
     var notify = '<div class="alert alert-warning alert-dismissible fade show" role="alert" id="messagesList" style="margin-left: 200px;margin-right: 200px; ">' +
         '<i class="fas fa-bullhorn"></i>' + '<strong>Новий документ!</strong>' + encodedMsg + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
         '<span aria-hidden="true">×</span>' + '</button>' + '</div >';
-    $('#divNotificaion2').append(notify);
+    $('#divNotificaionstud2').append(notify);
     alert(encodedMsg);
 
 });
