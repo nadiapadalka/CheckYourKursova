@@ -25,7 +25,6 @@
                                 <th>Вчене звання</th>
                                 <th>Кафедра</th>
                                 <th>Електронна пошта</th>
-                                <th>Закріплений студент</th>
                                 <th></th>
                             </tr>
                             @{
@@ -59,12 +58,6 @@
                                             }
                                         </td>
                                         <td>
-                                            <form asp-action="TeacherDocuments" method="get">
-                                                <input type="hidden" value="@item.Email" name="email" />
-                                                <button type="submit" class="btn btn-outline-dark">
-                                                    Документи
-                                                </button>
-                                            </form>
                                             <form asp-action="DeleteTeacher" method="post">
                                                 <input type="hidden" value="@item.Email" name="email" />
                                                 <button type="submit" class="btn btn-outline-dark">
@@ -113,12 +106,7 @@
                                             }
                                         </td>
                                         <td>
-                                            <form asp-action="StudentDocuments" method="get">
-                                                <input type="hidden" value="@item.Email" name="email" />
-                                                <button type="submit" class="btn btn-outline-dark">
-                                                    Документи
-                                                </button>
-                                            </form>
+                                            
                                             <form asp-action="DeleteStudent" method="post">
                                                 <input type="hidden" value="@item.Email" name="email" />
                                                 <button type="submit" class="btn btn-outline-dark">
